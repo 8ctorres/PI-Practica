@@ -2,4 +2,5 @@ bin/
 lib/
 pyvenv.cfg
 share/
-
+mrworldwide/**/__pycache__
+*.log
