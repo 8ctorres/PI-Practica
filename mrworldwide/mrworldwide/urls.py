@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^top/', include('top_countries.urls')),
     url(r'^graphs/', include('graphs.urls')),
     url(r'^search/', include('search_countries.urls')),
+    path('admin/', admin.site.urls),
 ]
