@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'top_countries.apps.TopCountriesConfig',
     'graphs.apps.GraphsConfig',
     'search_countries.apps.SearchCountriesConfig',
+    'user_management',
 ]
 
 MIDDLEWARE = [
