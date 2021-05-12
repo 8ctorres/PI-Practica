@@ -20,19 +20,25 @@ token = "b7818feb850f1306340bd0465824027131b20af8"
 def get_feed_ciudades(ciudades):
     series_ciudades = []
     for ciudad in ciudades:
-        resp = rq.get(base_url+"feed/"+ciudad+"/?token="+token)
+        series_ciudades.append(get_feed_ciudad(ciudad))
 
-        if resp.json()['status'] != "ok":
-            raise Exception("API Request failed")
-
-        datos_ciudad = resp.json()['data']['iaqi']
-
-        series_ciudades.append(pd.Series(datos_ciudad).apply(lambda x: x['v']))
-
-    dataframe = pd.concat(series_ciudades, axis=1)
-    dataframe.columns = ciudades
+    dataframe_ciudades = pd.concat(series_ciudades, axis=1)
+    dataframe_ciudades.columns = ciudades
 
     return dataframe
+
+def get_feed_ciudad(ciudad):
+    resp = rq.get(base_url+"feed/"+ciudad+"/?token="+token)
+
+    if resp.json()['status'] != "ok":
+        raise Exception("API Request failed")
+
+    datos_ciudad = resp.json()['data']['iaqi']
+
+    serie_ciudad = pd.Series(datos_ciudad).apply(lambda x: x['v'])
+    serie_ciudad.name = ciudad
+
+    return serie_ciudad
 
 
 def get_datos_coords(lat=None, lon=None):
