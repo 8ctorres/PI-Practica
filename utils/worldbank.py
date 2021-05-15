@@ -13,43 +13,70 @@ indicators_url = "http://api.worldbank.org/v2/indicator"
 countries_url = "http://api.worldbank.org/v2/country"
 topics_url = "http://api.worldbank.org/v2/topic"
 
-def get_topics_list():
+# Devueve un dataframe con información sobre los distintos temas que trata
+# el índice es el "id" del tema, y los atributos son el nombre y una descripción
 
+def get_topics_list():
     resp = rq.get(topics_url+"?format=json&per_page=100")
 
-    if resp.status_code != 200:
+    if resp.status_code > 400:
         raise Exception("API Request Failed")
 
-    jsondata = resp.json()[1]
+    try:
+        jsondata = resp.json()[1] #Dejo la primera entrada porque es información de paginación
+    except JSONDecodeError:
+        raise Exception("API Request Failed")
 
-    series_temas = []
+    series_temas = [(pd.Series(data=tema, name=tema['id']).drop("id")) for tema in jsondata]
 
-    for tema in jsondata:
-        series_temas.append(pd.Series(data=tema, name=tema['value']).drop("value"))
-
-    dataframe_temas = pd.concat(series_temas, axis=1)
+    dataframe_temas = pd.concat(series_temas, axis=1).transpose()
+    dataframe_temas.index.name = "id"
+    dataframe_temas.columns = ["name", "description"]
 
     return dataframe_temas
 
 
-## Devuelve un dataframe con los nombres, IDs y descripciones de todos los indicadores de un tema
-## Se espera que se pase el ID del tema (obtenido a través de la anterior función)
-def get_indicators_list(topic):
-
+# Devuelve un dataframe con los IDs, nombres y descripciones de todos los indicadores de un tema
+# Se espera que se pase el ID del tema (obtenido a través de la anterior función)
+def get_indicators_from_topic(topic):
     resp = rq.get(topics_url+"/"+topic+"/indicator"+"?format=json&per_page=20000")
 
-    if resp.status_code != 200:
+    if resp.status_code > 400:
         raise Exception("API Request Failed")
 
+    try:
+        jsondata = resp.json()[1]
+    except JSONDecodeError:
+        raise Exception("API Request Failed")
 
-    jsondata = resp.json()[1] ## La primera de la entrada de la lista es la de paginación
-
-    series_indicadores = []
+    series_indics = []
 
     for indic in jsondata:
-        series_indicadores.append(pd.Series(data=indic, name=indic['name']).drop("name"))
+        # Creamos la serie y ponemos el ID como nombre de la serie
+        serie = pd.Series(data=indic, name=indic['id']).drop("id")
 
-    dataframe_indicadores = pd.concat(series_indicadores, axis=1)
+        # Sacamos los "topics" ya que no van a hacernos falta
+        # (ya sabíamos el topic para pedir el indicador)
+        serie.drop("topics", inplace=True)
+
+        # Separamos el "source" que es un diccionario en sus campos "sourceID" y "SourceName"
+        serie.sourceID = serie.source['id']
+        serie.sourceName = serie.source['value']
+        serie.drop("source", inplace=True)
+
+        # Y reindexamos para tenerla ordenada
+        serie.reindex(
+            pd.Index(data=
+                     ["name", "unit", "sourceID",
+                      "sourceName", "sourceNote", "sourceOrganization"]))
+
+        # La añadimos a la lista
+
+        series_indics.append(serie)
+
+    # Montamos el DataFrame
+    dataframe_indicadores = pd.concat(series_indics, axis=1).transpose()
+    dataframe_indicadores.index.name = "indicatorID"
 
     return dataframe_indicadores
 
@@ -60,44 +87,42 @@ def get_indicators_list(topic):
 # Las filas dependen del indicador en cuestión, pero hay siempre una fila "value" que tiene
 # el valor en crudo
 
-def get_country_indicator(country, indicator):
-
+def get_indicator(country, indicator):
     resp = rq.get(countries_url+"/"+country+"/indicator/"+indicator+"?format=json&per_page=500")
 
-    if resp.status_code != 200:
+    if resp.status_code > 400:
         raise Exception("API Request Failed")
 
-    jsondata = resp.json()[1]  ## La primera entrada de la lista es la información de paginación
+    try:
+        jsondata = resp.json()[1]
+    except JSONDecodeError:
+        raise Exception("API Request Failed")
 
-    jsondata.reverse() # La API los entrega de más reciente a más antiguo, y prefiero tenerlos ordenados
+    jsondata.reverse() # La API los entrega de más reciente a más antiguo
 
     series_inds = []
 
     for year in jsondata:
-
         serie_ind = pd.Series(data=year, name=year['date']).drop("date")
 
-        indicator_id = serie_ind.indicator['id']
-        indicator_name = serie_ind.indicator['value']
+        #WIP: Desgranamos Indicador y Country, que son diccionarios, en sus dos componentes
 
-        country_id = serie_ind.country['id']
-        country_name = serie_ind.country['value']
+        serie_ind.indicator_id = serie_ind.indicator['id']
+        serie_ind.indicator_name = serie_ind.indicator['value']
+
+        serie_ind.country_id = serie_ind.country['id']
+        serie_ind.country_name = serie_ind.country['value']
 
         serie_ind.drop("indicator", inplace=True)
         serie_ind.drop("country", inplace=True)
 
-        serie_ind.reindex (pd.Index(["indicator_id", "indicator_name", "country_id", "country_name",
-                                     "countryiso3code", "value", "unit", "obs_status", "decimal"],
-                                   dtype="object"))
-
-        serie_ind.indicator_id = indicator_id
-        serie_ind.indicator_name = indicator_name
-        serie_ind.country_id = country_id
-        serie_ind.country_name = country_name
+        serie_ind.reindex(
+            pd.Index(["indicator_id", "indicator_name", "country_id", "country_name",
+                                     "countryiso3code", "value", "unit", "obs_status", "decimal"]))
 
         series_inds.append(serie_ind)
 
-
-    dataframe_ind = pd.concat(series_inds, axis=1)
+    dataframe_ind = pd.concat(series_inds, axis=1).transpose()
+    dataframe_ind.index.name = "Periodo"
 
     return dataframe_ind
