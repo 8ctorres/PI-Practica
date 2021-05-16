@@ -60,15 +60,18 @@ def get_indicators_from_topic(topic):
         serie.drop("topics", inplace=True)
 
         # Separamos el "source" que es un diccionario en sus campos "sourceID" y "SourceName"
-        serie.sourceID = serie.source['id']
-        serie.sourceName = serie.source['value']
+        tsourceID = serie.source['id']
+        tsourceName = serie.source['value']
         serie.drop("source", inplace=True)
 
         # Y reindexamos para tenerla ordenada
-        serie.reindex(
+        serie = serie.reindex(
             pd.Index(data=
                      ["name", "unit", "sourceID",
                       "sourceName", "sourceNote", "sourceOrganization"]))
+
+        serie.sourceID = tsourceID
+        serie.sourceName = tsourceName
 
         # La añadimos a la lista
 
@@ -107,18 +110,23 @@ def get_indicator(country, indicator):
 
         #WIP: Desgranamos Indicador y Country, que son diccionarios, en sus dos componentes
 
-        serie_ind.indicator_id = serie_ind.indicator['id']
-        serie_ind.indicator_name = serie_ind.indicator['value']
+        tindicator_id = serie_ind.indicator['id']
+        tindicator_name = serie_ind.indicator['value']
 
-        serie_ind.country_id = serie_ind.country['id']
-        serie_ind.country_name = serie_ind.country['value']
+        tcountry_id = serie_ind.country['id']
+        tcountry_name = serie_ind.country['value']
 
         serie_ind.drop("indicator", inplace=True)
         serie_ind.drop("country", inplace=True)
 
-        serie_ind.reindex(
-            pd.Index(["indicator_id", "indicator_name", "country_id", "country_name",
+        serie_ind = serie_ind.reindex(
+            pd.Index(["indicatorId", "indicatorName", "countryId", "countryName",
                                      "countryiso3code", "value", "unit", "obs_status", "decimal"]))
+
+        serie_ind.indicatorId = tindicator_id
+        serie_ind.indicatorName = tindicator_name
+        serie_ind.countryId = tcountry_id
+        serie_ind.countryName = tcountry_name
 
         series_inds.append(serie_ind)
 
