@@ -11,13 +11,13 @@ class RestCountriesTest(TestCase):
     # que los resultados son los esperados
     def test_get_info(self):
         allcountries = get_all_countries()
-        italy = allcountries.Italy
-        self.assertEquals(italy.name, "Italy")
+        italy = allcountries.loc['ITA']
+        self.assertEquals(italy.countryName, "Italy")
         self.assertEquals(italy.region, "Europe")
         self.assertEquals(italy.alpha2Code, "IT")
         self.assertEquals(italy.capital, "Rome")
-        canada = allcountries.Canada
-        self.assertEquals(canada.name, "Canada")
+        canada = allcountries.loc['CAN']
+        self.assertEquals(canada.countryName, "Canada")
         self.assertEquals(canada.region, "Americas")
         self.assertEquals(canada.alpha2Code, "CA")
         self.assertEquals(canada.capital, "Ottawa")
@@ -26,4 +26,4 @@ class RestCountriesTest(TestCase):
     @unittest.expectedFailure
     def test_get_mordor(self):
         allcountries = get_all_countries()
-        mordor = allcountries.Mordor
+        mordor = allcountries.loc['Mordor']

@@ -31,7 +31,7 @@ def get_topics_list():
 
     dataframe_temas = pd.concat(series_temas, axis=1).transpose()
     dataframe_temas.index.name = "id"
-    dataframe_temas.columns = ["name", "description"]
+    dataframe_temas.columns = ["topicName", "description"]
 
     return dataframe_temas
 
@@ -54,6 +54,9 @@ def get_indicators_from_topic(topic):
     for indic in jsondata:
         # Creamos la serie y ponemos el ID como nombre de la serie
         serie = pd.Series(data=indic, name=indic['id']).drop("id")
+
+        # Renombramos a indicatorName para evitar confusiones
+        serie.rename(index={'name': 'indicatorName'}, inplace=True)
 
         # Sacamos los "topics" ya que no van a hacernos falta
         # (ya sabíamos el topic para pedir el indicador)

@@ -23,6 +23,9 @@ def jsonToSeries(pais):
     serie_pais = pd.Series(data=pais, name=pais['alpha3Code'])
     serie_pais.drop("alpha3Code", inplace=True)
 
+    # También cambiamos el campo "name" a "countryName" porque "name" es el nombre de la propia Serie
+    serie_pais.rename(index={'name': 'countryName'}, inplace=True)
+
     #El TLD viene como una lista de un solo elemento
     #Solo hay un par de regiones que tienen 2 TLDs. Para esas almacenamos solo el primero
     serie_pais.topLevelDomain = serie_pais.topLevelDomain[0]
