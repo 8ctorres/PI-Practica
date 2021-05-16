@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     #local apps
     'homepage.apps.HomepageConfig',
     'compare_data.apps.CompareDataConfig',
+    'top_countries.apps.TopCountriesConfig',
 ]
 
 MIDDLEWARE = [
