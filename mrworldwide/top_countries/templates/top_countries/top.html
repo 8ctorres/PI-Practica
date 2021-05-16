@@ -1,0 +1,16 @@
+{% extends "homepage/base_home.html" %} {% block content %}
+
+<div class="row g-3" style="margin: 10%;">
+    <h1>Selecciona el dato deseado y el top N países a mostrar</h1>
+    <div class="col-md-4">
+      <input type="text" class="form-control" placeholder="Dato" aria-label="Dato">
+    </div>
+    <div class="col-md-2">
+      <input type="text" class="form-control" placeholder="Top" aria-label="Top">
+    </div>
+    <div class="d-grid gap-2 d-md-block">
+        <button class="btn btn-primary" type="button">Mostrar Top</button>
+    </div>
+</div>
+
+{% endblock %}

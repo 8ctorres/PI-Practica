@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('homepage.urls')),
     path('', include('compare_data.urls')),
+    path('', include('top_countries.urls')),
 ]
