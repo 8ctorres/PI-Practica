@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #local apps
     'homepage.apps.HomepageConfig',
+    'compare_data.apps.CompareDataConfig',
 ]
 
 MIDDLEWARE = [
