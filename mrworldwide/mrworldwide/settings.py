@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'homepage.apps.HomepageConfig',
     'compare_data.apps.CompareDataConfig',
     'top_countries.apps.TopCountriesConfig',
+    'graphs.apps.GraphsConfig',
 ]
 
 MIDDLEWARE = [
