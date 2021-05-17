@@ -134,6 +134,9 @@ def get_indicator(country, indicator):
         series_inds.append(serie_ind)
 
     dataframe_ind = pd.concat(series_inds, axis=1).transpose()
+    # Convertimos el índice a serie temporal para poder tratarlo
+    # más fácilmente luego
+    dataframe_ind.index = pd.to_datetime(dataframe_ind.index)
     dataframe_ind.index.name = "Periodo"
 
     return dataframe_ind
