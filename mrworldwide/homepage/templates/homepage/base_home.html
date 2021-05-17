@@ -39,13 +39,15 @@
                   <a class="nav-link active" aria-current="page" href="{% url 'top_index'%}">Top de países</a>
                 </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Elaboración de gráficas
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="grafica_1dato/">Comparación de 1 dato entre países</a></li>
-                    <li><a class="dropdown-item" href="grafica_2datos/">Gráfica entre 2 datos de un país</a></li>
-                    <li><a class="dropdown-item" href="grafica_histograma/">Histograma</a></li>
+                    <li><a class="dropdown-item" href="{% url 'graph_index'%}">Menú de gráficas</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url '1dataXcountries_base'%}">Comparación de 1 dato entre países</a></li>
+                    <li><a class="dropdown-item" href="{% url '2data1country_base'%}">Gráfica entre 2 datos de un país</a></li>
+                    <li><a class="dropdown-item" href="{% url 'histogram_base'%}">Histograma</a></li>
                   </ul>
                 </li>
               </ul>
@@ -60,8 +62,6 @@
 
     {% block content %}{% endblock %}
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
 </body>
 <footer class="py-5 bg-dark fixed-bottom">
     <div class="container">
