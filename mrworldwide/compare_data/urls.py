@@ -1,6 +1,6 @@
-from django.urls import path
+from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    path('compare/', views.compare, name='compare'),
+    url(r'^$', views.compare, name='compare_index'),
 ]
