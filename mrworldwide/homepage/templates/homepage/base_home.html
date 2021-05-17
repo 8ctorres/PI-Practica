@@ -19,7 +19,7 @@
 
 <!-- Page Content -->
 
-<body>
+<body style="margin-bottom: 60px;">
   <div class="homepage_navbar">
       <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
           <div class="container-fluid">
@@ -43,10 +43,10 @@
                     Elaboración de gráficas
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{% url 'graph_index'%}">Menú de gráficas</a></li>
+                    <li><a class="dropdown-item" href="{% url 'graph_index'%}">Info sobre gráficas</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{% url '1dataXcountries_base'%}">Comparación de 1 dato entre países</a></li>
-                    <li><a class="dropdown-item" href="{% url '2data1country_base'%}">Gráfica entre 2 datos de un país</a></li>
+                    <li><a class="dropdown-item" href="{% url '1dataXcountries_base'%}">Comparación de 1 dato entre varios países</a></li>
+                    <li><a class="dropdown-item" href="{% url '2data1country_base'%}">Comparación entre 2 datos de 1 país</a></li>
                     <li><a class="dropdown-item" href="{% url 'histogram_base'%}">Histograma</a></li>
                   </ul>
                 </li>
