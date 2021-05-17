@@ -20,43 +20,43 @@
 <!-- Page Content -->
 
 <body>
-    <div class="homepage_navbar">
-        <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="/">Mr. WorldWide</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <a class="navbar-brand" href="/">
-                <img src="utils/images/Mr_WorldWide.png" width="30" height="30" alt="">
-              </a>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="compare">Comparación de datos</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="top">Top de países</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Elaboración de gráficas
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="grafica_1dato/">Comparación de 1 dato entre países</a></li>
-                      <li><a class="dropdown-item" href="grafica_2datos/">Gráfica entre 2 datos de un país</a></li>
-                      <li><a class="dropdown-item" href="grafica_histograma/">Histograma</a></li>
-                    </ul>
-                  </li>
-                </ul>
-                <form class="d-flex">
-                  <input class="form-control me-2" type="search" placeholder="Busca un país..." aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Buscar</button>
-                </form>
-              </div>
+  <div class="homepage_navbar">
+      <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'homepage_index'%}">Mr. WorldWide</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'homepage_index'%}">
+              <img src="utils/images/Mr_WorldWide.png" width="30" height="30" alt="">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{% url 'compare_index'%}">Comparación de datos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{% url 'top_index'%}">Top de países</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Elaboración de gráficas
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="grafica_1dato/">Comparación de 1 dato entre países</a></li>
+                    <li><a class="dropdown-item" href="grafica_2datos/">Gráfica entre 2 datos de un país</a></li>
+                    <li><a class="dropdown-item" href="grafica_histograma/">Histograma</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Busca un país..." aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+              </form>
             </div>
-          </nav>
-    </div>
+          </div>
+        </nav>
+  </div>
 
     {% block content %}{% endblock %}
 
