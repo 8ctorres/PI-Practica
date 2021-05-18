@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import requests as rq
+from apis.exceptions import APIRequestException
 
 # Código para construir un DataFrame con la información de los 250 países
 # del API Restcountries
@@ -53,7 +54,7 @@ def get_countries_by_name(name):
     resp = rq.get(base_url+"name/"+name)
 
     if (resp.status_code > 400):
-        raise Exception("Error getting data from the API")
+        raise APIRequestException("HTTP Error")
 
     return pd.concat([jsonToSeries(pais) for pais in resp.json()], axis=1).transpose()
 
@@ -61,6 +62,6 @@ def get_all_countries():
     resp = rq.get(base_url+"all")
 
     if (resp.status_code > 400):
-        raise Exception("Error getting data from the API")
+        raise APIRequestException("HTTP Error")
 
     return pd.concat([jsonToSeries(pais) for pais in resp.json()], axis=1).transpose()

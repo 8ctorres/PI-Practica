@@ -8,6 +8,7 @@
 import pandas as pd
 import numpy as np
 import requests as rq
+from apis.exceptions import APIRequestException
 
 indicators_url = "http://api.worldbank.org/v2/indicator"
 countries_url = "http://api.worldbank.org/v2/country"
@@ -20,12 +21,12 @@ def get_topics_list():
     resp = rq.get(topics_url+"?format=json&per_page=100")
 
     if resp.status_code > 400:
-        raise Exception("API Request Failed")
+       raise APIRequestException("HTTP Error")
 
     try:
         jsondata = resp.json()[1] #Dejo la primera entrada porque es información de paginación
-    except JSONDecodeError:
-        raise Exception("API Request Failed")
+    except ValueError:
+        raise APIRequestException("JSON Decode failed")
 
     series_temas = [(pd.Series(data=tema, name=tema['id']).drop("id")) for tema in jsondata]
 
@@ -42,12 +43,12 @@ def get_indicators_from_topic(topic):
     resp = rq.get(topics_url+"/"+topic+"/indicator"+"?format=json&per_page=20000")
 
     if resp.status_code > 400:
-        raise Exception("API Request Failed")
+        raise APIRequestException("HTTP Error")
 
     try:
         jsondata = resp.json()[1]
-    except JSONDecodeError:
-        raise Exception("API Request Failed")
+    except ValueError:
+        raise APIRequestException("JSON Decode failed")
 
     series_indics = []
 
@@ -97,12 +98,12 @@ def get_indicator(country, indicator):
     resp = rq.get(countries_url+"/"+country+"/indicator/"+indicator+"?format=json&per_page=500")
 
     if resp.status_code > 400:
-        raise Exception("API Request Failed")
+        raise APIRequestException("HTTP Error")
 
     try:
         jsondata = resp.json()[1]
-    except JSONDecodeError:
-        raise Exception("API Request Failed")
+    except ValueError:
+        raise APIRequestException("JSON Decode failed")
 
     jsondata.reverse() # La API los entrega de más reciente a más antiguo
 

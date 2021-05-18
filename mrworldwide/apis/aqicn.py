@@ -8,6 +8,7 @@
 import pandas as pd
 import numpy as np
 import requests as rq
+from apis.exceptions import APIRequestException
 
 base_url = "https://api.waqi.info/"
 token = "b7818feb850f1306340bd0465824027131b20af8"
@@ -21,9 +22,12 @@ def get_datos_ciudad(ciudad):
     resp = rq.get(base_url+"feed/"+ciudad+"/?token="+token)
 
     if (resp.status_code > 400) or (resp.json()['status'] != "ok"):
-        raise Exception("API Request failed")
+        raise APIRequestException("HTTP Error")
 
-    datos_ciudad = resp.json()['data']['iaqi']
+    try:
+        datos_ciudad = resp.json()['data']['iaqi']
+    except ValueError:
+        raise Exception("JSON Decode Error")
 
     serie_ciudad = pd.Series(datos_ciudad).apply(lambda x: x['v'])
     serie_ciudad.name = ciudad
@@ -41,7 +45,7 @@ def get_datos_coords(lat=None, lon=None):
     resp = rq.get(base_url+"feed/geo:"+str(lat)+";"+str(lon)+"/?token="+token)
 
     if (resp.status_code > 400) or (resp.json()['status'] != "ok"):
-        raise Exception("API Request failed")
+        raise APIRequestException("HTTP Error")
 
     jsondata = resp.json()
     datos_loc = jsondata['data']['iaqi']
