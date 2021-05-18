@@ -29,7 +29,7 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="{% url 'homepage_index'%}">
-              <img src="{% static 'homepage/images/logo.png' %}" alt="Logo">
+              <img src="{% static 'homepage/images/logo.png' %}" width="35" height="35" alt="Logo">
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -53,8 +53,8 @@
                 </li>
               </ul>
               <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Busca un país..." aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Buscar</button>
+                <input class="form-control me-2" id="search_bar" type="search" placeholder="Busca un país..." aria-label="Search">
+                <button class="btn btn-outline-success" id="search_button" type="submit" href="{% url 'search_index'%}">Buscar</button>
               </form>
             </div>
           </div>

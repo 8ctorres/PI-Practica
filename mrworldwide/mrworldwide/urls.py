@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^compare/', include('compare_data.urls')),
     url(r'^top/', include('top_countries.urls')),
     url(r'^graphs/', include('graphs.urls')),
+    url(r'^search/', include('search_countries.urls')),
 ]
