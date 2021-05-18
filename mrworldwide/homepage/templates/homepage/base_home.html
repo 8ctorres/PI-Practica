@@ -6,8 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     
         <title>Mr.Worldwide</title>
-    
-        <link rel="icon" href="utils/images/Mr_WorldWide.png">
+
+        {% load static %}    
+        <link rel="icon" href="{% static 'homepage/images/logo.png' %}">
 
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
@@ -28,7 +29,7 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="{% url 'homepage_index'%}">
-              <img src="utils/images/Mr_WorldWide.png" width="30" height="30" alt="">
+              <img src="{% static 'homepage/images/logo.png' %}" alt="Logo">
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
