@@ -7,7 +7,6 @@ class AQICNTest(TestCase):
     # comprobar que no son nulos, que son del tipo correcto, y que tienen
     # sentido (i.e. no son negativos, NaN...)
     def test_bilbao():
-        aire_bilbao = get_feed_ciudad("Bilbao")
-        self.assertEquals(aire_bilbao.name, "Bilbao")
-        self.assertEquals(type(aire_bilbao.no2), numpy.float64)
-        self.assertTrue(aire_bilbao.o3 > 0)
+        aire = get_feed_ciudad("Bilbao")
+        self.assertEquals(type(aire.loc['Bilbao'].no2), numpy.float64)
+        self.assertTrue(aire.loc['Bilbao'].o3 > 0)
