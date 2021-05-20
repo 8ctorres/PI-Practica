@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container-fluid" style="margin: 2%;">
+  <div class="row align-items-start">
+    <div class="col">
+      <h5>Comparación de 1 dato entre varios países</h5>
+      <img src="https://eltiotech.com/wp-content/uploads/2020/05/19-gr%C3%A1ficos-de-l%C3%ADneas-en-excel.jpg" alt="Imagen de grafica de 1 dato">
+      <h6>Con esta gráfica podrás comparar un dato entre 1 y 5 países.</h6>
+      <a class="btn btn-primary" href="{% url '1dataXcountries_base'%}" role="button">Hacer gráfica</a>
+    </div>
+    <div class="col">
+      <h5>Comparación entre 2 datos de 1 país</h5>
+      <img src="https://ep01.epimg.net/verne/imagenes/2018/06/19/articulo/1529425780_693647_1529477238_sumario_normal.jpg" alt="Imagen de grafica de 2 datos">
+      <h6>Con esta gráfica podrás comparar 2 datos en un país para ver su correlación.</h6>
+      <a class="btn btn-primary" href="{% url '2data1country_base'%}" role="button">Hacer gráfica</a>
+    </div>
+    <div class="col">
+      <h5>Histograma</h5>
+      <img src="https://www.superprof.es/apuntes/wp-content/uploads/2019/06/hist-1.png" alt="Imagen de histograma">
+      <h6>Con esta gráfica podrás comparar 2 datos de 1 país con un diagrama de barras.</h6>
+      <a class="btn btn-primary" href="{% url 'histogram_base'%}" role="button">Hacer gráfica</a>
+    </div>
+  </div>
+</div>
+    
+{% endblock %}
