@@ -37,13 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #local apps
     'homepage.apps.HomepageConfig',
     'compare_data.apps.CompareDataConfig',
     'top_countries.apps.TopCountriesConfig',
     'graphs.apps.GraphsConfig',
     'search_countries.apps.SearchCountriesConfig',
-    'user_management',
+    'user_management.apps.UserManagementConfig',
 ]
 
 MIDDLEWARE = [
