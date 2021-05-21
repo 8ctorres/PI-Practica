@@ -1,13 +1,11 @@
 import traceback
 from django.shortcuts import render,redirect
-from flask import request
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from jsonschema import validate, ValidationError
 from django.db.utils import IntegrityError
 from .schemas import login_schema, signup_schema
 
-import traceback
 
 # Create your views here.
 def login_view(request):
@@ -55,7 +53,6 @@ def signup_view(request):
 		except IntegrityError:
 			context = {'error': 'User already exists'}
 		except:
-			traceback.print_exc()
 			context = {'error': 'Unexpected error'}
 		return render(request,'signup.html',context)
 
