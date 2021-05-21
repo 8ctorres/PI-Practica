@@ -4,7 +4,8 @@ from flask import request
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from jsonschema import validate, ValidationError
-from .schemas import login_schema
+from websockets import auth
+from .schemas import login_schema, signup_schema
 
 # Create your views here.
 def login_view(request):
@@ -33,9 +34,19 @@ def signup_view(request):
 	if request.method == 'GET':
 		return render(request,'signup.html')
 	if request.method == 'POST':
-		user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
-		user.save()
-		return render(request,'signup.html')
+		try:
+			validate(instance=request.POST, schema=signup_schema)
+			username,email,password = request.POST
+			new_user = User.objects.create_user(username, email,password)
+			new_user.save()
+			user = authenticate(username=request.POST.username, password=request.POST.password)
+			login(request,user)
+			return redirect('profile_view')
+		except ValidationError:
+			return render(request,'login.html', {'error': 'Invalid parameters'})
+		except:
+			return render(request,'login.html', {'error': 'Unexpected error'})
+
 
 def profile_view(request):
 	return render(request,'profile.html')
