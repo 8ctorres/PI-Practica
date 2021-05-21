@@ -1,6 +1,5 @@
 from curses import A_ALTCHARSET
 from django.shortcuts import render,redirect
-from django.http import HttpResponseBadRequest
 from flask import request
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
