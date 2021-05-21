@@ -1,10 +1,9 @@
-from curses import A_ALTCHARSET
 from django.shortcuts import render,redirect
 from flask import request
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from jsonschema import validate, ValidationError
-from websockets import auth
+from sqlite3 import IntegrityError
 from .schemas import login_schema, signup_schema
 
 # Create your views here.
@@ -41,17 +40,20 @@ def signup_view(request):
 	if request.method == 'POST':
 		try:
 			validate(instance=request.POST, schema=signup_schema)
-			username,email,password = request.POST
-			print(username,email,password)
-			print(request.POST)
+			queryDict = request.POST.dict()
+			unpackedBody = [ queryDict[key] for key in ["username","email","password"] ]
+			username,email,password = unpackedBody
 			new_user = User.objects.create_user(username, email,password)
 			new_user.save()
-			user = authenticate(username=request.POST.username, password=request.POST.password)
+			user = authenticate(username=username, password=password)
 			login(request,user)
 			return redirect('profile_view')
 		except ValidationError:
 			context = {'error': 'Invalid parameters'}
+		except IntegrityError:
+			context = {'error': 'User already exists'}
 		except:
+			traceback.print_exc()
 			context = {'error': 'Unexpected error'}
 		return render(request,'signup.html',context)
 
