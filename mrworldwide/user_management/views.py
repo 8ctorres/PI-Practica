@@ -42,6 +42,8 @@ def signup_view(request):
 		try:
 			validate(instance=request.POST, schema=signup_schema)
 			username,email,password = request.POST
+			print(username,email,password)
+			print(request.POST)
 			new_user = User.objects.create_user(username, email,password)
 			new_user.save()
 			user = authenticate(username=request.POST.username, password=request.POST.password)
