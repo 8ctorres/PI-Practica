@@ -26,6 +26,7 @@ def login_view(request):
 			return render(request,'login.html', {'error': 'Unexpected error'})
 
 def logout_view(request):
+	logout(request)
 	return redirect(request.GET['next'])
 
 def signup_view(request):
