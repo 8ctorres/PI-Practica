@@ -29,8 +29,9 @@ def login_view(request):
 		return render(request,'login.html',context)
 
 def logout_view(request):
-	logout(request)
-	return redirect(request.GET['next'])
+	if request.method == 'POST' and request.user.is_authenticated:
+		logout(request)
+		return redirect(request.GET['next'])
 
 def signup_view(request):
 	if request.user.is_authenticated:
