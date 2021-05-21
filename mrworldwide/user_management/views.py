@@ -19,12 +19,12 @@ def login_view(request):
 				login(request, user)
 				return redirect(request.GET['next'])
 			else:
-				print("error")
-				return render(request,'login.html',{'error': 'Invalid credentials'})
+				context = {'error': 'Invalid credentials'}
 		except ValidationError:
-			return render(request,'login.html', {'error': 'Invalid parameters'})
+			context = {'error': 'Invalid parameters'}
 		except:
-			return render(request,'login.html', {'error': 'Unexpected error'})
+			context = {'error': 'Unexpected error'}
+		return render(request,'login.html',context)
 
 def logout_view(request):
 	logout(request)
@@ -43,9 +43,10 @@ def signup_view(request):
 			login(request,user)
 			return redirect('profile_view')
 		except ValidationError:
-			return render(request,'login.html', {'error': 'Invalid parameters'})
+			context = {'error': 'Invalid parameters'}
 		except:
-			return render(request,'login.html', {'error': 'Unexpected error'})
+			context = {'error': 'Unexpected error'}
+		return render(request,'signup.html',context)
 
 
 def profile_view(request):
