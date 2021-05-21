@@ -16,10 +16,13 @@ def login_view(request):
 	elif request.method == 'POST':
 		try:
 			validate(instance=request.POST, schema=login_schema)
-			user = authenticate(username=request.POST.username, password=request.POST.password)
+			queryDict = request.POST.dict()
+			unpackedBody = [ queryDict[key] for key in ["username","password"] ]
+			username,password = unpackedBody
+			user = authenticate(username=username, password=password)
 			if user is not None:
 				login(request, user)
-				return redirect(request.GET['next'])
+				return redirect('profile')
 			else:
 				context = {'error': 'Invalid credentials'}
 		except ValidationError:
