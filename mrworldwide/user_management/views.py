@@ -9,6 +9,8 @@ from .schemas import login_schema, signup_schema
 
 # Create your views here.
 def login_view(request):
+	if request.user.is_authenticated:
+		return redirect('profile_view')
 	if request.method == 'GET':
 		return render(request,'login.html')
 	elif request.method == 'POST':
@@ -31,6 +33,8 @@ def logout_view(request):
 	return redirect(request.GET['next'])
 
 def signup_view(request):
+	if request.user.is_authenticated:
+		return redirect('profile_view')
 	if request.method == 'GET':
 		return render(request,'signup.html')
 	if request.method == 'POST':
