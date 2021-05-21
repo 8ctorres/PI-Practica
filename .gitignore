@@ -4,3 +4,4 @@ pyvenv.cfg
 share/
 mrworldwide/**/__pycache__
 *.log
+db.sqlite3
