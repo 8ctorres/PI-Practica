@@ -52,15 +52,16 @@
                   </ul>
                 </li>
               </ul>
-              <form class="d-flex">
-                <input class="form-control me-2" id="search_bar" type="search" placeholder="Busca un país..." aria-label="Search">
-                <button class="btn btn-outline-success" id="search_button" type="submit" href="{% url 'search_index'%}">Buscar</button>
+              <form class="d-flex" method=POST action="{% url 'search'%}">
+                {% csrf_token %}
+                <input class="form-control me-2" id="search_bar" type="search" placeholder="Busca un país..." aria-label="Search" name="pais">
+                <button class="btn btn-outline-secondary" type="submit" id="search_button">Buscar</button>
               </form>
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'profile'%}">Profile</a>
-              </li>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'logout'%}">Logout</a>
             </li>
