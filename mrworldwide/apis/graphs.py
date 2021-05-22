@@ -1,5 +1,5 @@
 from apis import worldbank as wb, aqicn as aq, restcountries as rc
-#import apis.exceptions
+from apis.exceptions import APIRequestException
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -21,7 +21,7 @@ def top_n_indicador(ind, n=10):
             valor = serieind[serieind.last_valid_index()]
             #Construyo una nueva Series con los nombres de los países como índice
             serietodos = serietodos.append(pd.Series(data={allcountries.loc[code].countryName: valor}))
-        except: #APIRequestError: TODO resolver los problemas con el import de la exception
+        except APIRequestException: #TODO resolver los problemas con el import de la exception
             #Un error significa que el país no estaba en WorldBank
             #Puede pasar ya que Restcountries también contempla regiones administrativas
             #que formalmente no son países
