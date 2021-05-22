@@ -13,8 +13,8 @@ from django.http import HttpResponse
         return render(request, 'search_countries/search.html', context) """
         
 def search_countries(request):
-    if request.method == 'POST':
-        pais = request.POST['pais']
+    if request.method == 'GET':
+        pais = request.GET['pais']
         return render(request, 'search_countries/search.html',{'pais':pais})
     else:
         return render(request, 'search_countries/search.html',{})
