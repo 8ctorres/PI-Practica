@@ -58,6 +58,14 @@ def get_countries_by_name(name):
 
     return pd.concat([jsonToSeries(pais) for pais in resp.json()], axis=1).transpose()
 
+def get_country_by_code(code):
+    resp = rq.get(base_url+"alpha/"+code)
+
+    if (resp.status_code > 400):
+        raise APIRequestException("HTTP Error")
+
+    return pd.concat([jsonToSeries(pais) for pais in resp.json()], axis=1).transpose()
+
 def get_all_countries():
     resp = rq.get(base_url+"all")
 
