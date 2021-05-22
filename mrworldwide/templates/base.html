@@ -20,7 +20,7 @@
 
 <!-- Page Content -->
 
-<body style="margin-bottom: 60px;">
+<body>
   <div class="homepage_navbar">
       <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
           <div class="container-fluid">
@@ -53,8 +53,7 @@
                 </li>
               </ul>
               <form class="d-flex" method=GET action="{% url 'search'%}">
-                
-                <input class="form-control me-2" id="search_bar" type="search" placeholder="Busca un país..." aria-label="Search" name="pais">
+                <input class="form-control me-2" id="search_bar" type="search" placeholder="Busca un país..." aria-label="Search" name="busqueda">
                 <button class="btn btn-outline-secondary" type="submit" id="search_button">Buscar</button>
               </form>
             </li>
@@ -78,8 +77,10 @@
         </nav>
   </div>
 
+    <div class="container" style="flex: 1 1 auto" style="margin-bottom: 10%;">
     {% block content %}{% endblock %}
 
+    </div>
 </body>
 <footer class="py-5 bg-dark fixed-bottom">
     <div class="container">
