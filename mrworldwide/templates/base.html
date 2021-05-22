@@ -52,8 +52,8 @@
                   </ul>
                 </li>
               </ul>
-              <form class="d-flex" method=POST action="{% url 'search'%}">
-                {% csrf_token %}
+              <form class="d-flex" method=GET action="{% url 'search'%}">
+                
                 <input class="form-control me-2" id="search_bar" type="search" placeholder="Busca un país..." aria-label="Search" name="pais">
                 <button class="btn btn-outline-secondary" type="submit" id="search_button">Buscar</button>
               </form>
