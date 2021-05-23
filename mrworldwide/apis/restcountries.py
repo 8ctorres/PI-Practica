@@ -46,7 +46,19 @@ def jsonToSeries(pais):
     serie_pais.drop("translations", inplace=True)
 
     #De los bloques regionales igual, nos quedamos solo con los nombres como un string
-    serie_pais.regionalBlocs = stringListToString(x['name'] for x in serie_pais.regionalBlocs)
+    serie_pais.regionalBlocs = stringListToString([x['name'] for x in serie_pais.regionalBlocs])
+
+    #Los nombres alternativos igual
+    serie_pais.altSpellings = stringListToString(serie_pais.altSpellings)
+
+    #Las coordenadas igual
+    serie_pais.latlng = stringListToString(serie_pais.latlng)
+
+    #Las zonas horarias
+    serie_pais.timezones = stringListToString(serie_pais.timezones)
+
+    #Las fronteras
+    serie_pais.borders = stringListToString(serie_pais.borders)
 
     return serie_pais
 
