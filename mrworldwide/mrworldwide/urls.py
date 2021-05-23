@@ -15,13 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import include, url
-from apis.restcountries import get_all_countries
+"""from apis.restcountries import get_all_countries
 from search_countries.models import Pais
 
 first_row = get_all_countries().values[0]
 
 pais = Pais(first_row)
-print(pais)
+print(pais)"""
 #print(f"Candidad de paises {Pais.objects.all()}")
 
 

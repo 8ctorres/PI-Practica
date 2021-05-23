@@ -1,34 +1,33 @@
 {% extends "base.html" %} {% block content %}
 
-{% if busqueda %}
+{% if search_country %}
 <div class="container" style="margin-top: 10%;">
     <div class="row justify-content-center">
       <div class="col-4">
-        <h1>Datos de {{busqueda}}</h1>
+        <h1>Datos de {{search_country}}</h1>
         <ul class="list-unstyled">
-          <li>Nombre del país en inglés:</li>
-          <li>Código ISO-2 e ISO-3:</li>
-          <li>Internet TLD:</li>
-          <li>Prefijo telefónico:</li>
-          <li>Capital:</li>
-          <li>Otros nombres:</li>
-          <li>Región y subregión:</li>
-          <li>Población:</li>
-          <li>Coordenadas geográficas del país:</li>
-          <li>Gentilicio:</li>
-          <li>Superficie:</li>
-          <li>Índice de Gini:</li>
-          <li>Zona horaria:</li>
-          <li>Fronteras:</li>
-          <li>Idioma nativo:</li>
-          <li>Moneda oficial:</li>
-          <li>Idioma oficial:</li>
-          <li>Asociaciones internacionales:</li>
-          <li>CIOC:</li>
+          <li>Nombre del país en inglés: {{name}}</li>
+          <li>Código ISO-2: {{ISO}}</li>
+          <li>Internet TLD: {{TLD}}</li>
+          <li>Prefijo telefónico: +{{phone_prefix}}</li>
+          <li>Capital: {{Capital}}</li>
+          <li>Otros nombres: {{AltNames}}</li>
+          <li>Región y subregión: {{Region}}, {{Subregion}}</li>
+          <li>Población: {{Poblation}}</li>
+          <li>Coordenadas geográficas del país: {{Coordinates}}</li>
+          <li>Gentilicio: {{Gentilicio}}</li>
+          <li>Superficie: {{Superficie}}</li>
+          <li>Índice de Gini: {{Gini}}</li>
+          <li>Zona horaria: {{timezone}}</li>
+          <li>Fronteras: {{borderlines}}</li>
+          <li>Idioma nativo: {{native_language}}</li>
+          <li>Moneda oficial: {{coin}}</li>
+          <li>Idioma oficial: {{oficial_language}}</li>
+          <li>Asociaciones internacionales: {{asociations}}</li>
         </ul>
       </div>
       <div class="col-4">
-        <img src="" width="90%" height="40%" class="rounded float-right" alt="Bandera de X">
+        <img src="{{flag}}" width="90%" height="40%" class="rounded float-right" alt="Bandera de {{search_country}}">
       </div>
     </div>
 </div>
