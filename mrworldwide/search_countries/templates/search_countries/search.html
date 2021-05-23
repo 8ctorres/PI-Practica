@@ -5,28 +5,28 @@
       <div class="col-6">
         <h1>Data of {{search_country}}</h1>
         <ul class="list-unstyled">
-          <li>Country's name: {{name}}</li>
-          <li>ISO-2 code: {{ISO}}</li>
-          <li>TLD: {{TLD}}</li>
-          <li>Phone Prefix: +{{phone_prefix}}</li>
-          <li>Capital: {{Capital}}</li>
-          <li>Other names: {{AltNames}}</li>
-          <li>Region & Subregion: {{Region}}, {{Subregion}}</li>
-          <li>Population: {{Poblation}} people</li>
-          <li>Geographical coordinates: {{Coordinates}}</li>
-          <li>Denonym: {{Gentilicio}}</li>
-          <li>Area: {{Superficie}} km²</li>
-          <li>Gini index: {{Gini}}</li>
-          <li>Timezone: {{timezone}}</li>
-          <li>Borderlines: {{borderlines}}</li>
-          <li>Native Language: {{native_language}}</li>
-          <li>Official Coin: {{coin}}</li>
-          <li>Official Language: {{oficial_language}}</li>
-          <li>International Associations: {{asociations}}</li>
+          <li>Country's name:{{country.countryName}}</li>
+          <li>ISO-2 code: {{country.alpha2Code}}</li>
+          <li>TLD: {{country.topLevelDomain}}</li>
+          <li>Phone Prefix: {{country.callingCodes}}</li>
+          <li>Capital: {{country.capital}}</li>
+          <li>Other names: {{country.altSpellings}}</li>
+          <li>Region & Subregion: {{country.region}}, {{country.subregion}}</li>
+          <li>Population: {{country.population}} people</li>
+          <li>Geographical coordinates: {{country.latlng}}</li>
+          <li>Denonym:  {{country.demonym}}</li>
+          <li>Area: {{country.area}} km²</li>
+          <li>Gini index: {{country.gini}}</li>
+          <li>Timezone: {{country.timezones}}</li>
+          <li>Borderlines: {{country.borders}}</li>
+          <li>Native Language: {{country.nativeName}}</li>
+          <li>Official Coin: {{country.currencies}}</li>
+          <li>Official Language: {{country.languages}}</li></li>
+          <li>International Associations: {{country.regionalBlocs}}</li>
         </ul>
       </div>
       <div class="col-4">
-        <img src="{{flag}}" width="150%" height="90%" alt="Bandera de {{search_country}}">
+        <img src="{{flag}}" width="150%" height="90%" alt="{{search_country}}'s flag">
       </div>
     </div>
 </div>
