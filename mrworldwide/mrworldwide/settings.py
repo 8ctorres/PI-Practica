@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'homepage.apps.HomepageConfig',
+    'compare_data.apps.CompareDataConfig',
+    'top_countries.apps.TopCountriesConfig',
+    'graphs.apps.GraphsConfig',
+    'search_countries.apps.SearchCountriesConfig',
+    'user_management.apps.UserManagementConfig',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +60,7 @@ ROOT_URLCONF = 'mrworldwide.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

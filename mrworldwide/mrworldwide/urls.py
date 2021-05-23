@@ -14,8 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.conf.urls import include, url
+"""from apis.restcountries import get_all_countries
+from search_countries.models import Pais
+
+first_row = get_all_countries().values[0]
+
+pais = Pais(first_row)
+print(pais)"""
+#print(f"Candidad de paises {Pais.objects.all()}")
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
+    url('', include('homepage.urls')),
+    url(r'^compare/', include('compare_data.urls')),
+    url(r'^top/', include('top_countries.urls')),
+    url(r'^graphs/', include('graphs.urls')),
+    url(r'^search/', include('search_countries.urls')),
+    url(r'^user/', include('user_management.urls'))
 ]

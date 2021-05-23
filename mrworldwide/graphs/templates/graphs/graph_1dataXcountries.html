@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block content %}
+
+<a class="btn btn-primary" href="{% url 'graph_index'%}" role="button" style="margin: 1%;">Information about graphs</a>
+<div class="container" style="margin-top: 10%;">
+    <h1>Graph the same indicator amongst different countries</h1>
+    <div class="form-group w-25" style="margin: 1%;">
+      <h3>Indicator</h3>
+      <input type="search" id="form1" class="form-control" placeholder="Choose indicator"
+      aria-label="Search" width="10%"/>
+    </div>
+    <div class="form-group w-25" style="margin: 1%;">
+      <h3>First country</h3>
+      <input type="search" id="form1" class="form-control" placeholder="Country 1"
+      aria-label="Search" />
+    </div>
+    <div class="form-group w-25" style="margin: 1%;">
+      <h3>Second country</h3>
+      <input type="search" id="form1" class="form-control" placeholder="Country 2 (Optional)"
+      aria-label="Search" />
+    </div>
+    <div class="form-group w-25" style="margin: 1%;">
+        <h3>Third country</h3>
+        <input type="search" id="form1" class="form-control" placeholder="Country 3 (Optional)"
+        aria-label="Search" />
+      </div>
+      <div class="form-group w-25" style="margin: 1%;">
+        <h3>Fourth country</h3>
+        <input type="search" id="form1" class="form-control" placeholder="Country 4 (Optional)"
+        aria-label="Search" />
+      </div>
+      <div class="form-group w-25" style="margin: 1%;">
+        <h3>Fifth Country</h3>
+        <input type="search" id="form1" class="form-control" placeholder="Country 5 (Optional)"
+        aria-label="Search" />
+      </div>
+    <button type="submit" class="btn btn-primary" style= "margin-top: 2%;">Draw graph</button>
+</div>
+
+{% endblock %}
