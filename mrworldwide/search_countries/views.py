@@ -8,7 +8,11 @@ from apis.exceptions import APIRequestException
 def search_countries(request):
     if request.method == 'GET':
         try:
-            search_country = request.GET['search_country'] or redirected_country
+            search_country = request.GET['search_country']
+        except:
+            search_country = "Spain"
+
+        try:
             country_df = get_countries_by_name(search_country).iloc[0]
             country = country_df.to_dict()
             context = {"country": country}
