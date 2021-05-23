@@ -58,13 +58,15 @@ def get_countries_by_name(name):
 
     return pd.concat([jsonToSeries(pais) for pais in resp.json()], axis=1).transpose()
 
+#Esta función siempre devuelve un DataFrame de una sola fila, ya que el código ISO3
+#es único. Para sacar la Serie correspondiente, basta con hacer .iloc[0] sobre el DataFrame
 def get_country_by_code(code):
     resp = rq.get(base_url+"alpha/"+code)
 
     if (resp.status_code > 400):
         raise APIRequestException("HTTP Error")
 
-    return pd.concat([jsonToSeries(pais) for pais in resp.json()], axis=1).transpose()
+    return pd.concat([jsonToSeries(resp.json())], axis=1).transpose()
 
 def get_all_countries():
     resp = rq.get(base_url+"all")
