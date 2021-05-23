@@ -46,7 +46,19 @@ def jsonToSeries(pais):
     serie_pais.drop("translations", inplace=True)
 
     #De los bloques regionales igual, nos quedamos solo con los nombres como un string
-    serie_pais.regionalBlocs = stringListToString(x['name'] for x in serie_pais.regionalBlocs)
+    serie_pais.regionalBlocs = stringListToString([x['name'] for x in serie_pais.regionalBlocs])
+
+    #Los nombres alternativos igual
+    serie_pais.altSpellings = stringListToString(serie_pais.altSpellings)
+
+    #Las coordenadas igual
+    serie_pais.latlng = stringListToString(serie_pais.latlng)
+
+    #Las zonas horarias
+    serie_pais.timezones = stringListToString(serie_pais.timezones)
+
+    #Las fronteras
+    serie_pais.borders = stringListToString(serie_pais.borders)
 
     return serie_pais
 
@@ -57,6 +69,16 @@ def get_countries_by_name(name):
         raise APIRequestException("HTTP Error")
 
     return pd.concat([jsonToSeries(pais) for pais in resp.json()], axis=1).transpose()
+
+#Esta función siempre devuelve un DataFrame de una sola fila, ya que el código ISO3
+#es único. Para sacar la Serie correspondiente, basta con hacer .iloc[0] sobre el DataFrame
+def get_country_by_code(code):
+    resp = rq.get(base_url+"alpha/"+code)
+
+    if (resp.status_code > 400):
+        raise APIRequestException("HTTP Error")
+
+    return pd.concat([jsonToSeries(resp.json())], axis=1).transpose()
 
 def get_all_countries():
     resp = rq.get(base_url+"all")
