@@ -4,4 +4,5 @@ from apis.restcountries import get_countries_by_name
 
 # Create your views here.
 def homepage(request):
+    context = {'search_country' : 'Spain'}
     return redirect("search") #TODO pasar el parámetro

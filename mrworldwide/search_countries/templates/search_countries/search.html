@@ -1,11 +1,23 @@
 {% extends "base.html" %} {% block content %}
 
+{% if error %}
+
+<div class="container" style="margin-top: 10%;">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <h1>There was an error while getting the country details</h1>
+        <h4>{{error}}</h4>
+    </div>
+</div>
+
+{% else %}
+
 <div class="container" style="margin-top: 10%;">
     <div class="row justify-content-center">
       <div class="col-6">
-        <h1>Data of {{search_country}}</h1>
+        <h1>Data of {{country.countryName}}</h1>
         <ul class="list-unstyled">
-          <li>Country's name:{{country.countryName}}</li>
+          <li>Country's name: {{country.countryName}}</li>
           <li>ISO-2 code: {{country.alpha2Code}}</li>
           <li>TLD: {{country.topLevelDomain}}</li>
           <li>Phone Prefix: {{country.callingCodes}}</li>
@@ -26,9 +38,11 @@
         </ul>
       </div>
       <div class="col-4">
-        <img src="{{flag}}" width="150%" height="90%" alt="{{search_country}}'s flag">
+        <img src="{{country.flag}}" width="150%" height="90%" alt="{{country.countryName}}'s flag">
       </div>
     </div>
 </div>
+
+{% endif %}
 
 {% endblock %}
