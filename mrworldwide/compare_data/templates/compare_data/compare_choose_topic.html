@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block content %}
+
+    <div class="container" style="margin-top: 10%;">
+            <div class="row justify-content-center">
+            <div class="col-6">
+                <h1>Choose the topic to compare</h1>
+                <h3>These are the options:</h3>
+                <ul class="list-unstyled">
+                    <li>Agriculture & Rural Development</li>
+                    <li>Aid Effectiveness</li>
+                    <li>Economy & Growth</li>
+                    <li>Education</li>
+                    <li>Energy & Mining</li>
+                    <li>Environment</li>
+                    <li>Financial Sector</li>
+                    <li>Health</li>
+                    <li>Infrastructure</li>
+                    <li>Social Protection & Labor</li>
+                    <li>Poverty</li>
+                    <li>Private Sector</li>
+                    <li>Public Sector</li>
+                    <li>Science & Technology</li>
+                    <li>Social Development</li>
+                    <li>Urban Development</li>
+                    <li>Gender</li></li>
+                    <li>Millenium development goals</li>
+                    <li>Climate Change</li>
+                    <li>External Debt</li>
+                    <li>Trade</li>
+                  </ul>
+            </div>
+            <div class="col-6">
+                <form class="d-flex" method=GET action="{% url 'compare_index'%}">
+                    <input class="form-control me-2" id="compare_form" type="search" placeholder="Type a topic..." aria-label="compare_form" name="choose_topic">
+                    <button type="submit" class="btn btn-primary" style= "margin-top: 2%;">Choose topic</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
