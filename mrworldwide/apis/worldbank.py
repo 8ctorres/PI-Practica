@@ -71,7 +71,7 @@ def get_indicators_from_topic(topic):
         # Y reindexamos para tenerla ordenada
         serie = serie.reindex(
             pd.Index(data=
-                     ["name", "unit", "sourceID",
+                     ["indicatorName", "unit", "sourceID",
                       "sourceName", "sourceNote", "sourceOrganization"]))
 
         serie.sourceID = tsourceID
