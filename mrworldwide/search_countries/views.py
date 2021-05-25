@@ -1,6 +1,4 @@
-from django.http.request import QueryDict
 from django.shortcuts import render
-from django.http import HttpResponse
 from apis.restcountries import get_countries_by_name
 from apis.exceptions import APIRequestException
 
