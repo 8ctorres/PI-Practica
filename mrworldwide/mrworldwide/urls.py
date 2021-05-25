@@ -28,7 +28,7 @@ print(pais)"""
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('', include('homepage.urls')),
-    url(r'^compare/', include('compare_data.urls')),
+    url(r'^compare_data/', include('compare_data.urls')),
     url(r'^top/', include('top_countries.urls')),
     url(r'^graphs/', include('graphs.urls')),
     url(r'^search/', include('search_countries.urls')),
