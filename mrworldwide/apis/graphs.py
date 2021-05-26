@@ -1,4 +1,4 @@
-from apis import worldbank as wb, aqicn as aq, restcountries as rc
+from apis import worldbank as wb, restcountries as rc
 from apis.exceptions import APIRequestException
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -21,7 +21,7 @@ def top_n_indicador(ind, n=10):
             valor = serieind[serieind.last_valid_index()]
             #Construyo una nueva Series con los nombres de los países como índice
             serietodos = serietodos.append(pd.Series(data={code: valor}))
-        except APIRequestException: #TODO resolver los problemas con el import de la exception
+        except APIRequestException:
             #Un error significa que el país no estaba en WorldBank
             #Puede pasar ya que Restcountries también contempla regiones administrativas
             #que formalmente no son países
@@ -47,27 +47,54 @@ def graph_topn(ind, n=10, filename=None):
     return serietop
 
 
+# Dado un indicador y un par de países, saca un gráfico comparando
+# la relación entre los dos. El parámetro "tipo" indica si va a ser
+# un gráfico de líneas ("l") o de dispersión de puntos ("d")
+def graph_comparacion(ind, pais1, pais2, filename=None, tipo="l"):
+    # Hacemos la consulta del indicador a la API de Worldbank, y nos quedamos con
+    # una serie temporal con los valores en crudo (columna "value")
+    # Y descartamos los valores nulos
+    ind1 = wb.get_indicator(pais1, ind).value.dropna()
+    # Le damos un nombre a la Serie
+    ind1.name = pais1
 
+    ind2 = wb.get_indicator(pais2, ind).value.dropna()
+    ind2.name = pais2
 
+    df = pd.concat([ind1, ind2], axis=1)
 
+    if tipo=="d":
+        df.plot.scatter(x=ind1.name, y=ind1.name)
+    else if tipo=="l":
+        df.plot()
+    else:
+        raise TypeError("Unknown type: "+tipo)
 
-
-
-
-
-# Dada una lista de dataframes cuyo índice sea una serie temporal,
-# muestra un gráfico comparando la progresión de todos los valores
-# a lo largo del tiempo
-def grafico_lineas(inds, filename=None):
-    newdf = pd.concat(inds, axis=1)
-    newdf.plot.line()
     if filename is not None:
         plt.savefig(filename)
 
-# Dadas dos series, saca un gráfico
-# de dispersión de las dos
-def grafico_dispersion(xind, yind, filename=None):
-    newdf = pd.concat([xind, yind], axis=1)
-    newdf.plot.scatter(x=xind.name, y=yind.name)
+    return df
+
+
+def graph_1dataXcountries(ind, paises, filename=None):
+    # Construimos el dataframe con todos los países
+    df = pd.concat([wb.get_indicator(pais, ind) for pais in paises], axis=1)
+
+    # Dibujamos el gráfico
+    df.plot()
+
+    # Guardamos
     if filename is not None:
         plt.savefig(filename)
+
+    # Devolvemos el dataframe
+    return df
+
+def graph_Xdata1country(inds, pais, filename=None):
+    df = pd.concat([wb.get_indicator(pais, ind) for ind in inds], axis=1)
+    df.plot
+    if filename is not None:
+        plt.savefig(filename)
+    return df
+
+#TODO: Histograma
