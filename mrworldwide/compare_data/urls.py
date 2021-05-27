@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
     url(r'^$', views.compare_choose_topic, name='compare_choose_topic'),
     url(r'^compare', views.compare, name='compare_index'),
+    url(r'^result', views.compare_result, name='compare_result'),
 ]
