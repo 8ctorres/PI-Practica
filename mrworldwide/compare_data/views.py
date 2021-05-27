@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from apis.restcountries import get_countries_by_name
+from apis.exceptions import APIRequestException
 
 # Create your views here.
 
@@ -23,3 +25,18 @@ def compare(request):
 
 def compare_choose_topic(request):
     return render(request, 'compare_data/compare_choose_topic.html')
+
+def compare_result(request):
+    if request.method == 'GET':
+        try:
+            country1 = request.GET['compare_country1']
+            country2 = request.GET['compare_country2']
+            try:
+                indicator = request.GET['compare_indicator']
+                
+                context={'country1':country1, 'country2':country2, 'indicator':indicator}
+            except:
+                context={"error": "Invalid indicator"}
+        except:
+                context={"error": "Invalid country"}
+    return render(request, 'compare_data/compare_result.html', context)
