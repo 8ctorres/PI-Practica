@@ -15,22 +15,24 @@
   <div class="col-6">
     <div class="container">
         <h1>Compare an indicator between 2 countries</h1>
-      <div class="form-group w-50" style="margin: 1%;">
-        <h3>First Country</h3>
-        <input type="search" id="form1" class="form-control" placeholder="Country 1"
-        aria-label="Search" width="10%"/>
-      </div>
-      <div class="form-group w-50" style="margin: 1%;">
-          <h3>Second Country</h3>
-        <input type="search" id="form1" class="form-control" placeholder="Country 2"
-        aria-label="Search" />
-      </div>
-      <div class="form-group w-50" style="margin: 1%;">
-        <h3>Indicator to be compared</h3>
-        <input type="search" id="form1" class="form-control" placeholder="Indicator to be compared"
-        aria-label="Search" />
-      </div>
-      <button type="submit" class="btn btn-primary" style= "margin-top: 2%;">Compare</button>
+        <form class="d-flex" method=GET action="{% url 'compare_result'%}">
+          <div class="form-group w-50" style="margin: 1%;">
+            <h3>First Country</h3>
+            <input type="search" id="form1" class="form-control" placeholder="Country 1"
+            aria-label="Search" name="compare_country1" width="10%"/>
+          </div>
+          <div class="form-group w-50" style="margin: 1%;">
+              <h3>Second Country</h3>
+            <input type="search" id="form1" class="form-control" placeholder="Country 2"
+            aria-label="Search" name="compare_country2"/>
+          </div>
+          <div class="form-group w-50" style="margin: 1%;">
+            <h3>Indicator to be compared</h3>
+            <input type="search" id="form1" class="form-control" placeholder="Indicator to be compared"
+            aria-label="Search" name="compare_indicator"/>
+          </div>
+          <button type="submit" class="btn btn-primary" style= "margin-top: 2%;">Compare</button>
+      </form>
     </div>
   </div>
   <div class="col-6">

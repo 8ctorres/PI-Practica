@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block content %}
+
+{% if error %}
+
+<div class="container" style="margin-top: 10%;">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <h1>There was an error while doing comparation</h1>
+        <h4>{{error}}</h4>
+    </div>
+</div>
+
+{% else %}
+<div class="row justify-content-center" style="margin-top: 10%;">
+  <h1>Country 1:{{country1}}</h1>
+  <h1>Country 2:{{country2}}</h1>
+  <h1>Indicator:{{indicator}}</h1>
+</div>
+{% endif %}
+
+{% endblock %}
