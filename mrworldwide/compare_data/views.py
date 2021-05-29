@@ -1,9 +1,6 @@
 from django.shortcuts import render
 from apis.restcountries import get_countries_by_name
-<<<<<<< HEAD
 from apis.worldbank import *
-=======
->>>>>>> Base para mostrar resultado de comparación
 from apis.exceptions import APIRequestException
 
 # Create your views here.
