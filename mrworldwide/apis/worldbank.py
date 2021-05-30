@@ -103,7 +103,7 @@ def get_indicator(country, indicator):
     try:
         jsondata = resp.json()[1]
         jsondata.reverse() # La API los entrega de más reciente a más antiguo
-    except ValueError, IndexError, TypeError:
+    except (ValueError, IndexError, TypeError):
         raise APIRequestException("JSON Decode failed")
 
     series_inds = []
@@ -140,3 +140,19 @@ def get_indicator(country, indicator):
     dataframe_ind.index.name = "Periodo"
 
     return dataframe_ind
+
+# Funciones de utilidad para pasar de un código de indicador a su nombre y viceversa:
+# Lee los nombres de un fichero en local que contiene los indicadores que decidimos
+# usar de entre los 18600 que tiene la API
+
+def get_indicator_names():
+    return pd.read_csv("indicators.csv", delimiter=";", index_col="ID").to_dict()['Name']
+
+def get_indicator_codes():
+    return pd.read_csv("indicators.csv", delimiter=";", index_col="Name").to_dict()['ID']
+
+def get_indicator_name(code):
+    return get_indicator_names()[code]
+
+def get_indicator_code(name):
+    return get_indicator_codes()[name]
