@@ -90,3 +90,6 @@ def get_all_countries():
 
 def get_all_names():
     return get_all_countries().countryName.to_list()
+
+def get_iso3code(name):
+    return get_countries_by_name(name).iloc[0].name
