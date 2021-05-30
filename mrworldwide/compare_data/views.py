@@ -2,6 +2,7 @@ from django.shortcuts import render
 from apis.restcountries import get_countries_by_name
 from apis.worldbank import *
 from apis.exceptions import APIRequestException
+from apis.graphs import graph_comparacion
 
 # Create your views here.
 

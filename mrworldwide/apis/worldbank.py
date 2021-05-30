@@ -103,7 +103,7 @@ def get_indicator(country, indicator):
     try:
         jsondata = resp.json()[1]
         jsondata.reverse() # La API los entrega de más reciente a más antiguo
-    except ValueError, IndexError, TypeError:
+    except (ValueError, IndexError, TypeError):
         raise APIRequestException("JSON Decode failed")
 
     series_inds = []

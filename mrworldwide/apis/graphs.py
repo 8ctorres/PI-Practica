@@ -65,7 +65,7 @@ def graph_comparacion(ind, pais1, pais2, filename=None, tipo="l"):
 
     if tipo=="d":
         df.plot.scatter(x=ind1.name, y=ind1.name)
-    else if tipo=="l":
+    elif tipo=="l":
         df.plot()
     else:
         raise TypeError("Unknown type: "+tipo)
