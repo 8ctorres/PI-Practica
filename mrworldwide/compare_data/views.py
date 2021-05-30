@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from apis.restcountries import get_all_names
-#from apis.worldbank import *
+from apis.restcountries import get_all_names, get_iso3code
+from apis.worldbank import get_indicator_code
 from apis.exceptions import APIRequestException
 from apis.graphs import graph_comparacion
 
@@ -82,8 +82,11 @@ def compare_result(request):
             country2 = request.GET['compare_country2']
             try:
                 indicator = request.GET['compare_indicator']
-                
-                context={'country1':country1, 'country2':country2, 'indicator':indicator}
+                try:
+                    graph = graph_comparacion(get_indicator_code(indicator), get_iso3code(country1), get_iso3code(country2))
+                    context={'country1':country1, 'country2':country2, 'indicator':indicator, 'graph':graph.plot()}
+                except:
+                    context={"error": "There was an error doing graph"}
             except:
                 context={"error": "Invalid indicator"}
         except:
