@@ -30,6 +30,25 @@
             <h3>Indicator to be compared</h3>
             <input type="search" id="form1" class="form-control" placeholder="Indicator to be compared"
             aria-label="Search" list="indicator_list" name="compare_indicator"/>
+            <datalist id="indicator_list">
+              {% if topic == 'Health' %}
+                {% for r in health_list %}
+		              <option> {{ r }} </option>
+		            {% endfor %}
+              {% elif topic == 'Economy' %}
+                {% for r in economy_list %}
+		              <option> {{ r }}</option>
+		            {% endfor %}
+              {% elif topic == 'Enviroment' %}
+                {% for r in enviroment_list %}
+		              <option> {{ r }} </option>
+		            {% endfor %}
+              {% elif topic == 'Social Development' %}
+                {% for r in social_development_list %}
+		              <option> {{ r }} </option>
+		            {% endfor %}
+              {% endif %}
+            </datalist>
           </div>
           <button type="submit" class="btn btn-primary" style= "margin-top: 2%;">Compare</button>
       </form>

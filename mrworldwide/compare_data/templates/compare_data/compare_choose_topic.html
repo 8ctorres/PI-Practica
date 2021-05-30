@@ -13,7 +13,7 @@
                 </ul>
             </div>
             <div class="col-6">
-                <form class="d-flex" method=GET action="{% url 'compare_index'%}">
+                <form class="row g-3" method=GET action="{% url 'compare_index'%}">
                     <input class="form-control" id="compare_form" type="search" placeholder="Type a topic..." aria-label="compare_form" name="choose_topic" list="topic_list">
                     <datalist id="topic_list">
                         <option>Health</option>
