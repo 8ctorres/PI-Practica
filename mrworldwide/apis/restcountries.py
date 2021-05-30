@@ -89,4 +89,4 @@ def get_all_countries():
     return pd.concat([jsonToSeries(pais) for pais in resp.json()], axis=1).transpose()
 
 def get_all_names():
-    return get_all_countries.countryName.to_list()
+    return get_all_countries().countryName.to_list()
