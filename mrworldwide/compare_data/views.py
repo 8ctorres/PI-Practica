@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from apis.restcountries import get_countries_by_name
+from apis.restcountries import get_all_names
 #from apis.worldbank import *
 from apis.exceptions import APIRequestException
 from apis.graphs import graph_comparacion
@@ -58,13 +58,14 @@ topic_indicator = {
 def compare(request):
     topic_list = topic_indicator.keys()
     topic_list_lower = map(lambda x:x.lower(), topic_list)
+    country_list = get_all_names()
     if request.method == 'GET':
         try:
             topic = request.GET['choose_topic']
             if topic.lower() in topic_list_lower:
                 context={'topic':topic, 'topic_list':topic_list,'health_list':topic_indicator['Health'],
                          'economy_list':topic_indicator['Economy'], 'enviroment_list':topic_indicator['Enviroment'],
-                         'social_development_list':topic_indicator['Social Development'],}
+                         'social_development_list':topic_indicator['Social Development'],'country_list':country_list}
             else:
                 context={"error": "Invalid topic"}
         except:
