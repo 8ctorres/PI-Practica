@@ -83,8 +83,11 @@ def compare_result(request):
             try:
                 indicator = request.GET['compare_indicator']
                 try:
-                    graph = graph_comparacion(get_indicator_code(indicator), get_iso3code(country1), get_iso3code(country2))
-                    context={'country1':country1, 'country2':country2, 'indicator':indicator, 'graph':graph.plot()}
+                    # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
+                    # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
+                    nombre_fichero = "temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
+                    graph = graph_comparacion(get_indicator_code(indicator), get_iso3code(country1), get_iso3code(country2), filename=nombre_fichero)
+                    context={'country1':country1, 'country2':country2, 'indicator':indicator, 'graph':nombre_fichero}
                 except:
                     context={"error": "There was an error doing graph"}
             except:
