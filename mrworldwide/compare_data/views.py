@@ -4,6 +4,9 @@ from apis.restcountries import get_all_names, get_iso3code
 from apis.worldbank import get_indicator_code
 from apis.exceptions import APIRequestException
 from apis.graphs import graph_comparacion
+import base64
+import os
+import traceback
 
 # Create your views here.
 
@@ -83,14 +86,19 @@ def compare_result(request):
             country2 = request.GET['compare_country2']
             try:
                 indicator = request.GET['compare_indicator']
-                #try:
+                try:
                     # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                     # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
-                nombre_fichero = "compare_data/temp/" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
-                graph = graph_comparacion(get_indicator_code(indicator), get_iso3code(country1), get_iso3code(country2), filename=nombre_fichero)
-                context={'country1':country1, 'country2':country2, 'indicator':indicator, 'graph':nombre_fichero}
-                #except:
-                 #   context={"error": "There was an error doing graph"}
+                    nombre_fichero = "./compare_data/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
+                    graph_comparacion(get_indicator_code(indicator), get_iso3code(country1), get_iso3code(country2), filename=nombre_fichero)
+                    with open(nombre_fichero, "rb") as f:
+                        content = f.read()
+                        encoded_img = base64.b64encode(content).decode(encoding="utf-8")
+                        os.remove(f.name)
+                    context={'country1':country1, 'country2':country2, 'indicator':indicator, 'graph':encoded_img}
+                except:
+                    traceback.print_exc()
+                    context={"error": "There was an error doing graph"}
             except:
                 context={"error": "Invalid indicator"}
         except:

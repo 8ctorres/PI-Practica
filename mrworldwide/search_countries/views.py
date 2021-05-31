@@ -15,7 +15,7 @@ def search_countries(request):
         try:
             country_df = get_countries_by_name(search_country).iloc[0]
             country = country_df.to_dict()
-            context = {"country": country,'country_list':country_list}
+            context = {"country": country, "country_code": country_df.name, 'country_list':country_list}
         except APIRequestException:
             context = {"error": "Invalid country"}
         except:
