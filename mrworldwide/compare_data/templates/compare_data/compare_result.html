@@ -11,13 +11,29 @@
 </div>
 
 {% else %}
-<div class="row justify-content-center" style="margin-top: 10%;">
-  <h1>Country 1:{{country1}}</h1>
-  <h1>Country 2:{{country2}}</h1>
-  <h1>Indicator:{{indicator}}</h1>
-  <h1>Gráfico: </h1>
-  <img src="data:image/jpg;base64,{{graph}}" alt="Grafica">
-</div>
+<div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>{{indicator}}</h1>
+        <img src="data:image/jpg;base64,{{graph}}" alt="{{indicator}} of {{country1}} & {{country2}}">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h1>{{country1}}</h1>
+        <p>Capital: {{country1_info.capital}}</p>
+        <p>Population: {{country1_info.population}} people</p>
+        <p>Area: {{country1_info.area}} km²</p>
+      </div>
+      <div class="col">
+        <h1>{{country2}}</h1>
+        <p>Capital: {{country2_info.capital}}</p>
+        <p>Population: {{country2_info.population}} people</p>
+        <p>Area: {{country2_info.area}} km²</p>
+      </div>
+    </div>
+</div>  
+
 {% endif %}
 
 {% endblock %}

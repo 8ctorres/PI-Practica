@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from datetime import datetime
-from apis.restcountries import get_all_names, get_iso3code
+from apis.restcountries import get_all_names, get_iso3code, get_countries_by_name
 from apis.worldbank import get_indicator_code
 from apis.exceptions import APIRequestException
 from apis.graphs import graph_comparacion
@@ -85,22 +85,29 @@ def compare_result(request):
             country1 = request.GET['compare_country1']
             country2 = request.GET['compare_country2']
             try:
-                indicator = request.GET['compare_indicator']
+                country1_df = get_countries_by_name(country1).iloc[0]
+                country_dict1 = country1_df.to_dict()
+                country2_df = get_countries_by_name(country2).iloc[0]
+                country_dict2 = country2_df.to_dict()
                 try:
-                    # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
-                    # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
-                    nombre_fichero = "./compare_data/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
-                    graph_comparacion(get_indicator_code(indicator), get_iso3code(country1), get_iso3code(country2), filename=nombre_fichero)
-                    with open(nombre_fichero, "rb") as f:
-                        content = f.read()
-                        encoded_img = base64.b64encode(content).decode(encoding="utf-8")
-                        os.remove(f.name)
-                    context={'country1':country1, 'country2':country2, 'indicator':indicator, 'graph':encoded_img}
+                    indicator = request.GET['compare_indicator']
+                    try:
+                        # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
+                        # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
+                        nombre_fichero = "./compare_data/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
+                        graph_comparacion(get_indicator_code(indicator), get_iso3code(country1), get_iso3code(country2), filename=nombre_fichero)
+                        with open(nombre_fichero, "rb") as f:
+                            content = f.read()
+                            encoded_img = base64.b64encode(content).decode(encoding="utf-8")
+                            os.remove(f.name)
+                        context={'country1':country1, 'country2':country2, 'country1_info':country_dict1, 'country2_info':country_dict2, 'indicator':indicator, 'graph':encoded_img}
+                    except:
+                        traceback.print_exc()
+                        context={"error": "There was an error doing graph"}
                 except:
-                    traceback.print_exc()
-                    context={"error": "There was an error doing graph"}
-            except:
-                context={"error": "Invalid indicator"}
+                    context={"error": "Invalid indicator"}
+            except APIRequestException:
+                context={"error": "Invalid country"}
         except:
                 context={"error": "Invalid country"}
     return render(request, 'compare_data/compare_result.html', context)
