@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from datetime import datetime
 from apis.restcountries import get_all_names, get_iso3code
 from apis.worldbank import get_indicator_code
 from apis.exceptions import APIRequestException
@@ -82,14 +83,14 @@ def compare_result(request):
             country2 = request.GET['compare_country2']
             try:
                 indicator = request.GET['compare_indicator']
-                try:
+                #try:
                     # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                     # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
-                    nombre_fichero = "temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
-                    graph = graph_comparacion(get_indicator_code(indicator), get_iso3code(country1), get_iso3code(country2), filename=nombre_fichero)
-                    context={'country1':country1, 'country2':country2, 'indicator':indicator, 'graph':nombre_fichero}
-                except:
-                    context={"error": "There was an error doing graph"}
+                nombre_fichero = "compare_data/temp/" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
+                graph = graph_comparacion(get_indicator_code(indicator), get_iso3code(country1), get_iso3code(country2), filename=nombre_fichero)
+                context={'country1':country1, 'country2':country2, 'indicator':indicator, 'graph':nombre_fichero}
+                #except:
+                 #   context={"error": "There was an error doing graph"}
             except:
                 context={"error": "Invalid indicator"}
         except:
