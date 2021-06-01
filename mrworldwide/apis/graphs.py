@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import os
+import requests as rq
 
 ## Caso de uso de ordenar los top N países por un indicador
 ## Por defecto es el top 10, el máximo son 200
@@ -16,10 +17,19 @@ def top_n_indicador(ind, n=10):
     # Para cada uno de los 250 países, obtengo el indicador en cuestión,
     # busco el último valor no nulo y lo meto en una Series
     serietodos = pd.Series(dtype="float64", name=ind)
+    # Creo una sesión HTTP y la reutilizo para todas las peticiones, para
+    # acelerar el proceso
+    session = rq.Session()
     for code in codes:
         try:
-            serieind = wb.get_indicator(code, ind).value
-            valor = serieind[serieind.last_valid_index()]
+            serieind = wb.get_indicator(code, ind, session).value
+            try:
+                valor = serieind[serieind.last_valid_index()]
+            except KeyError:
+                # Un KeyError en esta llamada significa que no hay un last valid index
+                # porque todos los valores son nulos (no hay información para ese país)
+                # Simplemente lo ignoramos y seguimos adelante
+                raise APIRequestException("No data for this country")
             #Construyo una nueva Series con los nombres de los países como índice
             serietodos = serietodos.append(pd.Series(data={code: valor}))
         except APIRequestException:
@@ -32,6 +42,9 @@ def top_n_indicador(ind, n=10):
     # Me quedo con los N top países
     serietop = serietodos.nlargest(n, keep="all")
     return serietop
+    
+    # Cerramos la sesion
+    session.close()
 
 def graph_topn(ind, n=10, filename=None):
     # Peticion a la API
