@@ -4,6 +4,7 @@ from apis.restcountries import get_all_names, get_iso3code, get_countries_by_nam
 from apis.worldbank import get_indicator_code
 from apis.exceptions import APIRequestException
 from apis.graphs import graph_comparacion
+from apis.aqicn import get_datos_ciudad
 import base64
 import os
 import traceback
@@ -59,6 +60,8 @@ topic_indicator = {
         'Employment in service(% of total)',
         'Percentage of unemployment']}
 
+# Vista donde se seleccionan dos países y un indicador para posteriormente hacer
+# una gráfica con ellos
 def compare(request):
     topic_list = topic_indicator.keys()
     topic_list_lower = map(lambda x:x.lower(), topic_list)
@@ -76,34 +79,46 @@ def compare(request):
             context = {"error": "Unexpected error"}
     return render(request, 'compare_data/compare.html', context)
 
+# Vista simple para seleccionar el tema de los indicadores a mostrar
+# para de esta forma no saturar al usuario con mucha información
 def compare_choose_topic(request):
     return render(request, 'compare_data/compare_choose_topic.html')
 
+# Resultado final donde se puede ver la gráfica y datos a mayores de los países
+# seleccionados como la población, el área y datos sobre la contaminación en el aire
+# que complementan la gráfica obtenida
 def compare_result(request):
     if request.method == 'GET':
         try:
             country1 = request.GET['compare_country1']
             country2 = request.GET['compare_country2']
             try:
-                country1_df = get_countries_by_name(country1).iloc[0]
-                country_dict1 = country1_df.to_dict()
-                country2_df = get_countries_by_name(country2).iloc[0]
-                country_dict2 = country2_df.to_dict()
+                # Datos de restcountries sobre los países seleccionados
+                country_dict1 = get_countries_by_name(country1).iloc[0].to_dict()
+                country_dict2 = get_countries_by_name(country2).iloc[0].to_dict()
                 try:
                     indicator = request.GET['compare_indicator']
                     try:
-                        # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
-                        # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
-                        nombre_fichero = "./compare_data/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
-                        graph_comparacion(get_indicator_code(indicator), get_iso3code(country1), get_iso3code(country2), filename=nombre_fichero)
-                        with open(nombre_fichero, "rb") as f:
-                            content = f.read()
-                            encoded_img = base64.b64encode(content).decode(encoding="utf-8")
-                            os.remove(f.name)
-                        context={'country1':country1, 'country2':country2, 'country1_info':country_dict1, 'country2_info':country_dict2, 'indicator':indicator, 'graph':encoded_img}
+                        # Datos sobre contaminación del API aqicn
+                        ct_pollution1 = get_datos_ciudad(country_dict1['capital']).iloc[0].to_dict()
+                        ct_pollution2 = get_datos_ciudad(country_dict2['capital']).iloc[0].to_dict()
+                        try:
+                            # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
+                            # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
+                            nombre_fichero = "./compare_data/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
+                            graph_comparacion(get_indicator_code(indicator), get_iso3code(country1), get_iso3code(country2), filename=nombre_fichero)
+                            with open(nombre_fichero, "rb") as f:
+                                content = f.read()
+                                encoded_img = base64.b64encode(content).decode(encoding="utf-8")
+                                os.remove(f.name)
+                            context={'country1':country1, 'country2':country2, 'country1_info':country_dict1,
+                                     'country2_info':country_dict2, 'indicator':indicator, 'graph':encoded_img,
+                                     'ctpol1':ct_pollution1, 'ctpol2':ct_pollution2}
+                        except:
+                            traceback.print_exc()
+                            context={"error": "There was an error doing graph"}
                     except:
-                        traceback.print_exc()
-                        context={"error": "There was an error doing graph"}
+                        context={"error": "Error getting aqicn API info"}
                 except:
                     context={"error": "Invalid indicator"}
             except APIRequestException:
