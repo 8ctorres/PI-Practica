@@ -1,5 +1,9 @@
 {% extends "base.html" %} {% block content %}
 
+{% if data %}
+<h1>test</h1>
+{% else %}
+<form method="POST" action="{% url 'top_index'%}">{% csrf_token %}
 <div class="row g-3" style="margin: 10%;">
     <h1>Choose the indicator you want to see and how many countries to see</h1>
     <div class="col-md-4">
@@ -9,8 +13,9 @@
       <input type="text" class="form-control" placeholder="Top" aria-label="Top">
     </div>
     <div class="d-grid gap-2 d-md-block">
-        <button class="btn btn-primary" type="button">Show top countries</button>
+        <button class="btn btn-primary" type="submit">Show top countries</button>
     </div>
 </div>
-
+<form>
+{% endif %}
 {% endblock %}
