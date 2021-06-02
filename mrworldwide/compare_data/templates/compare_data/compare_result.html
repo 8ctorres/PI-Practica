@@ -20,22 +20,28 @@
     </div>
     <div class="row">
       <div class="col">
-        <h1>{{country1}}</h1>
-        <p>Capital: {{country1_info.capital}}</p>
-        <p>Population: {{country1_info.population}} people</p>
-        <p>Area: {{country1_info.area}} km²</p>
-        <p>CO in air: {{ctpol1.co}}</p>
-        <p>H in air: {{ctpol1.h}}</p>
-        <p>NO2 in air: {{ctpol1.no2}}</p>
+        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+          <div class="card-header">{{country1}}</div>
+          <div class="card-body">
+            <p class="card-text">Population: {{country1_info.population}} people</p>
+            <p class="card-text">Area: {{country1_info.area}} km²</p>
+            <p class="card-text">CO in air: {{ctpol1.co}}</p>
+            <p class="card-text">H in air: {{ctpol1.h}}</p>
+            <p class="card-text">NO2 in air: {{ctpol1.no2}}</p>
+          </div>
+        </div>
       </div>
       <div class="col">
-        <h1>{{country2}}</h1>
-        <p>Capital: {{country2_info.capital}}</p>
-        <p>Population: {{country2_info.population}} people</p>
-        <p>Area: {{country2_info.area}} km²</p>
-        <p>CO in air: {{ctpol2.co}}</p>
-        <p>H in air: {{ctpol2.h}}</p>
-        <p>NO2 in air: {{ctpol2.no2}}</p>
+        <div class="card text-dark bg-warning mb-3" style="max-width: 18rem;">
+          <div class="card-header">{{country2}}</div>
+          <div class="card-body">
+            <p class="card-text">Population: {{country2_info.population}} people</p>
+            <p class="card-text">Area: {{country2_info.area}} km²</p>
+            <p class="card-text">CO in air: {{ctpol2.co}}</p>
+            <p class="card-text">H in air: {{ctpol2.h}}</p>
+            <p class="card-text">NO2 in air: {{ctpol2.no2}}</p>
+          </div>
+        </div>
       </div>
     </div>
 </div>  
