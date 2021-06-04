@@ -18,7 +18,7 @@
         <h1>Data of {{country.countryName}}</h1>
         <ul class="list-unstyled">
           <li>Country's name: {{country.countryName}}</li>
-          <li>ISO-2 code: {{country.alpha2Code}}</li>
+          <li>ISO-3 code: {{country_code}}</li>
           <li>TLD: {{country.topLevelDomain}}</li>
           <li>Phone Prefix: {{country.callingCodes}}</li>
           <li>Capital: {{country.capital}}</li>
@@ -38,7 +38,7 @@
         </ul>
       </div>
       <div class="col-4">
-        <img src="{{country.flag}}" width="150%" height="90%" alt="{{country.countryName}}'s flag">
+        <img src="{{country.flag}}" class="img-fluid img-thumbnail" width="150%" height="90%" alt="{{country.countryName}}'s flag">
       </div>
     </div>
 </div>

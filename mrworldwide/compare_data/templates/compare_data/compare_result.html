@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block content %}
+
+{% if error %}
+
+<div class="container" style="margin-top: 10%;">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <h1>There was an error while doing comparation</h1>
+        <h4>{{error}}</h4>
+    </div>
+</div>
+
+{% else %}
+<div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>{{indicator}}</h1>
+        <img src="data:image/jpg;base64,{{graph}}" alt="{{indicator}} of {{country1}} & {{country2}}">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+          <div class="card-header">{{country1}}</div>
+          <div class="card-body">
+            <p class="card-text">Population: {{country1_info.population}} people</p>
+            <p class="card-text">Area: {{country1_info.area}} km²</p>
+            <p class="card-text">CO in air: {{ctpol1.co}}</p>
+            <p class="card-text">H in air: {{ctpol1.h}}</p>
+            <p class="card-text">NO2 in air: {{ctpol1.no2}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card text-dark bg-warning mb-3" style="max-width: 18rem;">
+          <div class="card-header">{{country2}}</div>
+          <div class="card-body">
+            <p class="card-text">Population: {{country2_info.population}} people</p>
+            <p class="card-text">Area: {{country2_info.area}} km²</p>
+            <p class="card-text">CO in air: {{ctpol2.co}}</p>
+            <p class="card-text">H in air: {{ctpol2.h}}</p>
+            <p class="card-text">NO2 in air: {{ctpol2.no2}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>  
+
+{% endif %}
+
+{% endblock %}
