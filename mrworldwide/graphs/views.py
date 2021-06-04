@@ -13,3 +13,12 @@ def graphs_2data1country(request):
 
 def graphs_histogram(request):
     return render(request, 'graphs/graph_histogram.html')
+
+def graphs_histogram_result(request):
+    return render(request, 'graphs/graph_histogram_result.html')
+
+def graphs_1dataXcountries_result(request):
+    return render(request, 'graphs/graph_1dataXcountries_result.html')
+
+def graphs_2data1country_result(request):
+    return render(request, 'graphs/graph_2data1country_result.html')
