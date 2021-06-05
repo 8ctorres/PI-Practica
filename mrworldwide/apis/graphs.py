@@ -18,7 +18,11 @@ def top_n_indicador(ind, n=10):
     for code in codes:
         try:
             serieind = wb.get_indicator(code, ind).value
-            valor = serieind[serieind.last_valid_index()]
+            try:
+                valor = serieind[serieind.last_valid_index()]
+            except KeyError:
+                # No hay un last valid index porque no hay datos
+                raise APIRequestException("No data for this country")
             #Construyo una nueva Series con los nombres de los países como índice
             serietodos = serietodos.append(pd.Series(data={code: valor}))
         except APIRequestException:
