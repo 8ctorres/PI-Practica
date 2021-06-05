@@ -6,8 +6,7 @@ import numpy as np
 
 ## Caso de uso de ordenar los top N países por un indicador
 ## Por defecto es el top 10, el máximo son 200
-
-def top_n_indicador(ind, n=10):
+def get_ind_global(ind):
     # Saco la información de todos los países del mundo
     allcountries = rc.get_all_countries()
     # Me quedo con una lista de los alpha3code, para consultar worldbank
@@ -31,10 +30,11 @@ def top_n_indicador(ind, n=10):
             #que formalmente no son países
             #Simplemente ignoramos y seguimos
             continue;
+    return serietodos
 
+def top_n_indicador(ind, n=10):
     # Me quedo con los N top países
-    serietop = serietodos.nlargest(n, keep="all")
-    return serietop
+    return get_ind_global(ind).nlargest(n, keep="all")
 
 def graph_topn(ind, n=10, filename=None):
     # Peticion a la API
@@ -102,3 +102,11 @@ def graph_Xdata1country(inds, pais, filename=None):
     return df
 
 #TODO: Histograma
+def graph_histograma(ind, filename=None):
+    indglobal = get_ind_global(ind)
+    indglobal.plot.hist()
+
+    if filename is not None:
+        plt.savefig(filename)
+
+    return indglobal
