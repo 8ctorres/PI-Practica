@@ -3,6 +3,7 @@ from apis.exceptions import APIRequestException
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import os
 
 ## Caso de uso de ordenar los top N países por un indicador
 ## Por defecto es el top 10, el máximo son 200
@@ -98,3 +99,16 @@ def graph_Xdata1country(inds, pais, filename=None):
     return df
 
 #TODO: Histograma
+
+# Funcion que recorre el directorio temporal donde están los JPGs antiguos de los gráfico
+# y los va eliminando
+# Se le pasa como parámetro la ruta al directorio a limpiar, y opcionalmente un lifetime
+# como de antiguo tiene que ser un fichero para eliminarlo) en minutos. Por defecto son 15
+
+def clear_old_graphs(path, lifetime=15):
+    dir = os.scandir(path)
+    for file in dir:
+        #Comprobamos que sea una foto por seguridad, por si alguien se equivoca al llamar la función no cargarnos medio proyecto
+        #Si la fecha de modificación es anterior a "lifetime" minutos desde ahora mismo, eliminarlo
+        if file.is_file() and file.name.endswith(".jpg") and ((datetime.now().timestamp() - file.stat().st_mtime) > lifetime*60):
+            os.remove(file)
