@@ -117,6 +117,7 @@ def get_indicator(country, indicator, session=None):
         raise APIRequestException("JSON Decode failed")
     except:
         raise APIRequestException("Unknown Error")
+
     series_inds = []
 
     for year in jsondata:
