@@ -1,7 +1,22 @@
 {% extends "base.html" %} {% block content %}
 
 {% if indicator and top %}
-<h1>test</h1>
+<div class="text-center grid">
+  <div class="row">
+    <h1>Top {{top}}</h1>
+  </div>
+  <div class="row">
+    <h2>{{indicator}}</h2>
+  </div>
+  <div class="row">
+    <img src="data:image/jpg;base64,{{graph}}" >
+  </div>
+  <div class="row justify-content-center">
+  <div class="col-md-4 col-lg-2">
+    <a class="btn btn-primary" href="{% url 'top_index'%}">Go back</a>
+  </div>
+  </div>
+</div>
 {% else %}
 <form method="POST" action="{% url 'top_index'%}">{% csrf_token %}
 <div class="row g-3" style="margin: 10%;">
@@ -22,9 +37,15 @@
     </div>
 </div>
 <form>
-  {% if error %}
-  <h1>There was an error</h1>
-  {{ error }}
-  {% endif %}
+{% if error %}
+<div class="row justify-content-center g-3">
+  <div class="col-md-5 col-lg-3">
+    <div class="alert alert-danger row g-3 text-center" role="alert">
+      <p style="margin:0">{{error}}</p>
+    </div>
+  </div>
+</div>
+  
+{% endif %}
 {% endif %}
 {% endblock %}
