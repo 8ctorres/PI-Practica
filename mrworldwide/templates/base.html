@@ -47,13 +47,13 @@
                     <li><a class="dropdown-item" href="{% url 'graph_index'%}">Graphics info</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="{% url '1dataXcountries_base'%}">Compare 1 indicator amongst several countries</a></li>
-                    <li><a class="dropdown-item" href="{% url '2data1country_base'%}">Compare 2 indicators of the same country</a></li>
+                    <li><a class="dropdown-item" href="{% url 'Xdata1country_base'%}">Compare several indicators of the same country</a></li>
                     <li><a class="dropdown-item" href="{% url 'histogram_base'%}">Histogram</a></li>
                   </ul>
                 </li>
               </ul>
               <form class="d-flex" method=GET action="{% url 'search'%}">
-                <input class="form-control me-2" id="search_bar" type="search" placeholder="Look up a country..." aria-label="Search" name="search_country" list="country_list">
+                <input class="form-control me-2" id="search_bar" type="search" placeholder="Look up a country..." aria-label="Search" name="search_country" list="country_list" required>
                 <datalist id="country_list">
                   {% for r in country_list %}
                     <option> {{ r }} </option>
@@ -61,7 +61,6 @@
                 </datalist>
                 <button class="btn btn-outline-secondary" type="submit" id="search_button">Search</button>
               </form>
-            </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'profile'%}">Profile</a>

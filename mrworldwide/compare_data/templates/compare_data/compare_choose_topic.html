@@ -11,7 +11,7 @@
         </ul>
         <form class="row g-3" method=GET action="{% url 'compare_index'%}">
             <div class="col-12">
-                <input class="form-control" id="compare_form" type="search" style="width: 25%;" placeholder="Type a topic..." aria-label="compare_form" name="choose_topic" list="topic_list">
+                <input class="form-control" id="compare_form" type="search" style="width: 25%;" placeholder="Type a topic..." aria-label="compare_form" name="choose_topic" list="topic_list" required>
                 <datalist id="topic_list">
                     <option>Health</option>
                     <option>Economy</option>
