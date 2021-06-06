@@ -82,9 +82,16 @@ def graph_comparacion(ind, pais1, pais2, filename=None, tipo="l"):
 
 def graph_1dataXcountries(ind, paises, filename=None):
     # Construimos el dataframe con todos los países
-    df = pd.concat([wb.get_indicator(pais, ind) for pais in paises], axis=1)
+    data = [wb.get_indicator(pais, ind) for pais in paises]
+    series = []
 
-    # Dibujamos el gráfico
+    for ind in data:
+        serie = ind.value
+        serie.name = ind.countryName.iloc[0]
+        series.append(serie)
+
+    df = pd.concat(series, axis=1)
+
     df.plot()
 
     # Guardamos
@@ -95,8 +102,19 @@ def graph_1dataXcountries(ind, paises, filename=None):
     return df
 
 def graph_Xdata1country(inds, pais, filename=None):
-    df = pd.concat([wb.get_indicator(pais, ind) for ind in inds], axis=1)
-    df.plot
+    data = [wb.get_indicator(pais, ind) for ind in inds]
+    series = []
+
+    for ind in data:
+        serie = ind.value
+        serie.name = ind.indicatorName.iloc[0]
+        series.append(serie)
+
+    df = pd.concat(series, axis=1)
+
+    #TODO: Mirar el tema de hacerlos en varias escalas para evitar que uno opaque a los otros
+    df.plot()
+
     if filename is not None:
         plt.savefig(filename)
     return df
