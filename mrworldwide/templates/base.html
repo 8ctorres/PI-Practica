@@ -53,7 +53,7 @@
                 </li>
               </ul>
               <form class="d-flex" method=GET action="{% url 'search'%}">
-                <input class="form-control me-2" id="search_bar" type="search" placeholder="Look up a country..." aria-label="Search" name="search_country" list="country_list">
+                <input class="form-control me-2" id="search_bar" type="search" placeholder="Look up a country..." aria-label="Search" name="search_country" list="country_list" required>
                 <datalist id="country_list">
                   {% for r in country_list %}
                     <option> {{ r }} </option>

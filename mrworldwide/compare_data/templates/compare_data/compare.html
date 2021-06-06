@@ -18,9 +18,9 @@
         <h1>Compare an indicator between 2 countries</h1>
         <form class="row g-3" method=GET action="{% url 'compare_result'%}">
           <div class="form-group w-50" style="margin: 1%;">
-            <h3>First Country</h3>
+            <label for="form1" class="form-label">First Country</label>
             <input type="search" id="form1" class="form-control" placeholder="Country 1"
-            aria-label="Search" list="country_list" name="compare_country1" width="10%"/>
+            aria-label="Search" list="country_list" name="compare_country1" width="10%" required/>
             <datalist id="country_list">
               {% for r in country_list %}
 		            <option> {{ r }} </option>
@@ -28,14 +28,14 @@
             </datalist>
           </div>
           <div class="form-group w-50" style="margin: 1%;">
-              <h3>Second Country</h3>
+            <label for="form1" class="form-label">Second Country</label>
             <input type="search" id="form1" class="form-control" placeholder="Country 2"
-            aria-label="Search" list="country_list" name="compare_country2"/>
+            aria-label="Search" list="country_list" name="compare_country2" required/>
           </div>
           <div class="form-group w-50" style="margin: 1%;">
-            <h3>Indicator to be compared</h3>
+            <label for="form1" class="form-label">Indicator to compare</label>
             <input type="search" id="form1" class="form-control" placeholder="Indicator to be compared"
-            aria-label="Search" list="indicator_list" name="compare_indicator"/>
+            aria-label="Search" list="indicator_list" name="compare_indicator" required />
             <datalist id="indicator_list">
               {% if topic == 'Health' %}
                 {% for r in health_list %}
