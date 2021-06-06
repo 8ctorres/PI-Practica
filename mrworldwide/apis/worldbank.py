@@ -110,6 +110,7 @@ def get_indicator(country, indicator, session=None):
 
     try:
         jsondata = resp.json()[1]
+
         if jsondata is None:
             raise APIRequestException("No data was returned")
         jsondata.reverse() # La API los entrega de más reciente a más antiguo
