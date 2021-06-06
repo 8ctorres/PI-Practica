@@ -8,6 +8,7 @@
 import pandas as pd
 import numpy as np
 import requests as rq
+from os import path
 from apis.exceptions import APIRequestException
 
 base_url = "http://api.worldbank.org/"
@@ -158,11 +159,15 @@ def get_indicator(country, indicator, session=None):
 # Lee los nombres de un fichero en local que contiene los indicadores que decidimos
 # usar de entre los 18600 que tiene la API
 
+def get_indicators_path():
+    current_path = path.dirname(path.abspath(__file__))
+    return path.join(current_path,"indicators.csv")
+
 def get_indicator_names():
-    return pd.read_csv("indicators.csv", delimiter=";", index_col="ID").to_dict()['Name']
+    return pd.read_csv(get_indicators_path(), delimiter=";", index_col="ID").to_dict()['Name']
 
 def get_indicator_codes():
-    return pd.read_csv("indicators.csv", delimiter=";", index_col="Name").to_dict()['ID']
+    return pd.read_csv(get_indicators_path(), delimiter=";", index_col="Name").to_dict()['ID']
 
 def get_indicator_name(code):
     return get_indicator_names()[code]
