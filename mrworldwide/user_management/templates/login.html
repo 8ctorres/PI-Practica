@@ -1,9 +1,5 @@
 {% extends "base.html" %} {%block content%}
 
-<style>
-
-</style>
-
 <div class="text-center">
     <form style="max-width:480px;margin:auto" action="{% url 'login'%}" method="POST">{% csrf_token %}
         <img class="mt-4 mb-4" src="/static/homepage/images/logo.png" height="72">
