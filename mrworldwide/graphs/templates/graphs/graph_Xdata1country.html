@@ -6,27 +6,37 @@
   <form class="row g-3" method=GET action="{% url 'Xdata1country_result'%}">
     <div class="col-md-4">
       <label for="Xd1c" class="form-label">Country</label>
-      <input type="text" class="form-control" id="Xd1c" placeholder="Choose country" required>
+      <input type="text" class="form-control" id="Xd1c" placeholder="Choose country" list="country_list" name="graph_country1" required>
+      <datalist id="country_list">
+        {% for r in country_list %}
+          <option> {{ r }} </option>
+        {% endfor %}
+      </datalist>
     </div>
     <div class="col-md-4">
       <label for="Xd1c" class="form-label">Indicator 1</label>
-      <input type="text" class="form-control" placeholder="Indicator 1" id="Xd1c" required>
+      <input type="text" class="form-control" placeholder="Indicator 1" id="Xd1c" list="indicator_list" name="graph_indicator1" required>
+      <datalist id="indicator_list">
+        {% for r in indicator_list %}
+          <option> {{ r }} </option>
+        {% endfor %}
+      </datalist>
     </div>
     <div class="col-md-4">
       <label for="Xd1c" class="form-label">Indicator 2</label>
-      <input type="text" class="form-control" placeholder="Indicator 2" id="Xd1c" required>
+      <input type="text" class="form-control" placeholder="Indicator 2" id="Xd1c" list="indicator_list" name="graph_indicator2" required>
     </div>
     <div class="col-md-4">
       <label for="Xd1c" class="form-label">Indicator 3</label>
-      <input type="text" class="form-control" placeholder="Indicator 3 (Optional)" id="Xd1c">
+      <input type="text" class="form-control" placeholder="Indicator 3 (Optional)" list="indicator_list" name="graph_indicator3" id="Xd1c">
     </div>
     <div class="col-md-4">
       <label for="Xd1c" class="form-label">Indicator 4</label>
-      <input type="text" class="form-control" placeholder="Indicator 4 (Optional)" id="Xd1c">
+      <input type="text" class="form-control" placeholder="Indicator 4 (Optional)" list="indicator_list" name="graph_indicator4" id="Xd1c">
     </div>
     <div class="col-md-4">
       <label for="Xd1c" class="form-label">Indicator 5</label>
-      <input type="text" class="form-control" placeholder="Indicator 5 (Optional)" id="Xd1c">
+      <input type="text" class="form-control" placeholder="Indicator 5 (Optional)"  list="indicator_list" name="graph_indicator5" id="Xd1c">
     </div>
     <div class="col-12">
       <button class="btn btn-primary" type="submit">Draw graph</button>

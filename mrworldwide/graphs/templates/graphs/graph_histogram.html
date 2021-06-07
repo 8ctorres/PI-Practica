@@ -7,17 +7,27 @@
       <div class="form-group w-25" style="margin: 1%;">
         <h3>First indicator</h3>
         <input type="search" id="form1" class="form-control" placeholder="Indicator 1"
-        aria-label="Search" width="10%"/>
+        aria-label="Search" list="indicator_list" name="graph_indicator1" width="10%"/>
+        <datalist id="indicator_list">
+          {% for r in indicator_list %}
+            <option> {{ r }} </option>
+          {% endfor %}
+        </datalist>
       </div>
       <div class="form-group w-25" style="margin: 1%;">
         <h3>Second indicator</h3>
         <input type="search" id="form1" class="form-control" placeholder="Indicator 2"
-        aria-label="Search" />
+        aria-label="Search" list="indicator_list" name="graph_indicator2">
       </div>
       <div class="form-group w-25" style="margin: 1%;">
         <h3>Country</h3>
         <input type="search" id="form1" class="form-control" placeholder="Country"
-        aria-label="Search" />
+        aria-label="Search" list="country_list" name="graph_country1">
+        <datalist id="country_list">
+          {% for r in country_list %}
+            <option> {{ r }} </option>
+          {% endfor %}
+        </datalist>
       </div>
       <button type="submit" class="btn btn-primary" style= "margin-top: 2%;">Draw graph</button>
     </form>

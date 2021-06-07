@@ -6,27 +6,37 @@
   <form class="row g-3" method=GET action="{% url '1dataXcountries_result'%}">
     <div class="col-md-4">
       <label for="1dXc" class="form-label">Indicator</label>
-      <input type="text" class="form-control" id="1dXc" placeholder="Choose indicator" required>
+      <input type="text" class="form-control" id="1dXc" placeholder="Choose indicator" list="indicator_list" name="graph_indicator1"  required>
+      <datalist id="indicator_list">
+        {% for r in indicator_list %}
+          <option> {{ r }} </option>
+        {% endfor %}
+      </datalist>
     </div>
     <div class="col-md-4">
       <label for="1dXc" class="form-label">Country 1</label>
-      <input type="text" class="form-control" placeholder="Country 1" id="1dXc" required>
+      <input type="text" class="form-control" placeholder="Country 1" id="1dXc" list="country_list" name="graph_country1" required>
+      <datalist id="country_list">
+        {% for r in country_list %}
+          <option> {{ r }} </option>
+        {% endfor %}
+      </datalist>
     </div>
     <div class="col-md-4">
       <label for="1dXc" class="form-label">Country 2</label>
-      <input type="text" class="form-control" placeholder="Country 2" id="1dXc" required>
+      <input type="text" class="form-control" placeholder="Country 2" id="1dXc" list="country_list" name="graph_country2" required>
     </div>
     <div class="col-md-4">
       <label for="1dXc" class="form-label">Country 3</label>
-      <input type="text" class="form-control" placeholder="Country 3 (Optional)" id="1dXc">
+      <input type="text" class="form-control" placeholder="Country 3 (Optional)" list="country_list" name="graph_country3" id="1dXc">
     </div>
     <div class="col-md-4">
       <label for="1dXc" class="form-label">Country 4</label>
-      <input type="text" class="form-control" placeholder="Country 4 (Optional)" id="1dXc">
+      <input type="text" class="form-control" placeholder="Country 4 (Optional)" list="country_list" name="graph_country4" id="1dXc">
     </div>
     <div class="col-md-4">
       <label for="1dXc" class="form-label">Country 5</label>
-      <input type="text" class="form-control" placeholder="Country 5 (Optional)" id="1dXc">
+      <input type="text" class="form-control" placeholder="Country 5 (Optional)" list="country_list" name="graph_country5" id="1dXc">
     </div>
     <div class="col-12">
       <button class="btn btn-primary" type="submit">Draw graph</button>
