@@ -3,48 +3,64 @@ from apis.exceptions import APIRequestException
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-import os
 import requests as rq
+import concurrent
+import os
 
-## Caso de uso de ordenar los top N países por un indicador
-## Por defecto es el top 10, el máximo son 200
+def get_ind_value(code, ind, session):
+    serieind = wb.get_indicator(code, ind, session).value
+    try:
+        valor = serieind[serieind.last_valid_index()]
+    except KeyError:
+        # No hay last valid index porque no hay datos
+        raise APIRequestException("No data for this country")
+    return {code: valor}
 
-def top_n_indicador(ind, n=10):
+def get_ind_global(ind):
     # Saco la información de todos los países del mundo
     allcountries = rc.get_all_countries()
     # Me quedo con una lista de los alpha3code, para consultar worldbank
     codes = allcountries.index.to_list()
-    # Para cada uno de los 250 países, obtengo el indicador en cuestión,
-    # busco el último valor no nulo y lo meto en una Series
-    serietodos = pd.Series(dtype="float64", name=ind)
-    # Creo una sesión HTTP y la reutilizo para todas las peticiones, para
-    # acelerar el proceso
+    # Creo una sesión HTTP y la reutilizo para todas las peticiones, evitando
+    # repetir el handshake TCP cada vez
     session = rq.Session()
-    for code in codes:
-        try:
-            serieind = wb.get_indicator(code, ind, session).value
-            try:
-                valor = serieind[serieind.last_valid_index()]
-            except KeyError:
-                # Un KeyError en esta llamada significa que no hay un last valid index
-                # porque todos los valores son nulos (no hay información para ese país)
-                # Simplemente lo ignoramos y seguimos adelante
-                raise APIRequestException("No data for this country")
-            #Construyo una nueva Series con los nombres de los países como índice
-            serietodos = serietodos.append(pd.Series(data={code: valor}))
-        except APIRequestException:
-            #Un error significa que el país no estaba en WorldBank
-            #Puede pasar ya que Restcountries también contempla regiones administrativas
-            #que formalmente no son países
-            #Simplemente ignoramos y seguimos
-            continue;
 
-    # Me quedo con los N top países
-    serietop = serietodos.nlargest(n, keep="all")
-    return serietop
-    
-    # Cerramos la sesion
+    # Para cada uno de los 250 países, creo un job que hace la petición, obtengo el
+    # future asociado y lo meto en una lista
+    # Uso 8 threads por cada core que tenga el sistema, ya que son threads que la
+    # mayor parte del tiempo se la pasan esperando por la red, no tienen apenas
+    # carga computacional
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=os.cpu_count()*8) as executor:
+        # Mando a ejecución todas las peticiones
+        valores = [executor.submit(get_ind_value, code, ind, session) for code in codes]
+        # Ahora que tengo los valores, creo la serie
+        serietodos = pd.Series(dtype="float64", name=ind)
+        # Valores es una lista de "Futures"
+        # Para cada uno obtengo su "result", que puede ser
+        # o un diccionario o que salte una excepción
+        # Si el resultado todavía no está, el método result bloquea hasta que esté
+        # Con esto construyo la serie
+        for v in valores:
+            try:
+                serietodos = serietodos.append(pd.Series(data=v.result()))
+            except APIRequestException:
+                #Un error significa que el país no estaba en WorldBank
+                #Puede pasar ya que Restcountries también contempla regiones administrativas
+                #que formalmente no son países, como los territorios de ultramar británicos
+                #Simplemente ignoramos y seguimos
+                continue;
+
+    # Cierro la sesión HTTP antes de salir
     session.close()
+
+    # Devuelvo la serie con los valores
+    return serietodos
+
+
+def top_n_indicador(ind, n=10):
+    # Me quedo con los N top países
+    return get_ind_global(ind).nlargest(n, keep="all")
 
 def graph_topn(ind, n=10, filename=None):
     # Peticion a la API
@@ -92,9 +108,16 @@ def graph_comparacion(ind, pais1, pais2, filename=None, tipo="l"):
 
 def graph_1dataXcountries(ind, paises, filename=None):
     # Construimos el dataframe con todos los países
-    df = pd.concat([wb.get_indicator(pais, ind) for pais in paises], axis=1)
+    data = [wb.get_indicator(pais, ind) for pais in paises]
+    series = []
 
-    # Dibujamos el gráfico
+    for ind in data:
+        serie = ind.value
+        serie.name = ind.countryName.iloc[0]
+        series.append(serie)
+
+    df = pd.concat(series, axis=1)
+
     df.plot()
 
     # Guardamos
@@ -105,23 +128,28 @@ def graph_1dataXcountries(ind, paises, filename=None):
     return df
 
 def graph_Xdata1country(inds, pais, filename=None):
-    df = pd.concat([wb.get_indicator(pais, ind) for ind in inds], axis=1)
-    df.plot
+    data = [wb.get_indicator(pais, ind) for ind in inds]
+    series = []
+
+    for ind in data:
+        serie = ind.value
+        serie.name = ind.indicatorName.iloc[0]
+        series.append(serie)
+
+    df = pd.concat(series, axis=1)
+
+    #TODO: Mirar el tema de hacerlos en varias escalas para evitar que uno opaque a los otros
+    df.plot()
+
     if filename is not None:
         plt.savefig(filename)
     return df
 
-#TODO: Histograma
+def graph_histograma(ind, filename=None):
+    indglobal = get_ind_global(ind)
+    indglobal.plot.hist()
 
-# Funcion que recorre el directorio temporal donde están los JPGs antiguos de los gráfico
-# y los va eliminando
-# Se le pasa como parámetro la ruta al directorio a limpiar, y opcionalmente un lifetime
-# como de antiguo tiene que ser un fichero para eliminarlo) en minutos. Por defecto son 15
+    if filename is not None:
+        plt.savefig(filename)
 
-def clear_old_graphs(path, lifetime=15):
-    dir = os.scandir(path)
-    for file in dir:
-        #Comprobamos que sea una foto por seguridad, por si alguien se equivoca al llamar la función no cargarnos medio proyecto
-        #Si la fecha de modificación es anterior a "lifetime" minutos desde ahora mismo, eliminarlo
-        if file.is_file() and file.name.endswith(".jpg") and ((datetime.now().timestamp() - file.stat().st_mtime) > lifetime*60):
-            os.remove(file)
+    return indglobal
