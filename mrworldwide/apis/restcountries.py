@@ -60,7 +60,8 @@ def jsonToSeries(pais):
     #Las fronteras
     serie_pais.borders = stringListToString(serie_pais.borders)
 
-    return serie_pais
+    #Por último, cambio los valores vacíos, nulos o "NaN" por el string "N/A"
+    return serie_pais.replace(["", " ", None, np.nan], "N/A")
 
 def get_countries_by_name(name):
     resp = rq.get(base_url+"name/"+name)
