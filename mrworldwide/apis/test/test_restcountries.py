@@ -1,8 +1,6 @@
 import unittest
 from django.test import TestCase
-import pandas as pd
-import numpy as np
-import restcountries
+from apis import restcountries as rc
 
 class RestCountriesTest(TestCase):
 
@@ -10,7 +8,7 @@ class RestCountriesTest(TestCase):
     # de un país cualquiera (para el caso, Italia y Canada), y comprobar
     # que los resultados son los esperados
     def test_get_info(self):
-        allcountries = get_all_countries()
+        allcountries = rc.get_all_countries()
         italy = allcountries.loc['ITA']
         self.assertEquals(italy.countryName, "Italy")
         self.assertEquals(italy.region, "Europe")
@@ -25,5 +23,22 @@ class RestCountriesTest(TestCase):
     # Test consistente en intentar extraer información de un país que no existe
     @unittest.expectedFailure
     def test_get_mordor(self):
-        allcountries = get_all_countries()
+        allcountries = rc.get_all_countries()
         mordor = allcountries.loc['Mordor']
+
+
+    # Test consistente en hacer una petición a la API para sacar un país concreto por su nombre
+    def test_get_pornombre(self):
+        alemania = rc.get_countries_by_name("Germany").iloc[0]
+        self.assertEquals(alemania.demonym, "German")
+        self.assertEquals(alemania.capital, "Berlin")
+        self.assertEquals(alemania.currencies, "Euro")
+        self.assertEquals(alemania.callingCodes, "49")
+
+    # Igual que el anterior pero pidiendolo por código
+    def test_get_porcodigo(self):
+        portugal = rc.get_country_by_code("PRT").iloc[0]
+        self.assertEquals(portugal.demonym, "Portuguese")
+        self.assertEquals(portugal.capital, "Lisbon")
+        self.assertEquals(portugal.currencies, "Euro")
+        self.assertEquals(portugal.callingCodes, "351")
