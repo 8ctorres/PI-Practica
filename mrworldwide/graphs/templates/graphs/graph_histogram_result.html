@@ -1,8 +1,28 @@
 {% extends "base.html" %} {% block content %}
 
+{% if error %}
+
+<div class="position-absolute top-0 start-0" style="margin: 5%;">
+  <a class="btn btn-primary" href="{% url 'histogram_base'%}" role="button">Try other graph</a>
+</div>
+<div class="container" style="margin-top: 10%;">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <h1>There was an error while doing graph</h1>
+        <h4>{{error}}</h4>
+    </div>
+</div>
+
+{% else %}
+
+<div class="position-absolute top-0 start-0" style="margin: 5%;">
+  <a class="btn btn-primary" href="{% url 'histogram_base'%}" role="button">Try other graph</a>
+</div>
 <div class="container" style="margin-top: 10%;">
   <h1>Histogram of {{indicator}} amongst all countries</h1>
   <img src="data:image/jpg;base64,{{graph}}" alt="Histogram of {{indicator}}">
 </div>
+
+{% endif %}
 
 {% endblock %}

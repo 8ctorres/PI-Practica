@@ -33,11 +33,12 @@ def graphs_histogram_result(request):
         try:
             # Prueba a sacar el formulario del indicador
             indicator = request.GET['graph_indicator1']
+            icode = get_indicator_code(indicator)
             try:
                 # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                 # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
                 nombre_fichero = "./graphs/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
-                graph_histograma(get_indicator_code(indicator), filename=nombre_fichero)
+                graph_histograma(icode, filename=nombre_fichero)
                 with open(nombre_fichero, "rb") as f:
                     content = f.read()
                     encoded_img = base64.b64encode(content).decode(encoding="utf-8")
@@ -55,6 +56,7 @@ def graphs_1dataXcountries_result(request):
         try:
             # Prueba a sacar el formulario del indicador
             indicator = request.GET['graph_indicator1']
+            icode = get_indicator_code(indicator)
             try:
                 # Prueba a sacar los formularios de los países obligatorios y luego comprueba los opcionales
                 country1 = request.GET['graph_country1']
@@ -73,7 +75,7 @@ def graphs_1dataXcountries_result(request):
                     # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                     # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
                     nombre_fichero = "./graphs/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
-                    graph_1dataXcountries(get_indicator_code(indicator), countries, filename=nombre_fichero)
+                    graph_1dataXcountries(icode, countries, filename=nombre_fichero)
                     with open(nombre_fichero, "rb") as f:
                         content = f.read()
                         encoded_img = base64.b64encode(content).decode(encoding="utf-8")
@@ -83,7 +85,7 @@ def graphs_1dataXcountries_result(request):
                     traceback.print_exc()
                     context={"error": "There was an error doing graph"}
             except:
-                context={"respuesta": "Invalid country"}
+                context={"error": "Invalid country"}
         except:
             context={"error": "Invalid indicator"}
     return render(request, 'graphs/graph_1dataXcountries_result.html', context)
@@ -93,6 +95,7 @@ def graphs_Xdata1country_result(request):
         try:
             # Prueba a sacar el formulario del país
             country = request.GET['graph_country1']
+            ccode = get_iso3code(country)
             try:
                 # Prueba a sacar los formularios de los indicadores obligatorios y luego comprueba los opcionales
                 indicator1 = request.GET['graph_indicator1']
@@ -111,7 +114,7 @@ def graphs_Xdata1country_result(request):
                     # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                     # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
                     nombre_fichero = "./graphs/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
-                    graph_Xdata1country(indicators, get_iso3code(country), filename=nombre_fichero)
+                    graph_Xdata1country(indicators, ccode, filename=nombre_fichero)
                     with open(nombre_fichero, "rb") as f:
                         content = f.read()
                         encoded_img = base64.b64encode(content).decode(encoding="utf-8")
@@ -121,7 +124,7 @@ def graphs_Xdata1country_result(request):
                     traceback.print_exc()
                     context={"error": "There was an error doing graph"}
             except:
-                context={"respuesta": "Invalid indicator"}
+                context={"error": "Invalid indicator"}
         except:
             context={"error": "Invalid country"}
     return render(request, 'graphs/graph_Xdata1country_result.html', context)

@@ -1,21 +1,21 @@
 {% extends "base.html" %} {% block content %}
 
-<div class="container-fluid" style="margin: 2%;">
-  <div class="row align-items-start">
-    <div class="col">
+<div class="container" style="margin: 2%;">
+  <div class="row g-3">
+    <div class="col-12" style="margin: 2%;">
       <h5>Compare an indicator amongst several countries</h5>
       {% load static %}
       <img src="{% static 'graphs/images/ejemplo_1dXc.png' %}" alt="One indicator graph image">
       <h6>This graph lets you compare an indicator amongst 2 to 5 countries</h6>
       <a class="btn btn-primary" href="{% url '1dataXcountries_base'%}" role="button">Draw graph</a>
     </div>
-    <div class="col">
+    <div class="col-12" style="margin: 2%;">
       <h5>Compare several indicators of the same country</h5>
       <img src="{% static 'graphs/images/ejemplo_Xd1c.png' %}" alt="X indicator graph image">
       <h6>This graph lets you compare two or more indicators in the same country and see the correlation.</h6>
       <a class="btn btn-primary" href="{% url 'Xdata1country_base'%}" role="button">Draw graph</a>
     </div>
-    <div class="col">
+    <div class="col-12" style="margin: 2%;">
       <h5>Histogram</h5>
       <img src="{% static 'graphs/images/ejemplo_hist.png' %}" alt="Histogram picture">
       <h6>This graph lets you compare several indicators of the same country and see them in a histogram</h6>
