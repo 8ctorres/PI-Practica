@@ -13,6 +13,8 @@ from apis.exceptions import APIRequestException
 base_url = "https://api.waqi.info/"
 token = "b7818feb850f1306340bd0465824027131b20af8"
 
+datos_posibles = ["co", "dew", "h", "no2", "o3", "p", "pm10", "pm25", "r", "so2", "t", "w", "wg"]
+
 # Obtener los datos de una ciudad
 # Esta función acepta una ciudad (string)
 # y devuelve un DataFrame que contiene los datos de polución
@@ -29,7 +31,9 @@ def get_datos_ciudad(ciudad):
     except ValueError:
         raise Exception("JSON Decode Error")
 
-    serie_ciudad = pd.Series(datos_ciudad).apply(lambda x: x['v'])
+    #Extraemos los valores que nos devuelve la API, y los que no, los rellenamos con "N/A"
+
+    serie_ciudad = pd.Series(datos_ciudad).apply(lambda x: x['v']).reindex(datos_posibles).fillna("N/A")
     serie_ciudad.name = ciudad
 
     df = pd.concat([serie_ciudad],axis=1).transpose()
@@ -51,10 +55,11 @@ def get_datos_coords(lat=None, lon=None):
     datos_loc = jsondata['data']['iaqi']
     nombre_loc = jsondata['data']['city']['name']
 
-    serie = pd.Series(datos_loc).apply(lambda x: x['v'])
+    serie = pd.Series(datos_loc).apply(lambda x: x['v']).reindex(datos_posibles).fillna("N/A")
     serie.name = nombre_loc
 
     df = pd.concat([serie],axis=1).transpose()
+
     df.index.name = "Ciudad"
     df.columns.name = "Indicadores"
     return df

@@ -42,11 +42,14 @@ def graph_topn(ind, n=10, filename=None):
     serietop = top_n_indicador(ind, n)
 
     # Construyo el gráfico
-    graf = serietop.plot.bar()
+    graf = serietop.plot.bar(figsize=(10,8))
 
     # Si es el caso, lo guardo
     if filename is not None:
         plt.savefig(filename)
+
+   # Cierro la gráfica para evitar que se superponga la siguiente
+    plt.close()
 
     # Devuelvo la serie para poder reutilizarla si fuera necesario
     return serietop
@@ -69,14 +72,17 @@ def graph_comparacion(ind, pais1, pais2, filename=None, tipo="l"):
     df = pd.concat([ind1, ind2], axis=1)
 
     if tipo=="d":
-        df.plot.scatter(x=ind1.name, y=ind1.name)
+        df.plot.scatter(x=ind1.name, y=ind1.name, figsize=(10,8))
     elif tipo=="l":
-        df.plot()
+        df.plot(figsize=(10,8))
     else:
         raise TypeError("Unknown type: "+tipo)
 
     if filename is not None:
         plt.savefig(filename)
+
+    # Cierro la gráfica para evitar que se superponga la siguiente
+    plt.close()
 
     return df
 
@@ -87,17 +93,20 @@ def graph_1dataXcountries(ind, paises, filename=None):
     series = []
 
     for ind in data:
-        serie = ind.value
+        serie = ind.value.dropna()
         serie.name = ind.countryName.iloc[0]
         series.append(serie)
 
     df = pd.concat(series, axis=1)
 
-    df.plot()
+    df.plot(figsize=(10,8))
 
     # Guardamos
     if filename is not None:
         plt.savefig(filename)
+
+    # Cierro la gráfica para evitar que se superponga la siguiente
+    plt.close()
 
     # Devolvemos el dataframe
     return df
@@ -107,24 +116,31 @@ def graph_Xdata1country(inds, pais, filename=None):
     series = []
 
     for ind in data:
-        serie = ind.value
+        serie = ind.value.dropna()
         serie.name = ind.indicatorName.iloc[0]
         series.append(serie)
 
     df = pd.concat(series, axis=1)
 
     #TODO: Mirar el tema de hacerlos en varias escalas para evitar que uno opaque a los otros
-    df.plot()
+    df.plot(figsize=(10,8))
 
     if filename is not None:
         plt.savefig(filename)
+
+    # Cierro la gráfica para evitar que se superponga la siguiente
+    plt.close()
+
     return df
 
 def graph_histograma(ind, filename=None):
     indglobal = get_ind_global(ind)
-    indglobal.plot.hist()
+    indglobal.plot.hist(figsize=(10,8), bins=16)
 
     if filename is not None:
         plt.savefig(filename)
+
+    # Cierro la gráfica para evitar que se superponga la siguiente
+    plt.close()
 
     return indglobal

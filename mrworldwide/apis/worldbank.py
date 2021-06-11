@@ -173,3 +173,14 @@ def get_indicator_name(code):
 
 def get_indicator_code(name):
     return get_indicator_codes()[name]
+
+def get_indicator_definition(code):
+    try:
+        resp = rq.get(indicators_url+"/"+code+"?format=json")
+        try:
+            return resp.json()[1][0]['sourceNote']
+        except:
+            raise APIRequestException("No definition found for that indicator")
+    except:
+        raise APIRequestException("HTTP Connection Error to the worldbank API")
+
