@@ -8,11 +8,14 @@
 import pandas as pd
 import numpy as np
 import requests as rq
+from os import path
 from apis.exceptions import APIRequestException
 
-indicators_url = "http://api.worldbank.org/v2/indicator"
-countries_url = "http://api.worldbank.org/v2/country"
-topics_url = "http://api.worldbank.org/v2/topic"
+base_url = "http://api.worldbank.org/"
+
+indicators_url = base_url+"v2/indicator"
+countries_url = base_url+"v2/country"
+topics_url = base_url+"v2/topic"
 
 # Devueve un dataframe con información sobre los distintos temas que trata
 # el índice es el "id" del tema, y los atributos son el nombre y una descripción
@@ -94,8 +97,14 @@ def get_indicators_from_topic(topic):
 # Las filas dependen del indicador en cuestión, pero hay siempre una fila "value" que tiene
 # el valor en crudo
 
-def get_indicator(country, indicator):
-    resp = rq.get(countries_url+"/"+country+"/indicator/"+indicator+"?format=json&per_page=500")
+# Opcionalmente podemos pasarle un objeto de sesión para que las consultas usen un socket
+# ya establecido, en lugar de crear uno nuevo cada vez.
+
+def get_indicator(country, indicator, session=None):
+    if session is None:
+        resp = rq.get(countries_url+"/"+country+"/indicator/"+indicator+"?format=json&per_page=500")
+    else:
+        resp = session.get(countries_url+"/"+country+"/indicator/"+indicator+"?format=json&per_page=500")
 
     if resp.status_code > 400:
         raise APIRequestException("HTTP Error")
@@ -149,11 +158,15 @@ def get_indicator(country, indicator):
 # Lee los nombres de un fichero en local que contiene los indicadores que decidimos
 # usar de entre los 18600 que tiene la API
 
+def get_indicators_path():
+    current_path = path.dirname(path.abspath(__file__))
+    return path.join(current_path,"indicators.csv")
+
 def get_indicator_names():
-    return pd.read_csv("indicators.csv", delimiter=";", index_col="ID").to_dict()['Name']
+    return pd.read_csv(get_indicators_path(), delimiter=";", index_col="ID").to_dict()['Name']
 
 def get_indicator_codes():
-    return pd.read_csv("indicators.csv", delimiter=";", index_col="Name").to_dict()['ID']
+    return pd.read_csv(get_indicators_path(), delimiter=";", index_col="Name").to_dict()['ID']
 
 def get_indicator_name(code):
     return get_indicator_names()[code]

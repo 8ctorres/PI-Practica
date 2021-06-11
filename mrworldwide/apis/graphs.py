@@ -3,6 +3,7 @@ from apis.exceptions import APIRequestException
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import os
 
 ## Caso de uso de ordenar los top N países por un indicador
 ## Por defecto es el top 10, el máximo son 200
@@ -119,7 +120,6 @@ def graph_Xdata1country(inds, pais, filename=None):
         plt.savefig(filename)
     return df
 
-#TODO: Histograma
 def graph_histograma(ind, filename=None):
     indglobal = get_ind_global(ind)
     indglobal.plot.hist()
