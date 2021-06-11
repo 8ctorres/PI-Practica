@@ -70,4 +70,39 @@ def graphs_1dataXcountries_result(request):
     return render(request, 'graphs/graph_1dataXcountries_result.html', context)
 
 def graphs_Xdata1country_result(request):
-    return render(request, 'graphs/graph_Xdata1country_result.html')
+    if request.method == 'GET':
+        try:
+            # Prueba a sacar el formulario del indicador
+            country = request.GET['graph_country1']
+            try:
+                # Prueba a sacar los formularios de los países obligatorios
+                indicator1 = request.GET['graph_indicator1']
+                indicator2 = request.GET['graph_indicator2']
+                indicators = [get_indicator_code(indicator1), get_indicator_code(indicator2)]
+                if (request.GET['graph_indicator3']):
+                    indicator3 = request.GET['graph_indicator3']
+                    indicators.append(get_indicator_code(indicator3))
+                if (request.GET['graph_indicator4']):
+                    indicator4 = request.GET['graph_indicator4']
+                    indicators.append(get_indicator_code(indicator4))
+                if (request.GET['graph_indicator5']):
+                    indicator5 = request.GET['graph_indicator5']
+                    indicators.append(get_indicator_code(indicator5))
+                try:
+                    # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
+                    # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
+                    nombre_fichero = "./graphs/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
+                    graph_Xdata1country(indicators, get_iso3code(country), filename=nombre_fichero)
+                    with open(nombre_fichero, "rb") as f:
+                        content = f.read()
+                        encoded_img = base64.b64encode(content).decode(encoding="utf-8")
+                        os.remove(f.name)
+                    context={'country':country, 'graph':encoded_img}
+                except:
+                    traceback.print_exc()
+                    context={"error": "There was an error doing graph"}
+            except:
+                context={"respuesta": "Invalid indicator"}
+        except:
+            context={"error": "Invalid country"}
+    return render(request, 'graphs/graph_Xdata1country_result.html', context)
