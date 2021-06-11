@@ -48,6 +48,9 @@ def graph_topn(ind, n=10, filename=None):
     if filename is not None:
         plt.savefig(filename)
 
+   # Cierro la gráfica para evitar que se superponga la siguiente
+    plt.close()
+
     # Devuelvo la serie para poder reutilizarla si fuera necesario
     return serietop
 
@@ -78,6 +81,9 @@ def graph_comparacion(ind, pais1, pais2, filename=None, tipo="l"):
     if filename is not None:
         plt.savefig(filename)
 
+    # Cierro la gráfica para evitar que se superponga la siguiente
+    plt.close()
+
     return df
 
 
@@ -99,6 +105,9 @@ def graph_1dataXcountries(ind, paises, filename=None):
     if filename is not None:
         plt.savefig(filename)
 
+    # Cierro la gráfica para evitar que se superponga la siguiente
+    plt.close()
+
     # Devolvemos el dataframe
     return df
 
@@ -118,6 +127,10 @@ def graph_Xdata1country(inds, pais, filename=None):
 
     if filename is not None:
         plt.savefig(filename)
+
+    # Cierro la gráfica para evitar que se superponga la siguiente
+    plt.close()
+
     return df
 
 def graph_histograma(ind, filename=None):
@@ -126,5 +139,8 @@ def graph_histograma(ind, filename=None):
 
     if filename is not None:
         plt.savefig(filename)
+
+    # Cierro la gráfica para evitar que se superponga la siguiente
+    plt.close()
 
     return indglobal
