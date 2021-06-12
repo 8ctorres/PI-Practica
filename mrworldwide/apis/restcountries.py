@@ -58,7 +58,7 @@ def jsonToSeries(pais):
     serie_pais.timezones = stringListToString(serie_pais.timezones)
 
     #Las fronteras
-    serie_pais.borders = stringListToString(serie_pais.borders)
+    # serie_pais.borders = stringListToString(serie_pais.borders)
 
     #Por último, cambio los valores vacíos, nulos o "NaN" por el string "N/A"
     return serie_pais.replace(["", " ", None, np.nan], "N/A")

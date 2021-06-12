@@ -62,8 +62,10 @@ def graphs_1dataXcountries_result(request):
             try:
                 # Prueba a sacar los formularios de los países obligatorios y luego comprueba los opcionales
                 country1 = request.GET['graph_country1']
-                country2 = request.GET['graph_country2']
-                countries = [get_iso3code(country1), get_iso3code(country2)]
+                countries = [get_iso3code(country1)]
+                if (request.GET['graph_country2']):
+                    country2 = request.GET['graph_country2']
+                    countries.append(get_iso3code(country2))
                 if (request.GET['graph_country3']):
                     country3 = request.GET['graph_country3']
                     countries.append(get_iso3code(country3))
@@ -73,6 +75,7 @@ def graphs_1dataXcountries_result(request):
                 if (request.GET['graph_country5']):
                     country5 = request.GET['graph_country5']
                     countries.append(get_iso3code(country5))
+                countries = list(dict.fromkeys(countries))
                 try:
                     # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                     # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
@@ -101,8 +104,10 @@ def graphs_Xdata1country_result(request):
             try:
                 # Prueba a sacar los formularios de los indicadores obligatorios y luego comprueba los opcionales
                 indicator1 = request.GET['graph_indicator1']
-                indicator2 = request.GET['graph_indicator2']
-                indicators = [get_indicator_code(indicator1), get_indicator_code(indicator2)]
+                indicators = [get_indicator_code(indicator1)]
+                if (request.GET['graph_indicator2']):
+                    indicator2 = request.GET['graph_indicator2']
+                    indicators.append(get_indicator_code(indicator2))
                 if (request.GET['graph_indicator3']):
                     indicator3 = request.GET['graph_indicator3']
                     indicators.append(get_indicator_code(indicator3))
@@ -112,6 +117,7 @@ def graphs_Xdata1country_result(request):
                 if (request.GET['graph_indicator5']):
                     indicator5 = request.GET['graph_indicator5']
                     indicators.append(get_indicator_code(indicator5))
+                indicators = list(dict.fromkeys(indicators))
                 inddef_list = map(get_indicator_definition, indicators)
                 try:
                     # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
