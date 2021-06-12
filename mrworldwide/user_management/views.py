@@ -62,7 +62,7 @@ def signup_view(request):
 
 
 def profile_view(request):
-	if request.method == 'GET' and (not request.user.is_authenticated):
-		return redirect('login')
-	if request.method == 'GET':
+	if request.method == 'GET' and request.user.is_authenticated:
 		return render(request,'profile.html')
+	if request.method == 'GET':
+		return redirect('login')
