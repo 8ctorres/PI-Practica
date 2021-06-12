@@ -34,6 +34,7 @@ def graphs_histogram_result(request):
             # Prueba a sacar el formulario del indicador
             indicator = request.GET['graph_indicator1']
             icode = get_indicator_code(indicator)
+            inddef = get_indicator_definition(icode)
             try:
                 # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                 # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
@@ -43,7 +44,7 @@ def graphs_histogram_result(request):
                     content = f.read()
                     encoded_img = base64.b64encode(content).decode(encoding="utf-8")
                     os.remove(f.name)
-                context={'indicator':indicator, 'graph':encoded_img}
+                context={'indicator':indicator, 'graph':encoded_img, 'def':inddef}
             except:
                 traceback.print_exc()
                 context={"error": "There was an error doing graph"}
@@ -111,6 +112,7 @@ def graphs_Xdata1country_result(request):
                 if (request.GET['graph_indicator5']):
                     indicator5 = request.GET['graph_indicator5']
                     indicators.append(get_indicator_code(indicator5))
+                inddef_list = map(get_indicator_definition, indicators)
                 try:
                     # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                     # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
@@ -120,7 +122,7 @@ def graphs_Xdata1country_result(request):
                         content = f.read()
                         encoded_img = base64.b64encode(content).decode(encoding="utf-8")
                         os.remove(f.name)
-                    context={'country':country, 'graph':encoded_img}
+                    context={'country':country, 'graph':encoded_img, 'def':inddef_list}
                 except:
                     traceback.print_exc()
                     context={"error": "There was an error doing graph"}
