@@ -22,7 +22,7 @@
 <div class="row g-3" style="margin: 10%;">
     <h1>Choose the indicator you want to see and how many countries to see</h1>
     <div class="col-md-4">
-      <input type="text" class="form-control" name="indicator" placeholder="Indicator" aria-label="Indicator" list="indicators">
+      <input type="text" class="form-control" id=indicator name="indicator" placeholder="Indicator" aria-label="Indicator" list="indicators">
       <datalist id="indicators">
         {% for ind in indicators %}
           <option> {{ind}} </option>
@@ -30,7 +30,7 @@
       </datalist>
     </div>
     <div class="col-md-2">
-      <input type="number" class="form-control" name="top" placeholder="Top" aria-label="Top">
+      <input type="number" class="form-control" id=number name="top" placeholder="Top" aria-label="Top">
     </div>
     <div class="col-6" id=initial style="display: block;">
         <button class="btn btn-primary" type="submit">Show top countries</button>
@@ -44,11 +44,13 @@
     <!-- Script para que cuando se pulse el botón se desactive y cambie al estado de cargando -->
     <script type="text/javascript">
       document.getElementById("initial").onclick = function() {
-      
+        if (document.getElementById("indicator").value != "" && document.getElementById("number").value != "")
+        {
           document.getElementById("initial").style.display = "none";
           document.getElementById("loading").style.display = "block";
-      
+        }
       }
+      window.onunload = null;
     </script>
 </div>
 <form>
