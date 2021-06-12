@@ -9,11 +9,11 @@ from .schemas import login_schema, signup_schema
 
 # Create your views here.
 def login_view(request):
-	if request.user.is_authenticated:
+	if request.method == 'GET' and request.user.is_authenticated:
 		return redirect('profile')
 	if request.method == 'GET':
 		return render(request,'login.html')
-	elif request.method == 'POST':
+	if request.method == 'POST':
 		try:
 			validate(instance=request.POST, schema=login_schema)
 			queryDict = request.POST.dict()
@@ -62,4 +62,7 @@ def signup_view(request):
 
 
 def profile_view(request):
-	return render(request,'profile.html')
+	if request.method == 'GET' and (not request.user.is_authenticated):
+		return redirect('login')
+	if request.method == 'GET':
+		return render(request,'profile.html')
