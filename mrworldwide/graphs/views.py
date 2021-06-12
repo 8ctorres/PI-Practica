@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from datetime import datetime
-from apis.worldbank import get_indicator_code, get_indicator_names
+from apis.worldbank import get_indicator_code, get_indicator_names, get_indicator_definition
 from apis.graphs import graph_1dataXcountries, graph_Xdata1country, graph_histograma
 from apis.restcountries import get_all_names, get_iso3code
 import base64
@@ -57,6 +57,7 @@ def graphs_1dataXcountries_result(request):
             # Prueba a sacar el formulario del indicador
             indicator = request.GET['graph_indicator1']
             icode = get_indicator_code(indicator)
+            inddef = get_indicator_definition(icode)
             try:
                 # Prueba a sacar los formularios de los países obligatorios y luego comprueba los opcionales
                 country1 = request.GET['graph_country1']
@@ -80,7 +81,7 @@ def graphs_1dataXcountries_result(request):
                         content = f.read()
                         encoded_img = base64.b64encode(content).decode(encoding="utf-8")
                         os.remove(f.name)
-                    context={'indicator':indicator, 'graph':encoded_img}
+                    context={'indicator':indicator, 'graph':encoded_img, 'def':inddef}
                 except:
                     traceback.print_exc()
                     context={"error": "There was an error doing graph"}
