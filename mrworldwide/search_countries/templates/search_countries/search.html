@@ -30,7 +30,13 @@
           <li>Area: {{country.area}} km²</li>
           <li>Gini index: {{country.gini}}</li>
           <li>Timezone: {{country.timezones}}</li>
-          <li>Borderlines: {{country.borders}}</li>
+          <li>Borderlines:
+            <ol class="breadcrumb">
+              {% for r in country.borders %}
+                <li class="breadcrumb-item"><a href="?search_country={{r}}">{{r}}</a></li>
+              {% endfor %}
+            </ol>
+          </li>
           <li>Native Language: {{country.nativeName}}</li>
           <li>Official Coin: {{country.currencies}}</li>
           <li>Official Language: {{country.languages}}</li></li>
