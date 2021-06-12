@@ -20,8 +20,8 @@
   <div class="col-6">
     <div class="container">
         <h1>Compare an indicator between 2 countries</h1>
-        <form class="row g-3" method=GET action="{% url 'compare_result'%}">
-          <div class="form-group w-50" style="margin: 1%;">
+        <form class="row g-3" style="margin-top: 10%;" method=GET action="{% url 'compare_result'%}">
+          <div class="row" style="margin: 1%;">
             <label for="form1" class="form-label">First Country</label>
             <input type="search" id="form1" class="form-control" placeholder="Country 1"
             aria-label="Search" list="country_list" name="compare_country1" width="10%" required/>
@@ -31,12 +31,12 @@
 		          {% endfor %}
             </datalist>
           </div>
-          <div class="form-group w-50" style="margin: 1%;">
+          <div class="row" style="margin: 1%;">
             <label for="form1" class="form-label">Second Country</label>
             <input type="search" id="form1" class="form-control" placeholder="Country 2"
             aria-label="Search" list="country_list" name="compare_country2" required/>
           </div>
-          <div class="form-group w-50" style="margin: 1%;">
+          <div class="row" style="margin: 1%;">
             <label for="form1" class="form-label">Indicator to compare</label>
             <input type="search" id="form1" class="form-control" placeholder="Indicator to be compared"
             aria-label="Search" list="indicator_list" name="compare_indicator" required />
@@ -60,7 +60,9 @@
               {% endif %}
             </datalist>
           </div>
-          <button type="submit" class="btn btn-primary" style= "margin-top: 2%;">Compare</button>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary" style= "margin-top: 2%;">Compare</button>
+          </div>
       </form>
     </div>
   </div>
