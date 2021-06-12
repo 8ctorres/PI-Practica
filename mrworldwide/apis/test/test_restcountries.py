@@ -2,7 +2,7 @@ import unittest
 from django.test import TestCase
 import pandas as pd
 import numpy as np
-import restcountries
+from restcountries import get_all_countries
 
 class RestCountriesTest(TestCase):
 
