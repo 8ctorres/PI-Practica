@@ -7,8 +7,8 @@
   <h1>Graph with several indicators of the same country</h1>
   <form class="row g-3" method=GET action="{% url 'Xdata1country_result'%}">
     <div class="col-md-4">
-      <label for="Xd1c" class="form-label">Country</label>
-      <input type="text" class="form-control" id="Xd1c" placeholder="Choose country" list="country_list" name="graph_country1" required>
+      <label for="cXd1c" class="form-label">Country</label>
+      <input type="text" class="form-control" id="cXd1c" placeholder="Choose country" list="country_list" name="graph_country1" required>
       <datalist id="country_list">
         {% for r in country_list %}
           <option> {{ r }} </option>
@@ -16,8 +16,8 @@
       </datalist>
     </div>
     <div class="col-md-4">
-      <label for="Xd1c" class="form-label">Indicator 1</label>
-      <input type="text" class="form-control" placeholder="Indicator 1" id="Xd1c" list="indicator_list" name="graph_indicator1" required>
+      <label for="ind1_Xd1c" class="form-label">Indicator 1</label>
+      <input type="text" class="form-control" placeholder="Indicator 1" id="ind1_Xd1c" list="indicator_list" name="graph_indicator1" required>
       <datalist id="indicator_list">
         {% for r in indicator_list %}
           <option> {{ r }} </option>
@@ -25,24 +25,40 @@
       </datalist>
     </div>
     <div class="col-md-4">
-      <label for="Xd1c" class="form-label">Indicator 2</label>
-      <input type="text" class="form-control" placeholder="Indicator 2 (Optional)" id="Xd1c" list="indicator_list" name="graph_indicator2">
+      <label for="ind2_Xd1c" class="form-label">Indicator 2</label>
+      <input type="text" class="form-control" placeholder="Indicator 2 (Optional)" id="ind2_Xd1c" list="indicator_list" name="graph_indicator2">
     </div>
     <div class="col-md-4">
-      <label for="Xd1c" class="form-label">Indicator 3</label>
-      <input type="text" class="form-control" placeholder="Indicator 3 (Optional)" list="indicator_list" name="graph_indicator3" id="Xd1c">
+      <label for="ind3_Xd1c" class="form-label">Indicator 3</label>
+      <input type="text" class="form-control" placeholder="Indicator 3 (Optional)" list="indicator_list" name="graph_indicator3" id="ind3_Xd1c">
     </div>
     <div class="col-md-4">
-      <label for="Xd1c" class="form-label">Indicator 4</label>
-      <input type="text" class="form-control" placeholder="Indicator 4 (Optional)" list="indicator_list" name="graph_indicator4" id="Xd1c">
+      <label for="ind4_Xd1c" class="form-label">Indicator 4</label>
+      <input type="text" class="form-control" placeholder="Indicator 4 (Optional)" list="indicator_list" name="graph_indicator4" id="ind4_Xd1c">
     </div>
     <div class="col-md-4">
-      <label for="Xd1c" class="form-label">Indicator 5</label>
-      <input type="text" class="form-control" placeholder="Indicator 5 (Optional)"  list="indicator_list" name="graph_indicator5" id="Xd1c">
+      <label for="ind5_Xd1c" class="form-label">Indicator 5</label>
+      <input type="text" class="form-control" placeholder="Indicator 5 (Optional)"  list="indicator_list" name="graph_indicator5" id="ind5_Xd1c">
     </div>
-    <div class="col-12">
+    <div class="col-12" id=initial style="display: block;">
       <button class="btn btn-primary" type="submit">Draw graph</button>
     </div>
+    <div class="col-12" id=loading style="display: none;">
+      <button class="btn btn-primary" type="button" disabled>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Loading...
+      </button>
+    </div>
+    <!-- Script para que cuando se pulse el botón se desactive y cambie al estado de cargando -->
+    <script type="text/javascript">
+      document.getElementById("initial").onclick = function() {
+        if (document.getElementById("cXd1c").value != "" && document.getElementById("ind1_Xd1c").value != "")
+        {
+          document.getElementById("initial").style.display = "none";
+          document.getElementById("loading").style.display = "block";
+        }
+      }
+    </script>
   </form>
   <div class="accordion" id="accordion" style="margin-top: 5%;">
     <div class="accordion-item">

@@ -32,13 +32,13 @@
             </datalist>
           </div>
           <div class="row" style="margin: 1%;">
-            <label for="form1" class="form-label">Second Country</label>
-            <input type="search" id="form1" class="form-control" placeholder="Country 2"
+            <label for="form2" class="form-label">Second Country</label>
+            <input type="search" id="form2" class="form-control" placeholder="Country 2"
             aria-label="Search" list="country_list" name="compare_country2" required/>
           </div>
           <div class="row" style="margin: 1%;">
-            <label for="form1" class="form-label">Indicator to compare</label>
-            <input type="search" id="form1" class="form-control" placeholder="Indicator to be compared"
+            <label for="form3" class="form-label">Indicator to compare</label>
+            <input type="search" id="form3" class="form-control" placeholder="Indicator to be compared"
             aria-label="Search" list="indicator_list" name="compare_indicator" required />
             <datalist id="indicator_list">
               {% if topic == 'Health' %}
@@ -60,10 +60,26 @@
               {% endif %}
             </datalist>
           </div>
-          <div class="col-12">
+          <div class="col-12" id=initial style="display: block;">
             <button type="submit" class="btn btn-primary" style= "margin-top: 2%;">Compare</button>
           </div>
+          <div class="col-12" id=loading style="display: none;">
+            <button class="btn btn-primary" type="button" style= "margin-top: 2%;" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
+          </div>
       </form>
+      <!-- Script para que cuando se pulse el botón se desactive y cambie al estado de cargando -->
+      <script type="text/javascript">
+        document.getElementById("initial").onclick = function() {
+          if (document.getElementById("form1").value != "" && document.getElementById("form2").value != "" && document.getElementById("form3").value != "")
+          {
+            document.getElementById("initial").style.display = "none";
+            document.getElementById("loading").style.display = "block";
+          }
+        }
+      </script>
     </div>
   </div>
   <div class="col-6">

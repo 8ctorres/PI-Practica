@@ -16,9 +16,25 @@
           {% endfor %}
         </datalist>
       </div>
-      <div class="col-12">
+      <div class="col-12" id=initial style="display: block;">
         <button class="btn btn-primary" type="submit">Draw graph</button>
       </div>
+      <div class="col-12" id=loading style="display: none;">
+        <button class="btn btn-primary" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
+      </div>
+      <!-- Script para que cuando se pulse el botón se desactive y cambie al estado de cargando -->
+      <script type="text/javascript">
+        document.getElementById("initial").onclick = function() {
+          if (document.getElementById("form1").value != "")
+          {
+            document.getElementById("initial").style.display = "none";
+            document.getElementById("loading").style.display = "block";
+          }
+        }
+      </script>
     </form>
     <div class="accordion" id="accordion" style="margin-top: 5%;">
       <div class="accordion-item">

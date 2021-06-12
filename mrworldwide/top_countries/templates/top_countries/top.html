@@ -32,9 +32,24 @@
     <div class="col-md-2">
       <input type="number" class="form-control" name="top" placeholder="Top" aria-label="Top">
     </div>
-    <div class="d-grid gap-2 d-md-block">
+    <div class="col-6" id=initial style="display: block;">
         <button class="btn btn-primary" type="submit">Show top countries</button>
     </div>
+    <div class="col-6" id=loading style="display: none;">
+      <button class="btn btn-primary" type="button" style="width: 25%;" style= "margin: 2%;" disabled>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Loading...
+      </button>
+    </div>
+    <!-- Script para que cuando se pulse el botón se desactive y cambie al estado de cargando -->
+    <script type="text/javascript">
+      document.getElementById("initial").onclick = function() {
+      
+          document.getElementById("initial").style.display = "none";
+          document.getElementById("loading").style.display = "block";
+      
+      }
+    </script>
 </div>
 <form>
   <div class="accordion" id="accordion" style="margin-top: 5%;">
