@@ -13,6 +13,10 @@ indicators = get_indicator_names()
 indicator_list = [indicators[indicator] for indicator in indicators]
 country_list = get_all_names()
 
+def get_indicators_path():
+    current_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(current_path,"indicators.csv")
+
 def graphs_index(request):
     return render(request, 'graphs/graph_index.html')
 
@@ -38,7 +42,7 @@ def graphs_histogram_result(request):
             try:
                 # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                 # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
-                nombre_fichero = "./graphs/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
+                nombre_fichero = get_indicators_path() + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
                 graph_histograma(icode, filename=nombre_fichero)
                 with open(nombre_fichero, "rb") as f:
                     content = f.read()
@@ -79,7 +83,7 @@ def graphs_1dataXcountries_result(request):
                 try:
                     # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                     # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
-                    nombre_fichero = "./graphs/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
+                    nombre_fichero = get_indicators_path() + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
                     graph_1dataXcountries(icode, countries, filename=nombre_fichero)
                     with open(nombre_fichero, "rb") as f:
                         content = f.read()
@@ -122,7 +126,7 @@ def graphs_Xdata1country_result(request):
                 try:
                     # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                     # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
-                    nombre_fichero = "./graphs/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
+                    nombre_fichero = get_indicators_path() + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
                     graph_Xdata1country(indicators, ccode, filename=nombre_fichero)
                     with open(nombre_fichero, "rb") as f:
                         content = f.read()
