@@ -4,10 +4,10 @@
 {% endif %}
 {% if single_indicator%}
 <div class="row">
-    <h1>Single indicator charts</h1>
+    <h1 class="mb-4">Single indicator charts</h1>
     {% for chart in single_indicator %}
     <div class="col-sm-12 col-md-6 col-xxl-4 text-center">
-        <h6>{{chart.indicator}}</h6>
+        <h6>{{chart.indicator}} - {{chart.date|date:"d/m/y"}}</h6>
         <img class="img-fluid" src="data:image/jpg;base64,{{chart.image}}" alt="{{chart.indicator}} on several countries">
     </div>
     {% endfor %}
@@ -18,7 +18,7 @@
     <h1>Single country charts</h1>
     {% for chart in multiple_indicators %}
     <div class="col-sm-12 col-md-6 col-xxl-4 text-center">
-        <h6>{{chart.country}}</h6>
+        <h6>{{chart.country}} - {{chart.date}}</h6>
         <img class="img-fluid" src="data:image/jpg;base64,{{chart.image}}" alt="{{chart.indicator}} on several countries">
     </div>
     {% endfor %}
