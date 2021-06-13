@@ -11,6 +11,7 @@ import requests as rq
 from apis.exceptions import APIRequestException
 
 base_url = "https://api.waqi.info/"
+#base_url = "http://mrworldwide.proxy/aqicn/"
 token = "b7818feb850f1306340bd0465824027131b20af8"
 
 datos_posibles = ["co", "dew", "h", "no2", "o3", "p", "pm10", "pm25", "r", "so2", "t", "w", "wg"]

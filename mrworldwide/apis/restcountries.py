@@ -12,6 +12,7 @@ from os import path
 # meter directamente el JSON en Pandas para crear las Series
 
 base_url = "https://restcountries.eu/rest/v2/"
+#base_url = "http://mrworldwide.proxy/restcountries/rest/v2/"
 
 def stringListToString(inputlist):
     ret = ""
