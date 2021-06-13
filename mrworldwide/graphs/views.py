@@ -55,7 +55,6 @@ def graphs_histogram_result(request):
                 context={'indicator':indicator, 'graph':encoded_img, 'def':inddef}
                 return render(request, 'graphs/graph_histogram_result.html', context, status=200)
             except:
-                traceback.print_exc()
                 context={"error": "There was an error doing graph"}
                 return render(request, 'graphs/graph_histogram_result.html', context, status=500)
         except:
@@ -101,7 +100,6 @@ def graphs_1dataXcountries_result(request):
                     context={'indicator':indicator, 'graph':encoded_img, 'def':inddef}
                     return render(request, 'graphs/graph_1dataXcountries_result.html', context, status=200)
                 except:
-                    traceback.print_exc()
                     context={"error": "There was an error doing graph"}
                     return render(request, 'graphs/graph_1dataXcountries_result.html', context, status=500)
             except:
@@ -151,7 +149,6 @@ def graphs_Xdata1country_result(request):
                     context={'country':country, 'graph':encoded_img, 'def':inddef_list}
                     return render(request, 'graphs/graph_Xdata1country_result.html', context, status=200)
                 except:
-                    traceback.print_exc()
                     context={"error": "There was an error doing graph"}
                     return render(request, 'graphs/graph_Xdata1country_result.html', context, status=500)
             except:

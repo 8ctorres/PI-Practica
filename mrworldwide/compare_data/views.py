@@ -121,7 +121,6 @@ def compare_result(request):
                                      'ctpol1':ct_pollution1, 'ctpol2':ct_pollution2}
                             return render(request, 'compare_data/compare_result.html', context, status=200)
                         except:
-                            traceback.print_exc()
                             context={"error": "There was an error doing graph"}
                             return render(request, 'compare_data/compare_result.html', context, status=500)
                     except:
