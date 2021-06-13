@@ -33,6 +33,19 @@
         </div>
     </div>
 </div>
+{% if user.is_authenticated %}
+<form style="max-width:480px;margin:auto" action="{% url 'profile'%}" method="POST">{% csrf_token %}
+    <input  type="text" id="chart-type" name="chart-type"
+    class="form-control invisible" value="MultipleIndicatorChart" required autofocus>
+    <input  type="text" id="country" name="country"
+    class="form-control invisible" value="{{country}}" required autofocus>
+    <input type="text" id="image" name="image"
+    class="invisible form-control" value="{{graph}}" required>
+    <div>
+        <button class="btn btn-lg btn-primary btn-block" submit="submit">Save</button>
+    </div>
+</form>
+{% endif %}
 {% endif %}
 
 {% endblock %}
