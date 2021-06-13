@@ -89,9 +89,14 @@ def graph_comparacion(ind, pais1, pais2, filename=None, tipo="l"):
 
 def graph_1dataXcountries(ind, paises, filename=None):
     # Construimos el dataframe con todos los países
-    data = [wb.get_indicator(pais, ind) for pais in paises]
-    series = []
+    data = []
+    for pais in paises:
+        try:
+            data.append(wb.get_indicator(pais, ind))
+        except APIRequestException:
+            continue;
 
+    series = []
     for ind in data:
         serie = ind.value.dropna()
         serie.name = ind.countryName.iloc[0]
@@ -112,9 +117,14 @@ def graph_1dataXcountries(ind, paises, filename=None):
     return df
 
 def graph_Xdata1country(inds, pais, filename=None):
-    data = [wb.get_indicator(pais, ind) for ind in inds]
-    series = []
+    data = []
+    for pais in paises:
+        try:
+            data.append(wb.get_indicator(pais, ind))
+        except APIRequestException:
+            continue;
 
+    series = []
     for ind in data:
         serie = ind.value.dropna()
         serie.name = ind.indicatorName.iloc[0]
