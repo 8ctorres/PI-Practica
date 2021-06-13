@@ -21,20 +21,20 @@
                 <div class="accordion-body">
                     <div class="row">
                         {% for chart in single_indicator %}
-                        <div class="col-sm-12 col-md-6 col-xxl-4 text-center">
+                        <div class="col-sm-12 col-md-6 col-xxl-4 text-center" style="margin-top: 3%;">
                             <h6>{{chart.indicator}} - {{chart.date|date:"d/m/y"}}</h6>
+                            <img class="img-fluid" src="data:image/jpg;base64,{{chart.image}}" alt="{{chart.indicator}} on several countries">
                             <form style="max-width:480px;margin:auto" action="{% url 'delete_chart'%}" method="POST">{% csrf_token %}
-                                <input  type="text" id="chart-action" name="chart-action"
+                                <input  type="text" id="chart-action" name="chart-action" style="height: 0ch;"
                                 class="form-control invisible" value="delete">
-                                <input  type="text" id="chart-type" name="chart-type"
+                                <input  type="text" id="chart-type" name="chart-type" style="height: 0ch;"
                                 class="form-control invisible" value="SingleIndicatorChart">
-                                <input type="text" id="chart-id" name="chart-id"
+                                <input type="text" id="chart-id" name="chart-id" style="height: 0ch;"
                                 class="invisible form-control" value="{{chart.id}}" required>
                                 <div>
                                     <button class="btn btn-lg btn-danger btn-block" submit="submit">Delete</button>
                                 </div>
                             </form>
-                            <img class="img-fluid" src="data:image/jpg;base64,{{chart.image}}" alt="{{chart.indicator}} on several countries">
                         </div>
                         {% endfor %}
                     </div>
@@ -55,20 +55,20 @@
                 <div class="accordion-body">
                     <div class="row">
                         {% for chart in multiple_indicators %}
-                        <div class="col-sm-12 col-md-6 col-xxl-4 text-center">
-                            <h6>{{chart.country}} - {{chart.date}}</h6>
-                                <form style="max-width:480px;margin:auto" action="{% url 'delete_chart'%}" method="POST">{% csrf_token %}
-                                    <input  type="text" id="chart-action" name="chart-action"
-                                    class="form-control invisible" value="delete">
-                                    <input  type="text" id="chart-type" name="chart-type"
-                                    class="form-control invisible" value="SingleIndicatorChart">
-                                    <input type="text" id="chart-id" name="chart-id"
-                                    class="invisible form-control" value="{{chart.id}}" required>
-                                    <div>
-                                        <button class="btn btn-lg btn-danger btn-block" submit="submit">Delete</button>
-                                    </div>
-                                </form>
+                        <div class="col-sm-12 col-md-6 col-xxl-4 text-center" style="margin-top: 3%;">
+                            <h6>{{chart.country}} - {{chart.date|date:"d/m/y"}}</h6>
                             <img class="img-fluid" src="data:image/jpg;base64,{{chart.image}}" alt="{{chart.indicator}} on several countries">
+                            <form style="max-width:480px;margin:auto" action="{% url 'delete_chart'%}" method="POST">{% csrf_token %}
+                                <input  type="text" id="chart-action" name="chart-action" style="height: 0ch;"
+                                class="form-control invisible" value="delete">
+                                <input  type="text" id="chart-type" name="chart-type" style="height: 0ch;"
+                                class="form-control invisible" value="SingleIndicatorChart">
+                                <input type="text" id="chart-id" name="chart-id" style="height: 0ch;"
+                                class="invisible form-control" value="{{chart.id}}" required>
+                                <div>
+                                    <button class="btn btn-lg btn-danger btn-block" submit="submit">Delete</button>
+                                </div>
+                            </form>
                         </div>
                         {% endfor %}
                     </div>

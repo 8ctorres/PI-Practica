@@ -3,7 +3,7 @@
 {% if error %}
 
 <div class="position-absolute top-0 start-0" style="margin: 5%;">
-    <a class="btn btn-primary" href="{% url 'Xdata1country_base'%}" role="button">Try other graph</a>
+    <a class="btn btn-secondary" href="{% url 'Xdata1country_base'%}" role="button">Try other graph</a>
 </div>
 <div class="container" style="margin-top: 10%;">
     <div class="row justify-content-center">
@@ -16,7 +16,7 @@
 {% else %}
 
 <div class="position-absolute top-0 start-0" style="margin: 5%;">
-    <a class="btn btn-primary" href="{% url 'Xdata1country_base'%}" role="button">Try other graph</a>
+    <a class="btn btn-secondary" href="{% url 'Xdata1country_base'%}" role="button">Try other graph</a>
 </div>
 <div class="row justify-content-between">
     <div class="col-6">
@@ -35,11 +35,11 @@
 </div>
 {% if user.is_authenticated %}
 <form style="max-width:480px;margin:auto" action="{% url 'profile'%}" method="POST">{% csrf_token %}
-    <input  type="text" id="chart-type" name="chart-type"
+    <input  type="text" id="chart-type" name="chart-type" style="height: 0ch;"
     class="form-control invisible" value="MultipleIndicatorChart" required autofocus>
-    <input  type="text" id="country" name="country"
+    <input  type="text" id="country" name="country" style="height: 0ch;"
     class="form-control invisible" value="{{country}}" required autofocus>
-    <input type="text" id="image" name="image"
+    <input type="text" id="image" name="image" style="height: 0ch;"
     class="invisible form-control" value="{{graph}}" required>
     <div>
         <button class="btn btn-lg btn-primary btn-block" submit="submit">Save</button>
