@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.http import HttpResponse
-from apis.restcountries import get_countries_by_name
 
 # Create your views here.
+
+# Como decidimos que la homepage sea un ejemplo del CU search
+# la vista hace un redirect
 def homepage(request):
-    context = {'search_country' : 'Spain'}
-    return redirect("search") #TODO pasar el parámetro
+    return redirect("search")

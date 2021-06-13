@@ -1,23 +1,24 @@
 {% extends "base.html" %} {% block content %}
 
-<div class="container-fluid" style="margin: 2%;">
-  <div class="row align-items-start">
-    <div class="col">
+<div class="container" style="margin: 2%;">
+  <div class="row align-items-center">
+    <div class="col" style="margin: 2%;">
       <h5>Compare an indicator amongst several countries</h5>
-      <img src="https://eltiotech.com/wp-content/uploads/2020/05/19-gr%C3%A1ficos-de-l%C3%ADneas-en-excel.jpg" alt="One indicator graph image">
-      <h6>This graph lets you compare an indicator amongst 1 to 5 countries</h6>
+      {% load static %}
+      <img src="{% static 'graphs/images/ejemplo_1dXc.jpeg' %}" width="120%" height="120%" alt="One indicator graph image">
+      <p>This graph lets you compare an indicator amongst 2 to 5 countries. Here is an example about Mortality rate under 5 years old, per 1.000 births on some countries</p>
       <a class="btn btn-primary" href="{% url '1dataXcountries_base'%}" role="button">Draw graph</a>
     </div>
-    <div class="col">
-      <h5>Compare two indicators of the same country</h5>
-      <img src="https://ep01.epimg.net/verne/imagenes/2018/06/19/articulo/1529425780_693647_1529477238_sumario_normal.jpg" alt="Two indicator graph image">
-      <h6>This graph lets you compare two indicators in the same country and see the correlation.</h6>
-      <a class="btn btn-primary" href="{% url '2data1country_base'%}" role="button">Draw graph</a>
+    <div class="col" style="margin: 2%;">
+      <h5>Compare several indicators of the same country</h5>
+      <img src="{% static 'graphs/images/ejemplo_Xd1c.jpeg' %}" width="120%" height="120%" alt="X indicator graph image">
+      <p>This graph lets you compare between 2 and 5 indicators in the same country and see the correlation. Here is an example about some indicators in Spain</p>
+      <a class="btn btn-primary" href="{% url 'Xdata1country_base'%}" role="button">Draw graph</a>
     </div>
-    <div class="col">
+    <div class="col" style="margin: 2%;">
       <h5>Histogram</h5>
-      <img src="https://www.superprof.es/apuntes/wp-content/uploads/2019/06/hist-1.png" alt="Histogram picture">
-      <h6>This graph lets you compare several indicators of the same country and see them in a histogram</h6>
+      <img src="{% static 'graphs/images/ejemplo_hist.jpeg' %}" width="120%" height="120%" alt="Histogram picture">
+      <p>This graph lets you compare an indicator amongst all countries and see data frequency. Here is an example about life expectancy amongst all countries</p>
       <a class="btn btn-primary" href="{% url 'histogram_base'%}" role="button">Draw graph</a>
     </div>
   </div>

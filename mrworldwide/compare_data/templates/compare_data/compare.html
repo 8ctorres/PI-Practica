@@ -1,22 +1,113 @@
 {% extends "base.html" %} {% block content %}
 
-    <div class="container" style="margin-top: 10%;">
-        <h1>Compare an indicator between 2 countries</h1>
-      <div class="form-group w-25" style="margin: 1%;">
-        <h3>First Country</h3>
-        <input type="search" id="form1" class="form-control" placeholder="Country 1"
-        aria-label="Search" width="10%"/>
-      </div>
-      <div class="form-group w-25" style="margin: 1%;">
-          <h3>Second Country</h3>
-        <input type="search" id="form1" class="form-control" placeholder="Country 2"
-        aria-label="Search" />
-      </div>
-      <div class="form-group w-25" style="margin: 1%;">
-        <h3>Indicator to be compared</h3>
-        <input type="search" id="form1" class="form-control" placeholder="Indicator to be compared"
-        aria-label="Search" />
-      </div>
-      <button type="submit" class="btn btn-primary" style= "margin-top: 2%;">Compare</button>
+{% if error %}
+<div style="margin-top: 2%;">
+  <a class="btn btn-secondary pull-left" href="{% url 'compare_choose_topic'%}" role="button">Choose other topic</a>
+</div>
+<div class="container" style="margin-top: 10%;">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <h1>There was an error while choosing topic</h1>
+        <h4>{{error}}</h4>
     </div>
+</div>
+
+{% else %}
+<div style="margin-top: 2%;">
+  <a class="btn btn-secondary pull-left" href="{% url 'compare_choose_topic'%}" role="button">Choose other topic</a>
+</div>
+<div class="row justify-content-center" style="margin-top: 10%;">
+  <div class="col-6">
+    <div class="container">
+        <h1>Compare an indicator between 2 countries</h1>
+        <form class="row g-3" style="margin-top: 10%;" method=GET action="{% url 'compare_result'%}">
+          <div class="row" style="margin: 1%;">
+            <label for="form1" class="form-label">First Country</label>
+            <input type="search" id="form1" class="form-control" placeholder="Country 1"
+            aria-label="Search" list="country_list" name="compare_country1" width="10%" required/>
+            <datalist id="country_list">
+              {% for r in country_list %}
+		            <option> {{ r }} </option>
+		          {% endfor %}
+            </datalist>
+          </div>
+          <div class="row" style="margin: 1%;">
+            <label for="form2" class="form-label">Second Country</label>
+            <input type="search" id="form2" class="form-control" placeholder="Country 2"
+            aria-label="Search" list="country_list" name="compare_country2" required/>
+          </div>
+          <div class="row" style="margin: 1%;">
+            <label for="form3" class="form-label">Indicator to compare</label>
+            <input type="search" id="form3" class="form-control" placeholder="Indicator to be compared"
+            aria-label="Search" list="indicator_list" name="compare_indicator" required />
+            <datalist id="indicator_list">
+              {% if topic == 'Health' %}
+                {% for r in health_list %}
+		              <option> {{ r }} </option>
+		            {% endfor %}
+              {% elif topic == 'Economy' %}
+                {% for r in economy_list %}
+		              <option> {{ r }}</option>
+		            {% endfor %}
+              {% elif topic == 'Enviroment' %}
+                {% for r in enviroment_list %}
+		              <option> {{ r }} </option>
+		            {% endfor %}
+              {% elif topic == 'Social Development' %}
+                {% for r in social_development_list %}
+		              <option> {{ r }} </option>
+		            {% endfor %}
+              {% endif %}
+            </datalist>
+          </div>
+          <div class="col-12" id=initial style="display: block;">
+            <button type="submit" class="btn btn-primary" style= "margin-top: 2%;">Compare</button>
+          </div>
+          <div class="col-12" id=loading style="display: none;">
+            <button class="btn btn-primary" type="button" style= "margin-top: 2%;" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
+          </div>
+      </form>
+      <!-- Script para que cuando se pulse el botón se desactive y cambie al estado de cargando -->
+      <script type="text/javascript">
+        document.getElementById("initial").onclick = function() {
+          if (document.getElementById("form1").value != "" && document.getElementById("form2").value != "" && document.getElementById("form3").value != "")
+          {
+            document.getElementById("initial").style.display = "none";
+            document.getElementById("loading").style.display = "block";
+          }
+        }
+        window.onunload = null;
+      </script>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="container">
+      <h3>These are the possible indicators for {{topic}} topic</h3>
+      <ul class="list-unstyled">
+        {% if topic == 'Health' %}
+          {% for r in health_list %}
+		        <li> {{ r }} </li>
+		      {% endfor %}
+        {% elif topic == 'Economy' %}
+          {% for r in economy_list %}
+		        <li> {{ r }}</li>
+		      {% endfor %}
+        {% elif topic == 'Enviroment' %}
+        {% for r in enviroment_list %}
+		        <li> {{ r }} </li>
+		      {% endfor %}
+        {% elif topic == 'Social Development' %}
+        {% for r in social_development_list %}
+		        <li> {{ r }} </li>
+		      {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 {% endblock %}

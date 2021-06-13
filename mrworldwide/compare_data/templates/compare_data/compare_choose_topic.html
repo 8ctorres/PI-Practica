@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block content %}
+
+    <div class="mx-auto" style="margin-top: 10%;">
+        <h1>Choose the topic to compare</h1>
+        <h3>These are the options:</h3>
+        <ul class="list-unstyled">
+            <li>Health</li>
+            <li>Economy</li>
+            <li>Enviroment</li>
+            <li>Social Development</li>
+        </ul>
+        <form class="row g-3" method=GET action="{% url 'compare_index'%}">
+            <div class="col-12">
+                <input class="form-control" id="compare_form" type="search" style="width: 25%;" placeholder="Type a topic..." aria-label="compare_form" name="choose_topic" list="topic_list" required>
+                <datalist id="topic_list">
+                    <option>Health</option>
+                    <option>Economy</option>
+                    <option>Enviroment</option>
+                    <option>Social Development</option>
+                </datalist>
+            </div>
+            <div class="col-6" id=initial style="display: block;">
+                <button type="submit" class="btn btn-primary" style="width: 25%;" style= "margin: 2%;">Choose topic</button>
+            </div>
+            <div class="col-6" id=loading style="display: none;">
+                <button class="btn btn-primary" type="button" style="width: 25%;" style= "margin: 2%;" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </div>
+        </form>
+        <!-- Script para que cuando se pulse el botón se desactive y cambie al estado de cargando -->
+        <script type="text/javascript">
+                document.getElementById("initial").onclick = function() {
+                    if (document.getElementById("compare_form").value != "")
+                    {
+                        document.getElementById("initial").style.display = "none";
+                        document.getElementById("loading").style.display = "block";
+                    }
+                }
+                window.onunload = null;
+        </script>
+    </div>
+{% endblock %}

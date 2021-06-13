@@ -34,7 +34,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{% url 'compare_index'%}">Data comparison</a>
+                  <a class="nav-link active" aria-current="page" href="{% url 'compare_choose_topic'%}">Data comparison</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link active" aria-current="page" href="{% url 'top_index'%}">Top countries</a>
@@ -47,16 +47,20 @@
                     <li><a class="dropdown-item" href="{% url 'graph_index'%}">Graphics info</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="{% url '1dataXcountries_base'%}">Compare 1 indicator amongst several countries</a></li>
-                    <li><a class="dropdown-item" href="{% url '2data1country_base'%}">Compare 2 indicators of the same country</a></li>
+                    <li><a class="dropdown-item" href="{% url 'Xdata1country_base'%}">Compare several indicators of the same country</a></li>
                     <li><a class="dropdown-item" href="{% url 'histogram_base'%}">Histogram</a></li>
                   </ul>
                 </li>
               </ul>
               <form class="d-flex" method=GET action="{% url 'search'%}">
-                <input class="form-control me-2" id="search_bar" type="search" placeholder="Look up a country..." aria-label="Search" name="search_country">
-                <button class="btn btn-outline-secondary" type="submit" id="search_button">Search</button>
+                <input class="form-control me-2" id="search_bar" type="search" placeholder="Look up a country..." aria-label="Search" name="search_country" list="country_list" required>
+                <datalist id="country_list">
+                  {% for r in country_list %}
+                    <option> {{ r }} </option>
+                  {% endfor %}
+                </datalist>
+                <button class="btn btn-primary" type="submit" id="search_button" style="z-index: 1;" >Search</button>
               </form>
-            </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'profile'%}">Profile</a>
@@ -77,14 +81,13 @@
         </nav>
   </div>
 
-    <div class="container" style="flex: 1 1 auto" style="margin-bottom: 10%;">
+    <div class="container" style="flex: 1 1 auto">
     {% block content %}{% endblock %}
 
     </div>
-</body>
-<footer class="py-5 bg-dark fixed-bottom">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; MrWorldWide 2021</p>
+      <div class="container-fluid" style="flex: 1 1 auto">
+    {% block fluid_content %}{% endblock %}
+
     </div>
-  </footer>
+</body>
 </html>
