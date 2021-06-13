@@ -18,9 +18,20 @@ Tenemos un solo caso de uso totalmente funcional, el de buscar los datos de un p
 
 ### Instrucciones de despliegue de docker
 
+En la raíz del repositorio hay un script "run.sh" que se descarga el contenedor Docker y lo inicia en el puerto que le pasemos como único parámetro.
+
+Prerequisitos: Tener instalado el Docker Engine
+
+Ejemplo de uso:
+
+```bash
+    # Para lanzar el servidor en el puerto TCP 8080
+    ./run.sh 8080
+```
+
 ### Instrucciones de uso de la práctica
 
-La práctica consiste en una web que maneja datos demográficos. El medio usado para acceder a los casos de uso descritos en la documentación es una navbar. Esta siempre está en la parte superior de la web con todos los CU disponibles. 
+La práctica consiste en una web que maneja datos demográficos. El medio usado para acceder a los casos de uso descritos en la documentación es una barra de navegación. Esta siempre está en la parte superior de la web con todos los CU disponibles. 
 
 La navbar tiene, en primer lugar, el nombre de la web y su logo, que al pulsarse dirigen al usuario a la página principal. Dicha página es un ejemplo del CU de buscar un país. 
 
