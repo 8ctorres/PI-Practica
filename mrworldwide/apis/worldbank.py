@@ -124,7 +124,7 @@ def get_indicator(country, indicator, session=None):
     for year in jsondata:
         serie_ind = pd.Series(data=year, name=year['date']).drop("date")
 
-        #WIP: Desgranamos Indicador y Country, que son diccionarios, en sus dos componentes
+        #Desgranamos Indicador y Country, que son diccionarios, en sus dos componentes:
 
         tindicator_id = serie_ind.indicator['id']
         tindicator_name = serie_ind.indicator['value']
