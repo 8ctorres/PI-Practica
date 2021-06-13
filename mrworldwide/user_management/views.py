@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -65,7 +66,7 @@ def profile_view(request):
 	if request.method == 'GET' and request.user.is_authenticated:
 		user = User.objects.get(username=request.user)
 		profile = Profile.objects.get(user=user)
-		print(profile.multiple_indicators.all())
+		print(user)
 		context = {'single_indicator': profile.single_indicator.all(), 'multiple_indicators': profile.multiple_indicators.all()}
 		return render(request,'profile.html',context)
 	if request.method == 'GET':
@@ -84,8 +85,6 @@ def profile_view(request):
 			elif chart_type == "MultipleIndicatorChart":
 				country = request.POST['country']
 				chart = MultipleIndicatorChart(country=country, image=image)
-				print(chart)
-				print("aa")
 				chart.save()
 				profile.multiple_indicators.add(chart)
 			else:
@@ -97,3 +96,25 @@ def profile_view(request):
 			traceback.print_exc()
 			context = {'error': 'Unexpected error'}
 		return render(request,'profile.html',context)
+
+def delete_chart(request):
+	if request.method == 'POST' and request.user.is_authenticated:
+		try:
+			graph_id = request.POST['chart-id']
+			graph_type = request.POST['chart-type']
+			user = User.objects.get(username=request.user)
+			profile = Profile.objects.get(user=user)
+			if graph_type == "SingleIndicatorChart":
+				graph = profile.single_indicator.get(pk=graph_id)
+				profile.single_indicator.remove(graph)
+				SingleIndicatorChart.objects.filter(id=graph_id).delete()
+			elif graph_type == "MultipleIndicatorChart":
+				graph = profile.multiple_indicators.get(pk=graph_id)
+				profile.multiple_indicators.remove(graph)
+				MultipleIndicatorChart.objects.filter(id=graph_id).delete()
+		except MultiValueDictKeyError:
+			return HttpResponse('400 Bad Request', status=400)
+		except Exception:
+			return HttpResponse('500 Server Error', status=500)
+		return redirect('login',)
+
