@@ -35,16 +35,21 @@ def top(request):
                 encoded_img = base64.b64encode(content).decode(encoding="utf-8")
                 os.remove(f.name)
             context = {'indicator': indicator, 'top': top, 'graph': encoded_img}
+            return render(request, 'top_countries/top.html', context, status=200)
         except ValidationError:
             context = {"indicators": indicators_names,'error': 'Invalid parameters'}
+            return render(request, 'top_countries/top.html', context, status=400)
         except TopAmountExceeded:
             context = {"indicators": indicators_names,'error': f'Maximum amount of countries allowed are 50, {top} requested'}
+            return render(request, 'top_countries/top.html', context, status=400)
         except APIRequestException:
             traceback.print_exc()
             context = {"indicators": indicators_names,'error': 'Server error'}
+            return render(request, 'top_countries/top.html', context, status=500)
         except KeyError:
             context = {"indicators": indicators_names,'error': 'Unsupported indicator'}
+            return render(request, 'top_countries/top.html', context, status=404)
         except Exception:
             print(traceback.print_exc())
             context = {"indicators": indicators_names,'error': 'Unexpected error'}
-        return render(request, 'top_countries/top.html', context)
+            return render(request, 'top_countries/top.html', context, status=500)
