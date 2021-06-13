@@ -54,7 +54,6 @@ def graphs_histogram_result(request):
                     os.remove(f.name)
                 context={'indicator':indicator, 'graph':encoded_img, 'def':inddef}
             except:
-                traceback.print_exc()
                 context={"error": "There was an error doing graph"}
         except:
             context={"error": "Invalid indicator"}
@@ -98,7 +97,6 @@ def graphs_1dataXcountries_result(request):
                         os.remove(f.name)
                     context={'indicator':indicator, 'graph':encoded_img, 'def':inddef}
                 except:
-                    traceback.print_exc()
                     context={"error": "There was an error doing graph"}
             except:
                 context={"error": "Invalid country"}
@@ -145,7 +143,6 @@ def graphs_Xdata1country_result(request):
                         os.remove(f.name)
                     context={'country':country, 'graph':encoded_img, 'def':inddef_list}
                 except:
-                    traceback.print_exc()
                     context={"error": "There was an error doing graph"}
             except:
                 context={"error": "Invalid indicator"}

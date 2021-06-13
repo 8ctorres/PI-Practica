@@ -116,7 +116,6 @@ def compare_result(request):
                                      'country2_info':country_dict2, 'indicator':indicator, 'graph':encoded_img,
                                      'ctpol1':ct_pollution1, 'ctpol2':ct_pollution2}
                         except:
-                            traceback.print_exc()
                             context={"error": "There was an error doing graph"}
                     except:
                         context={"error": "Error getting aqicn API info"}
