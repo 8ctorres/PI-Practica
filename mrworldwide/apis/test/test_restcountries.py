@@ -26,6 +26,15 @@ class RestCountriesTest(TestCase):
         allcountries = rc.get_all_countries()
         mordor = allcountries.loc['Mordor']
 
+    # Test consistente en sacar los códigos de algunos países por su nombre
+    def test_iso3code(self):
+        self.assertEquals(rc.get_iso3code("Spain"), "ESP")
+        self.assertEquals(rc.get_iso3code("Portugal"), "PRT")
+    
+    # Si el pais no existe, el método falla
+    @unittest.expectedFailure
+    def test_iso3codefail(self):
+        self.assertEquals(rc.get_iso3code("Republica Independent de Catalunya", "CAT"))
 
     # Test consistente en hacer una petición a la API para sacar un país concreto por su nombre
     def test_get_pornombre(self):

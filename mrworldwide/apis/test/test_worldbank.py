@@ -30,3 +30,8 @@ class WorldBankTest(TestCase):
         expecteddef = "Total number of adults over age 15 who cannot both read and write with understanding a short simple statement on their everyday life."
         self.assertEquals(realdef, expecteddef)
 
+    def test_get_ind_name(self):
+        self.assertEquals(wb.get_indicator_name("SP.URB.TOTL"), "Urban population")
+
+    def test_get_ind_code(self):
+        self.assertEquals(wb.get_indicator_code("Rural population"), "SP.RUR.TOTL")
