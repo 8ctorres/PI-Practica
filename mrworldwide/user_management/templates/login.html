@@ -1,11 +1,7 @@
 {% extends "base.html" %} {%block content%}
 
-<style>
-
-</style>
-
 <div class="text-center">
-    <form style="max-width:480px;margin:auto" action="/user/login" method="POST">{% csrf_token %}
+    <form style="max-width:480px;margin:auto" action="{% url 'login'%}" method="POST">{% csrf_token %}
         <img class="mt-4 mb-4" src="/static/homepage/images/logo.png" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
         {% if error %}
