@@ -6,11 +6,11 @@ from jsonfield import JSONField
 
 class SingleIndicatorChart(models.Model):
     indicator = models.CharField(default="Life expectancy", null=False, max_length=100)
-    countries = JSONField(null=True)
+    image = models.CharField()
 
 class MultipleIndicatorChart(models.Model):
     country = models.CharField(default="Spain", null=False, max_length=100)
-    indicators = JSONField(null=True)
+    image = models.CharField()
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from jsonschema import validate, ValidationError
 from django.db.utils import IntegrityError
 from .schemas import login_schema, signup_schema
-
+from .models import Profile,MultipleIndicatorChart,SingleIndicatorChart
 
 # Create your views here.
 def login_view(request):
@@ -66,3 +66,7 @@ def profile_view(request):
 		return render(request,'profile.html')
 	if request.method == 'GET':
 		return redirect('login')
+	if request.method == 'POST' and request.user.is_authenticated:
+		print(request.POST.dict())
+		print("arrived")
+		return render(request,'profile.html')
