@@ -18,7 +18,7 @@ class WorldBankTest(TestCase):
     def get_indicator_test(self):
         education_indicators = wb.get_indicators_from_topic("4")
         self.illiteracy_ind = education_indicators.loc["UIS.LP.AG15T99"]
-        self.assertEquals(illiteracy_ind.indicatorName,
+        self.assertEquals(self.illiteracy_ind.indicatorName,
                           'Adult illiterate population, 15+ years, both sexes (number)')
 
     # Test consistente en sacar el dato concreto de un país en un año concreto,
