@@ -118,7 +118,7 @@ def graph_1dataXcountries(ind, paises, filename=None):
 
 def graph_Xdata1country(inds, pais, filename=None):
     data = []
-    for pais in paises:
+    for ind in inds:
         try:
             data.append(wb.get_indicator(pais, ind))
         except APIRequestException:
