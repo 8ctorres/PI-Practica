@@ -30,6 +30,8 @@ def top(request):
                 raise TopAmountExceeded(top)
             graph_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"{uuid4()}.jpg")            
             graph = graph_topn(indicator_code,top,graph_path)
+            isolist = graph.index.to_list()
+            namelist = 
             with open(graph_path, "rb") as f:
                 content = f.read()
                 encoded_img = base64.b64encode(content).decode(encoding="utf-8")
