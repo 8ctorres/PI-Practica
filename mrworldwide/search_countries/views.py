@@ -18,6 +18,8 @@ def search_countries(request):
             else:
                 country_df = get_country_by_code(search_country).iloc[0]
             country = country_df.to_dict()
+            if len(country["borders"]) == 0:
+                country["borders"] = "N/A"
             context = {"country": country, "country_code": country_df.name, 'country_list':country_list}
         except APIRequestException:
             context = {"error": "Invalid country"}

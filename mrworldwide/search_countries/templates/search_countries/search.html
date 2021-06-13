@@ -32,10 +32,14 @@
           <li><strong>Timezone: </strong>{{country.timezones}}</li>
           <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item active" aria-current="page"><strong>Borderlines:</strong> </li>
-              {% for r in country.borders %}
-                <li class="breadcrumb-item"><a href="?search_country={{r}}"> <small>{{r}}</small></a></li>
-              {% endfor %}
+              <li class="breadcrumb-item active" aria-current="page"><strong>Borderlines: </strong></li>
+              {% if "N/A" in country.borders %}
+                <li>N/A</li>
+              {% else %}
+                {% for r in country.borders %}
+                  <li class="breadcrumb-item"><a href="?search_country={{r}}"> <small>{{r}}</small></a></li>
+                {% endfor %}
+              {% endif %}
             </ol>
           </nav>
           </li>
