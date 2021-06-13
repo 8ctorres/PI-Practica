@@ -1,11 +1,12 @@
-import traceback
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from jsonschema import validate, ValidationError
 from django.db.utils import IntegrityError
 from .schemas import login_schema, signup_schema
+from django.utils.datastructures import MultiValueDictKeyError
 from .models import Profile,MultipleIndicatorChart,SingleIndicatorChart
+import traceback
 
 # Create your views here.
 def login_view(request):
@@ -60,13 +61,39 @@ def signup_view(request):
 			context = {'error': 'Unexpected error'}
 		return render(request,'signup.html',context)
 
-
 def profile_view(request):
 	if request.method == 'GET' and request.user.is_authenticated:
-		return render(request,'profile.html')
+		user = User.objects.get(username=request.user)
+		profile = Profile.objects.get(user=user)
+		print(profile.multiple_indicators.all())
+		context = {'single_indicator': profile.single_indicator.all(), 'multiple_indicators': profile.multiple_indicators.all()}
+		return render(request,'profile.html',context)
 	if request.method == 'GET':
 		return redirect('login')
 	if request.method == 'POST' and request.user.is_authenticated:
-		print(request.POST.dict())
-		print("arrived")
-		return render(request,'profile.html')
+		try:
+			user = User.objects.get(username=request.user)
+			profile = Profile.objects.get(user=user)
+			chart_type = request.POST['chart-type']
+			image = request.POST['image']
+			if chart_type == "SingleIndicatorChart":
+				indicator = request.POST['indicator']
+				chart = SingleIndicatorChart(indicator=indicator, image=image)
+				chart.save()
+				profile.single_indicator.add(chart)
+			elif chart_type == "MultipleIndicatorChart":
+				country = request.POST['country']
+				chart = MultipleIndicatorChart(country=country, image=image)
+				print(chart)
+				print("aa")
+				chart.save()
+				profile.multiple_indicators.add(chart)
+			else:
+				context = {'error': 'Invalid chart type'}
+			context = {'single_indicator': profile.single_indicator.all(), 'multiple_indicators': profile.multiple_indicators.all()}
+		except MultiValueDictKeyError:
+			context = {'error': 'Invalid data'}
+		except Exception:
+			traceback.print_exc()
+			context = {'error': 'Unexpected error'}
+		return render(request,'profile.html',context)

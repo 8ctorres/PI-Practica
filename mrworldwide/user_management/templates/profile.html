@@ -1,12 +1,27 @@
-{% extends "base.html" %} {%block content%}
-<div class="container">
-  <div class="row">
-    <div class="col">
-        <h1>Life expectancy</h1>
+{% extends "base.html" %} {%block fluid_content%}
+{% if error %}
+    <p> There was an error ({{ error }})</p>
+{% endif %}
+{% if single_indicator%}
+<div class="row">
+    <h1>Single indicator charts</h1>
+    {% for chart in single_indicator %}
+    <div class="col-sm-12 col-md-6 col-xxl-4 text-center">
+        <h6>{{chart.indicator}}</h6>
+        <img class="img-fluid" src="data:image/jpg;base64,{{chart.image}}" alt="{{chart.indicator}} on several countries">
     </div>
-    <div class="col">
-      2 of 2
-    </div>
-  </div>
+    {% endfor %}
 </div>
+{% endif %}
+{% if multiple_indicators%}
+<div class="row">
+    <h1>Single country charts</h1>
+    {% for chart in multiple_indicators %}
+    <div class="col-sm-12 col-md-6 col-xxl-4 text-center">
+        <h6>{{chart.country}}</h6>
+        <img class="img-fluid" src="data:image/jpg;base64,{{chart.image}}" alt="{{chart.indicator}} on several countries">
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 {% endblock %}
