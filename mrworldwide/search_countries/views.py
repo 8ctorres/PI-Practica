@@ -10,7 +10,7 @@ def search_countries(request):
         try:
             search_country = request.GET['search_country']
         except:
-            search_country = "Spain"
+            search_country = "ESP"
 
         try:
             if len(search_country) > 3:

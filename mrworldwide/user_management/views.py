@@ -24,14 +24,16 @@ def login_view(request):
 			user = authenticate(username=username, password=password)
 			if user is not None:
 				login(request, user)
-				return redirect('profile')
+				return redirect('profile') #Status = 302
 			else:
 				context = {'error': 'Invalid credentials'}
+				return render(request,'login.html',context, status=403)
 		except ValidationError:
 			context = {'error': 'Invalid parameters'}
+			return render(request,'login.html',context, status=400)
 		except:
 			context = {'error': 'Unexpected error'}
-		return render(request,'login.html',context)
+			return render(request,'login.html',context, status=500)
 
 def logout_view(request):
 	if request.method == 'GET' and request.user.is_authenticated:
@@ -56,11 +58,13 @@ def signup_view(request):
 			return redirect('profile')
 		except ValidationError:
 			context = {'error': 'Invalid parameters'}
+			return render(request,'signup.html',context, status=400)
 		except IntegrityError:
 			context = {'error': 'User already exists'}
+			return render(request,'signup.html',context, status=400)
 		except:
 			context = {'error': 'Unexpected error'}
-		return render(request,'signup.html',context)
+			return render(request,'signup.html',context, status=500)
 
 def profile_view(request):
 	if request.method == 'GET' and request.user.is_authenticated:
@@ -89,13 +93,17 @@ def profile_view(request):
 				profile.multiple_indicators.add(chart)
 			else:
 				context = {'error': 'Invalid chart type'}
+				return render(request,'profile.html',context, status=400)
+
 			context = {'single_indicator': profile.single_indicator.all(), 'multiple_indicators': profile.multiple_indicators.all()}
+			return render(request,'profile.html',context, status=200)
 		except MultiValueDictKeyError:
 			context = {'error': 'Invalid data'}
+			return render(request,'profile.html',context, status=400)
 		except Exception:
 			traceback.print_exc()
 			context = {'error': 'Unexpected error'}
-		return render(request,'profile.html',context)
+			return render(request,'profile.html',context, status=500)
 
 def delete_chart(request):
 	if request.method == 'POST' and request.user.is_authenticated:

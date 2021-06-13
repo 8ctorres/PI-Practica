@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import requests as rq
 from apis.exceptions import APIRequestException
+import json
+from os import path
 
 # Código para construir un DataFrame con la información de los 250 países
 # del API Restcountries
@@ -63,6 +65,18 @@ def jsonToSeries(pais):
     #Por último, cambio los valores vacíos, nulos o "NaN" por el string "N/A"
     return serie_pais.replace(["", " ", None, np.nan], "N/A")
 
+#Esta función siempre devuelve un DataFrame de una sola fila, ya que el código ISO3
+#es único. Para sacar la Serie correspondiente, basta con hacer .iloc[0] sobre el DataFrame
+######
+######  IMPORTANTE
+######
+"""
+Durante el último día de testing del proyecto, la API restcountries.eu empezó
+a dar problemas, timeouts y errores 500. Por este motivo, decidimos
+descargarnos a local el fichero restcountries_all.json y reescribir las funciones
+para que usasen ese fichero
+"""
+"""
 def get_countries_by_name(name):
     resp = rq.get(base_url+"name/"+name)
 
@@ -70,9 +84,8 @@ def get_countries_by_name(name):
         raise APIRequestException("HTTP Error")
 
     return pd.concat([jsonToSeries(pais) for pais in resp.json()], axis=1).transpose()
-
-#Esta función siempre devuelve un DataFrame de una sola fila, ya que el código ISO3
-#es único. Para sacar la Serie correspondiente, basta con hacer .iloc[0] sobre el DataFrame
+"""
+"""
 def get_country_by_code(code):
     resp = rq.get(base_url+"alpha/"+code)
 
@@ -80,14 +93,34 @@ def get_country_by_code(code):
         raise APIRequestException("HTTP Error")
 
     return pd.concat([jsonToSeries(resp.json())], axis=1).transpose()
-
+"""
+"""
 def get_all_countries():
     resp = rq.get(base_url+"all")
-
     if (resp.status_code > 400):
         raise APIRequestException("HTTP Error")
 
-    return pd.concat([jsonToSeries(pais) for pais in resp.json()], axis=1).transpose()
+    data = resp.json()
+
+    return pd.concat([jsonToSeries(pais) for pais in data], axis=1).transpose()
+"""
+
+def get_countries_by_name(name):
+    allc = get_all_countries()
+    return allc.loc[allc.countryName == name]
+
+def get_country_by_code(code):
+    return get_all_countries().loc[code].to_frame().transpose()
+
+def get_jsonfile_path():
+    current_path = path.dirname(path.abspath(__file__))
+    return path.join(current_path,"restcountries_all.json")
+
+def get_all_countries():    
+    with open(get_jsonfile_path()) as f:
+        data = json.load(f)
+        
+    return pd.concat([jsonToSeries(pais) for pais in data], axis=1).transpose()
 
 def get_all_names():
     return get_all_countries().countryName.to_list()
