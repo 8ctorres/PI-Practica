@@ -4,6 +4,7 @@ numpy==1.20.2
 pandas==1.2.4
 requests==2.22.0
 jsonfield==3.1.0
+jsonschema==3.2.0
 certifi==2021.5.30
 chardet==3.0.4
 cycler==0.10.0
