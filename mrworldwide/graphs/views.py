@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from datetime import datetime
-from apis.worldbank import get_indicator_code, get_indicator_names
+from apis.worldbank import get_indicator_code, get_indicator_names, get_indicator_definition
 from apis.graphs import graph_1dataXcountries, graph_Xdata1country, graph_histograma
 from apis.restcountries import get_all_names, get_iso3code
 import base64
@@ -12,6 +12,10 @@ import traceback
 indicators = get_indicator_names()
 indicator_list = [indicators[indicator] for indicator in indicators]
 country_list = get_all_names()
+
+def get_indicators_path():
+    current_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(current_path,"indicators.csv")
 
 def graphs_index(request):
     return render(request, 'graphs/graph_index.html')
@@ -34,16 +38,17 @@ def graphs_histogram_result(request):
             # Prueba a sacar el formulario del indicador
             indicator = request.GET['graph_indicator1']
             icode = get_indicator_code(indicator)
+            inddef = get_indicator_definition(icode)
             try:
                 # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                 # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
-                nombre_fichero = "./graphs/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
+                nombre_fichero = get_indicators_path() + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
                 graph_histograma(icode, filename=nombre_fichero)
                 with open(nombre_fichero, "rb") as f:
                     content = f.read()
                     encoded_img = base64.b64encode(content).decode(encoding="utf-8")
                     os.remove(f.name)
-                context={'indicator':indicator, 'graph':encoded_img}
+                context={'indicator':indicator, 'graph':encoded_img, 'def':inddef}
             except:
                 traceback.print_exc()
                 context={"error": "There was an error doing graph"}
@@ -57,11 +62,14 @@ def graphs_1dataXcountries_result(request):
             # Prueba a sacar el formulario del indicador
             indicator = request.GET['graph_indicator1']
             icode = get_indicator_code(indicator)
+            inddef = get_indicator_definition(icode)
             try:
                 # Prueba a sacar los formularios de los países obligatorios y luego comprueba los opcionales
                 country1 = request.GET['graph_country1']
-                country2 = request.GET['graph_country2']
-                countries = [get_iso3code(country1), get_iso3code(country2)]
+                countries = [get_iso3code(country1)]
+                if (request.GET['graph_country2']):
+                    country2 = request.GET['graph_country2']
+                    countries.append(get_iso3code(country2))
                 if (request.GET['graph_country3']):
                     country3 = request.GET['graph_country3']
                     countries.append(get_iso3code(country3))
@@ -71,16 +79,17 @@ def graphs_1dataXcountries_result(request):
                 if (request.GET['graph_country5']):
                     country5 = request.GET['graph_country5']
                     countries.append(get_iso3code(country5))
+                countries = list(dict.fromkeys(countries))
                 try:
                     # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                     # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
-                    nombre_fichero = "./graphs/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
+                    nombre_fichero = get_indicators_path() + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
                     graph_1dataXcountries(icode, countries, filename=nombre_fichero)
                     with open(nombre_fichero, "rb") as f:
                         content = f.read()
                         encoded_img = base64.b64encode(content).decode(encoding="utf-8")
                         os.remove(f.name)
-                    context={'indicator':indicator, 'graph':encoded_img}
+                    context={'indicator':indicator, 'graph':encoded_img, 'def':inddef}
                 except:
                     traceback.print_exc()
                     context={"error": "There was an error doing graph"}
@@ -99,8 +108,10 @@ def graphs_Xdata1country_result(request):
             try:
                 # Prueba a sacar los formularios de los indicadores obligatorios y luego comprueba los opcionales
                 indicator1 = request.GET['graph_indicator1']
-                indicator2 = request.GET['graph_indicator2']
-                indicators = [get_indicator_code(indicator1), get_indicator_code(indicator2)]
+                indicators = [get_indicator_code(indicator1)]
+                if (request.GET['graph_indicator2']):
+                    indicator2 = request.GET['graph_indicator2']
+                    indicators.append(get_indicator_code(indicator2))
                 if (request.GET['graph_indicator3']):
                     indicator3 = request.GET['graph_indicator3']
                     indicators.append(get_indicator_code(indicator3))
@@ -110,16 +121,18 @@ def graphs_Xdata1country_result(request):
                 if (request.GET['graph_indicator5']):
                     indicator5 = request.GET['graph_indicator5']
                     indicators.append(get_indicator_code(indicator5))
+                indicators = list(dict.fromkeys(indicators))
+                inddef_list = map(get_indicator_definition, indicators)
                 try:
                     # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
                     # De esta manera nos aseguramos de que no se repiten los nombres de ficheros
-                    nombre_fichero = "./graphs/temp/" + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
+                    nombre_fichero = get_indicators_path() + str(request.META['REMOTE_ADDR']).replace(".", "-") + "-" + str(datetime.now().timestamp()).replace(".", "") + ".jpg"
                     graph_Xdata1country(indicators, ccode, filename=nombre_fichero)
                     with open(nombre_fichero, "rb") as f:
                         content = f.read()
                         encoded_img = base64.b64encode(content).decode(encoding="utf-8")
                         os.remove(f.name)
-                    context={'country':country, 'graph':encoded_img}
+                    context={'country':country, 'graph':encoded_img, 'def':inddef_list}
                 except:
                     traceback.print_exc()
                     context={"error": "There was an error doing graph"}

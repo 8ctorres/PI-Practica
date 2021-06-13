@@ -22,7 +22,7 @@
 <div class="row g-3" style="margin: 10%;">
     <h1>Choose the indicator you want to see and how many countries to see</h1>
     <div class="col-md-4">
-      <input type="text" class="form-control" name="indicator" placeholder="Indicator" aria-label="Indicator" list="indicators">
+      <input type="text" class="form-control" id=indicator name="indicator" placeholder="Indicator" aria-label="Indicator" list="indicators">
       <datalist id="indicators">
         {% for ind in indicators %}
           <option> {{ind}} </option>
@@ -30,13 +30,47 @@
       </datalist>
     </div>
     <div class="col-md-2">
-      <input type="number" class="form-control" name="top" placeholder="Top" aria-label="Top">
+      <input type="number" class="form-control" id=number name="top" placeholder="Top" aria-label="Top">
     </div>
-    <div class="d-grid gap-2 d-md-block">
+    <div class="col-6" id=initial style="display: block;">
         <button class="btn btn-primary" type="submit">Show top countries</button>
     </div>
+    <div class="col-6" id=loading style="display: none;">
+      <button class="btn btn-primary" type="button" style="width: 25%;" style= "margin: 2%;" disabled>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Loading...
+      </button>
+    </div>
+    <!-- Script para que cuando se pulse el botón se desactive y cambie al estado de cargando -->
+    <script type="text/javascript">
+      document.getElementById("initial").onclick = function() {
+        if (document.getElementById("indicator").value != "" && document.getElementById("number").value != "")
+        {
+          document.getElementById("initial").style.display = "none";
+          document.getElementById("loading").style.display = "block";
+        }
+      }
+      window.onunload = null;
+    </script>
 </div>
-<form>
+<div class="accordion" id="accordion" style="margin-top: 5%;">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingOne">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+        Indicators list
+      </button>
+    </h2>
+    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordion">
+      <div class="accordion-body">
+        <ul class="list-unstyled">
+            {% for r in indicators %}
+              <li> {{ r }} </li>
+            {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 {% if error %}
 <div class="row justify-content-center g-3">
   <div class="col-md-5 col-lg-3">

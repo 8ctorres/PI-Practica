@@ -12,29 +12,37 @@
 
 {% else %}
 
-<div class="container" style="margin-top: 10%;">
+<div class="container" style="margin-top: 5%;">
     <div class="row justify-content-center">
       <div class="col-6">
         <h1>Data of {{country.countryName}}</h1>
         <ul class="list-unstyled">
-          <li>Country's name: {{country.countryName}}</li>
-          <li>ISO-3 code: {{country_code}}</li>
-          <li>TLD: {{country.topLevelDomain}}</li>
-          <li>Phone Prefix: {{country.callingCodes}}</li>
-          <li>Capital: {{country.capital}}</li>
-          <li>Other names: {{country.altSpellings}}</li>
-          <li>Region & Subregion: {{country.region}}, {{country.subregion}}</li>
-          <li>Population: {{country.population}} people</li>
-          <li>Geographical coordinates: {{country.latlng}}</li>
-          <li>Denonym:  {{country.demonym}}</li>
-          <li>Area: {{country.area}} km²</li>
-          <li>Gini index: {{country.gini}}</li>
-          <li>Timezone: {{country.timezones}}</li>
-          <li>Borderlines: {{country.borders}}</li>
-          <li>Native Language: {{country.nativeName}}</li>
-          <li>Official Coin: {{country.currencies}}</li>
-          <li>Official Language: {{country.languages}}</li></li>
-          <li>International Associations: {{country.regionalBlocs}}</li>
+          <li><strong>Country's name: </strong>{{country.countryName}}</li>
+          <li><strong>ISO-3 code: </strong>{{country_code}}</li>
+          <li><strong>TLD: </strong>{{country.topLevelDomain}}</li>
+          <li><strong>Phone Prefix: </strong>{{country.callingCodes}}</li>
+          <li><strong>Capital: </strong>{{country.capital}}</li>
+          <li><strong>Other names: </strong>{{country.altSpellings}}</li>
+          <li><strong>Region & Subregion: </strong>{{country.region}}, {{country.subregion}}</li>
+          <li><strong>Population: </strong>{{country.population}} people</li>
+          <li><strong>Geographical coordinates: </strong>{{country.latlng}}</li>
+          <li><strong>Denonym:  </strong>{{country.demonym}}</li>
+          <li><strong>Area: </strong>{{country.area}} km²</li>
+          <li><strong>Gini index: </strong>{{country.gini}}</li>
+          <li><strong>Timezone: </strong>{{country.timezones}}</li>
+          <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item active" aria-current="page"><strong>Borderlines:</strong> </li>
+              {% for r in country.borders %}
+                <li class="breadcrumb-item"><a href="?search_country={{r}}"> <small>{{r}}</small></a></li>
+              {% endfor %}
+            </ol>
+          </nav>
+          </li>
+          <li><strong>Native Language: </strong>{{country.nativeName}}</li>
+          <li><strong>Official Coin: </strong>{{country.currencies}}</li>
+          <li><strong>Official Language: </strong>{{country.languages}}</li></li>
+          <li><strong>International Associations: </strong>{{country.regionalBlocs}}</li>
         </ul>
       </div>
       <div class="col-4">
@@ -42,11 +50,6 @@
       </div>
     </div>
 </div>
-<footer class="py-5 bg-dark fixed-bottom">
-  <div class="container">
-    <p class="m-0 text-center text-white">Copyright &copy; MrWorldWide 2021</p>
-  </div>
-</footer>
 
 {% endif %}
 

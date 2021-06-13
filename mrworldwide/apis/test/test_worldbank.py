@@ -1,5 +1,6 @@
 import unittest
 from django.test import TestCase
+from worldbank import get_topics_list, get_indicators_from_topic, get_indicator
 
 class WorldBankTest(TestCase):
 
@@ -17,11 +18,11 @@ class WorldBankTest(TestCase):
     def get_indicator_test(self):
         education_indicators = get_indicators_from_topic("4")
         self.illiteracy_ind = education_indicators.loc["UIS.LP.AG15T99"]
-        self.assertEquals(illiteracy_ind.topicName,
+        self.assertEquals(self.illiteracy_ind.topicName,
                           'Adult illiterate population, 15+ years, both sexes (number)')
 
     # Test consistente en sacar el dato concreto de un país en un año concreto,
     # de un indicador concreto. Usamos un dato antiguo porque suponemos que no va a cambiar
     def get_value_test(self):
-        spain_illiteracy = get_indicator("esp", illiteracy_ind.name)
+        spain_illiteracy = get_indicator("esp", self.illiteracy_ind.name)
         self.assertEquals(spain_illiteracy.loc['2008'].value, 931368)
