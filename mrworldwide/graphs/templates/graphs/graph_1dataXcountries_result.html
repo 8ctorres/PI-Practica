@@ -16,19 +16,23 @@
 <div style="margin-top: 2%;">
     <a class="btn btn-secondary pull-left" href="{% url '1dataXcountries_base'%}" role="button">Try other graph</a>
 </div>
-<div class="row justify-content-between">
-    <div class="col-6">
-        <div class="container" style="margin-top: 10%;">
-            <h1>{{indicator}}</h1>
-            <img src="data:image/jpg;base64,{{graph}}" width="120%" height="120%" alt="{{indicator}} on several countries">
-        </div>
-    </div>
-    <div class="col-4 align-self-center">
-        <div class="container" style="margin-top: 10%;">
-            <p>{{indicator}}: {{def}}</p>
-        </div>
-    </div>
+<div class="container" style="margin-top: 10%;">
+    <h1>{{indicator}}</h1>
+    <img src="data:image/jpg;base64,{{graph}}" alt="{{indicator}} on several countries">
 </div>
+{% if user.is_authenticated %}
+<form style="max-width:480px;margin:auto" action="{% url 'profile'%}" method="POST">{% csrf_token %}
+    <input  type="text" id="chart-type" name="chart-type" style="height: 0ch;"
+    class="form-control invisible" value="SingleIndicatorChart" required autofocus>
+    <input  type="text" id="indicator" name="indicator" style="height: 0ch;"
+    class="form-control invisible" value="{{indicator}}" required autofocus>
+    <input type="text" id="image" name="image" style="height: 0ch;"
+    class="invisible form-control" value="{{graph}}" required>
+    <div>
+        <button class="btn btn-lg btn-primary btn-block" submit="submit">Save</button>
+    </div>
+</form>
+{% endif %}
 {% endif %}
 
 {% endblock %}
