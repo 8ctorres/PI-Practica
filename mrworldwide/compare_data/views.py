@@ -90,6 +90,7 @@ def compare_choose_topic(request):
 def compare_result(request):
     if request.method == 'GET':
         try:
+            # Recuperamos info de los formularios
             country1 = request.GET['compare_country1']
             country2 = request.GET['compare_country2']
             try:

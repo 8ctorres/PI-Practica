@@ -20,6 +20,9 @@ def get_indicators_path():
 def graphs_index(request):
     return render(request, 'graphs/graph_index.html')
 
+# Para las siguientes 3 vistas solo se pasa como contexto la lista
+# de indicadores y de países para que se autocompleten los formularios
+
 def graphs_1dataXcountries(request):
     context = {'indicator_list':indicator_list, 'country_list':country_list}
     return render(request, 'graphs/graph_1dataXcountries.html', context)
@@ -32,6 +35,7 @@ def graphs_histogram(request):
     context = {'indicator_list':indicator_list}
     return render(request, 'graphs/graph_histogram.html', context)
 
+# Vista que gestiona el resultado del CU del histograma
 def graphs_histogram_result(request):
     if request.method == 'GET':
         try:
@@ -56,6 +60,8 @@ def graphs_histogram_result(request):
             context={"error": "Invalid indicator"}
     return render(request, 'graphs/graph_histogram_result.html', context)
 
+# Vista que gestiona el resultado del CU de comparar un indicador
+# sobre varios países
 def graphs_1dataXcountries_result(request):
     if request.method == 'GET':
         try:
@@ -79,6 +85,7 @@ def graphs_1dataXcountries_result(request):
                 if (request.GET['graph_country5']):
                     country5 = request.GET['graph_country5']
                     countries.append(get_iso3code(country5))
+                # Si el usuario escoge países repetidos se eliminan para aligerar la petición
                 countries = list(dict.fromkeys(countries))
                 try:
                     # Generamos el nombre del fichero para guardar el gráfico combinando la IP de origen del cliente con el timestamp de la petición
@@ -99,6 +106,8 @@ def graphs_1dataXcountries_result(request):
             context={"error": "Invalid indicator"}
     return render(request, 'graphs/graph_1dataXcountries_result.html', context)
 
+# Vista que gestiona el resultado del CU de comparar varios indicadores
+# sobre un país
 def graphs_Xdata1country_result(request):
     if request.method == 'GET':
         try:
@@ -121,6 +130,8 @@ def graphs_Xdata1country_result(request):
                 if (request.GET['graph_indicator5']):
                     indicator5 = request.GET['graph_indicator5']
                     indicators.append(get_indicator_code(indicator5))
+                # Si el usuario escoge indicadores repetidos se eliminan para aligerar la petición
+                # y tras esto se aplica a la lista resultante la funcion para conseguir sus descripciones
                 indicators = list(dict.fromkeys(indicators))
                 inddef_list = map(get_indicator_definition, indicators)
                 try:
