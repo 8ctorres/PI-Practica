@@ -9,8 +9,8 @@ from apis.exceptions import APIRequestException
 # Al final no usé la librería python porque creo que es más sencillo
 # meter directamente el JSON en Pandas para crear las Series
 
-#base_url = "https://restcountries.eu/rest/v2/"
-base_url = "http://mrworldwide.proxy/restcountries/rest/v2/"
+base_url = "https://restcountries.eu/rest/v2/"
+#base_url = "http://mrworldwide.proxy/restcountries/rest/v2/"
 
 def stringListToString(inputlist):
     ret = ""

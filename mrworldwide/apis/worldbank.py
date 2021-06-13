@@ -10,8 +10,8 @@ import numpy as np
 import requests as rq
 from apis.exceptions import APIRequestException
 
-#base_url = "http://api.worldbank.org/"
-base_url = "http://mrworldwide.proxy/worldbank/"
+base_url = "http://api.worldbank.org/"
+#base_url = "http://mrworldwide.proxy/worldbank/"
 
 indicators_url = base_url+"v2/indicator"
 countries_url = base_url+"v2/country"

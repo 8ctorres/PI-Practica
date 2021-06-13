@@ -10,8 +10,8 @@ import numpy as np
 import requests as rq
 from apis.exceptions import APIRequestException
 
-#base_url = "https://api.waqi.info/"
-base_url = "http://mrworldwide.proxy/aqicn/"
+base_url = "https://api.waqi.info/"
+#base_url = "http://mrworldwide.proxy/aqicn/"
 token = "b7818feb850f1306340bd0465824027131b20af8"
 
 # Obtener los datos de una ciudad
