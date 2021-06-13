@@ -53,12 +53,14 @@ def graphs_histogram_result(request):
                     encoded_img = base64.b64encode(content).decode(encoding="utf-8")
                     os.remove(f.name)
                 context={'indicator':indicator, 'graph':encoded_img, 'def':inddef}
+                return render(request, 'graphs/graph_histogram_result.html', context, status=200)
             except:
                 traceback.print_exc()
                 context={"error": "There was an error doing graph"}
+                return render(request, 'graphs/graph_histogram_result.html', context, status=500)
         except:
             context={"error": "Invalid indicator"}
-    return render(request, 'graphs/graph_histogram_result.html', context)
+            return render(request, 'graphs/graph_histogram_result.html', context, status=404)
 
 # Vista que gestiona el resultado del CU de comparar un indicador
 # sobre varios países
@@ -97,14 +99,17 @@ def graphs_1dataXcountries_result(request):
                         encoded_img = base64.b64encode(content).decode(encoding="utf-8")
                         os.remove(f.name)
                     context={'indicator':indicator, 'graph':encoded_img, 'def':inddef}
+                    return render(request, 'graphs/graph_1dataXcountries_result.html', context, status=200)
                 except:
                     traceback.print_exc()
                     context={"error": "There was an error doing graph"}
+                    return render(request, 'graphs/graph_1dataXcountries_result.html', context, status=500)
             except:
                 context={"error": "Invalid country"}
+                return render(request, 'graphs/graph_1dataXcountries_result.html', context, status=404)
         except:
             context={"error": "Invalid indicator"}
-    return render(request, 'graphs/graph_1dataXcountries_result.html', context)
+            return render(request, 'graphs/graph_1dataXcountries_result.html', context, status=404)
 
 # Vista que gestiona el resultado del CU de comparar varios indicadores
 # sobre un país
@@ -144,11 +149,14 @@ def graphs_Xdata1country_result(request):
                         encoded_img = base64.b64encode(content).decode(encoding="utf-8")
                         os.remove(f.name)
                     context={'country':country, 'graph':encoded_img, 'def':inddef_list}
+                    return render(request, 'graphs/graph_Xdata1country_result.html', context, status=200)
                 except:
                     traceback.print_exc()
                     context={"error": "There was an error doing graph"}
+                    return render(request, 'graphs/graph_Xdata1country_result.html', context, status=500)
             except:
                 context={"error": "Invalid indicator"}
+                return render(request, 'graphs/graph_Xdata1country_result.html', context, status=404)
         except:
             context={"error": "Invalid country"}
-    return render(request, 'graphs/graph_Xdata1country_result.html', context)
+            return render(request, 'graphs/graph_Xdata1country_result.html', context, status=404)
