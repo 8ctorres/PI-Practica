@@ -34,7 +34,7 @@
             <ol class="breadcrumb">
               <li class="breadcrumb-item active" aria-current="page"><strong>Borderlines: </strong></li>
               {% if "N/A" in country.borders %}
-                <li>N/A</li>
+                <li>  N/A</li>
               {% else %}
                 {% for r in country.borders %}
                   <li class="breadcrumb-item"><a href="?search_country={{r}}"> <small>{{r}}</small></a></li>

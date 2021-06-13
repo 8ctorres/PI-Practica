@@ -3,34 +3,60 @@ from apis.exceptions import APIRequestException
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import requests as rq
+import concurrent
 import os
 
-## Caso de uso de ordenar los top N países por un indicador
-## Por defecto es el top 10, el máximo son 200
+
+def get_ind_value(code, ind, session):
+    serieind = wb.get_indicator(code, ind, session).value
+    try:
+        valor = serieind[serieind.last_valid_index()]
+    except KeyError:
+        # No hay last valid index porque no hay datos
+        raise APIRequestException("No data for this country")
+    return {code: valor}
+
+  
 def get_ind_global(ind):
     # Saco la información de todos los países del mundo
     allcountries = rc.get_all_countries()
     # Me quedo con una lista de los alpha3code, para consultar worldbank
     codes = allcountries.index.to_list()
-    # Para cada uno de los 250 países, obtengo el indicador en cuestión,
-    # busco el último valor no nulo y lo meto en una Series
-    serietodos = pd.Series(dtype="float64", name=ind)
-    for code in codes:
-        try:
-            serieind = wb.get_indicator(code, ind).value
+    # Creo una sesión HTTP y la reutilizo para todas las peticiones, evitando
+    # repetir el handshake TCP cada vez
+    session = rq.Session()
+
+    # Para cada uno de los 250 países, creo un job que hace la petición, obtengo el
+    # future asociado y lo meto en una lista
+    # Uso 8 threads por cada core que tenga el sistema, ya que son threads que la
+    # mayor parte del tiempo se la pasan esperando por la red, no tienen apenas
+    # carga computacional
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=os.cpu_count()*8) as executor:
+        # Mando a ejecución todas las peticiones
+        valores = [executor.submit(get_ind_value, code, ind, session) for code in codes]
+        # Ahora que tengo los valores, creo la serie
+        serietodos = pd.Series(dtype="float64", name=ind)
+        # Valores es una lista de "Futures"
+        # Para cada uno obtengo su "result", que puede ser
+        # o un diccionario o que salte una excepción
+        # Si el resultado todavía no está, el método result bloquea hasta que esté
+        # Con esto construyo la serie
+        for v in valores:
             try:
-                valor = serieind[serieind.last_valid_index()]
-            except KeyError:
-                # No hay un last valid index porque no hay datos
-                raise APIRequestException("No data for this country")
-            #Construyo una nueva Series con los nombres de los países como índice
-            serietodos = serietodos.append(pd.Series(data={code: valor}))
-        except APIRequestException:
-            #Un error significa que el país no estaba en WorldBank
-            #Puede pasar ya que Restcountries también contempla regiones administrativas
-            #que formalmente no son países
-            #Simplemente ignoramos y seguimos
-            continue;
+                serietodos = serietodos.append(pd.Series(data=v.result()))
+            except APIRequestException:
+                #Un error significa que el país no estaba en WorldBank
+                #Puede pasar ya que Restcountries también contempla regiones administrativas
+                #que formalmente no son países, como los territorios de ultramar británicos
+                #Simplemente ignoramos y seguimos
+                continue;
+
+    # Cierro la sesión HTTP antes de salir
+    session.close()
+
+    # Devuelvo la serie con los valores
     return serietodos
 
 def top_n_indicador(ind, n=10):
@@ -118,7 +144,7 @@ def graph_1dataXcountries(ind, paises, filename=None):
 
 def graph_Xdata1country(inds, pais, filename=None):
     data = []
-    for pais in paises:
+    for ind in inds:
         try:
             data.append(wb.get_indicator(pais, ind))
         except APIRequestException:
@@ -132,7 +158,6 @@ def graph_Xdata1country(inds, pais, filename=None):
 
     df = pd.concat(series, axis=1)
 
-    #TODO: Mirar el tema de hacerlos en varias escalas para evitar que uno opaque a los otros
     df.plot(figsize=(10,8))
 
     if filename is not None:

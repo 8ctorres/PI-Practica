@@ -25,8 +25,10 @@ def search_countries(request):
             if len(country["borders"]) == 0:
                 country["borders"] = "N/A"
             context = {"country": country, "country_code": country_df.name, 'country_list':country_list}
+            return render(request, 'search_countries/search.html',context)
         except APIRequestException:
             context = {"error": "Invalid country"}
+            return render(request, 'search_countries/search.html',context, status=404)
         except:
             context = {"error": "Unexpected error"}
-        return render(request, 'search_countries/search.html',context)
+            return render(request, 'search_countries/search.html',context, status=500)
