@@ -3,11 +3,11 @@
 ### Prácticas de Programación Integrativa
 ### Facultade de Informática UDC - Curso 2020-21
 
-Jose Ángel Álvarez Sánchez
+Jose Ángel Álvarez Sánchez - j.alvarez.sanchez@udc.es
 
-Ismael Verde Costas
+Ismael Verde Costas - ismael.verdec@udc.es
 
-Carlos Torres Paz
+Carlos Torres Paz - carlos.torres@udc.es
 
 ## Iteración 1
 
